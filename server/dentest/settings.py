@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import sys
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -28,10 +29,7 @@ ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
-#REMOVE ON DEPLOYMENT
-CORS_ORIGIN_ALLOW_ALL=True
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 
     #Third Party Apps#
-    'corsheaders', #MUST BE REMOVED ON DEPLOYMENT
     'allauth',
     'allauth.account',
     'rest_framework',
@@ -69,7 +66,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,6 +89,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

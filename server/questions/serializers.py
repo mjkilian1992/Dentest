@@ -17,15 +17,23 @@ class SubtopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subtopic
         fields = (
-            'id',
             'topic',
             'name',
             'description',
         )
 
+class RelationalSubtopicSerializer(serializers.ModelSerializer):
+    """Allows questions to reference their topic and subtopic"""
+    class Meta:
+        model = Subtopic
+        fields = (
+            'topic',
+            'name'
+        )
 
 class QuestionSerializer(serializers.ModelSerializer):
     """REST API Serializer for Question Model"""
+    subtopic = RelationalSubtopicSerializer()
     class Meta:
         model = Question
         fields = (

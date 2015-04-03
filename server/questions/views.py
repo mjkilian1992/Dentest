@@ -71,7 +71,8 @@ class QuestionView(APIView):
         :return:
         '''
         #Look for query parameters which dictate filtering
-        subtopic_pk = self.request.query_params.get('subtopic',None)
+        topic = self.request.query_params.get('topic',None)
+        subtopic = self.request.query_params.get('subtopic',None)
         pk = self.request.query_params.get('question',None)
 
         # No filtering. Just display all questions user has permissions for
@@ -81,11 +82,37 @@ class QuestionView(APIView):
             else:
                 return Question.objects.filter(restricted=False)
         # filtering by subtopic
-        elif subtopic_pk is not None:
+        elif topic is not None and subtopic is not None:
+            try:
+                subtopic_pk = Subtopic.objects.get(topic=topic,name=subtopic)
+            except:
+                raise Http404
             questions_r = Question.objects.filter(subtopic=subtopic_pk)
+            if not questions_r.exists():
+                # User picked an empty topic
+                raise Http404
             if self.privileged_user():
                 return questions_r
             questions = Question.objects.filter(subtopic=subtopic_pk,restricted=False)
+
+            if not questions.exists() and not questions_r.exists():
+                # Catch case where no such subtopic exists
+                raise Http404
+            elif not questions.exists():
+                # Catch case where subtopic exists,
+                # but all questions in it are restricted
+                raise PermissionDenied
+            return questions
+        #filtering by topic
+        elif topic is not None:
+            try:
+                subtopics = Subtopic.objects.filter(topic=topic)
+            except:
+                raise Http404
+            questions_r = Question.objects.filter(subtopic__in=subtopics)
+            if self.privileged_user():
+                return questions_r
+            questions = Question.objects.filter(subtopic__in=subtopics,restricted=False)
             if not questions.exists() and not questions_r.exists():
                 # Catch case where no such subtopic exists
                 raise Http404

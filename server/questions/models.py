@@ -1,7 +1,8 @@
 from django.db import models
 
+# Must be unicode! This is how they are stored in the database
 PRIVILEGED_GROUPS = (
-    'Silver',
+    u'Silver',
 )
 
 class Topic(models.Model):

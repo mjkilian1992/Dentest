@@ -25,7 +25,7 @@ class QuestionAPITestCase(TestCase):
         self.bronze_user.save()
 
         self.silver_user = User.objects.create_user('test_silver',
-                                               'silver@fake.com'
+                                               'silver@fake.com',
                                                'password2',
                                                )
         self.silver_user.groups.add(self.silver)
@@ -42,8 +42,12 @@ class QuestionAPITestCase(TestCase):
         self.client = APIClient()
 
         # Populate database
-        t1 = Topic.objects.create(name='Topic1',description='The first topic.')
-        t2 = Topic.objects.create(name='Topic2',description='The second topic.')
+        #Mixed
+        t1 = Topic.objects.create(name='Topic 1',description='The first topic.')
+        #Only restricted questions
+        t2 = Topic.objects.create(name='Topic 2',description='The second topic.')
+        #Empty
+        t3 = Topic.objects.create(name='Topic 3',description='The third topic.')
 
         # Mixed
         s1 = Subtopic.objects.create(name='Subtopic 1',
@@ -53,26 +57,33 @@ class QuestionAPITestCase(TestCase):
         s2 = Subtopic.objects.create(name='Subtopic 2',
                                      topic=t1,
                                      description='The second subtopic of topic 1.')
-        # Empty
         s3 = Subtopic.objects.create(name='Subtopic 3',
                                      topic=t2,
                                      description='The first subtopic of topic 2.')
+        # Empty
+        s4 = Subtopic.objects.create(name='Subtopic 4',
+                                     topic=t2,
+                                     description='The second subtopic of topic 2.')
 
-        q1 = Question.objects.create(question='What is my name?',
+        q1 = Question.objects.create(id=1,
+                                     question='What is my name?',
                                      answer='Test',
                                      subtopic=s1,
                                      restricted=False)
-        q2 = Question.objects.create(question='What app is this?',
+        q2 = Question.objects.create(id=2,
+                                     question='What app is this?',
                                      answer='Dentest',
                                      subtopic=s1,
                                      restricted=True)
-        q3 = Question.objects.create(question='Have I run out of questions?',
+        q3 = Question.objects.create(id=3,
+                                     question='Have I run out of questions?',
                                      answer='Nope',
                                      subtopic=s2,
                                      restricted=True)
-        q4 = Question.objects.create(question='What about now?',
+        q4 = Question.objects.create(id=4,
+                                     question='What about now?',
                                      answer="Yeah, I've ran out...",
-                                     subtopic = s2,
+                                     subtopic = s3,
                                      restricted=True)
 
     def tearDown(self):
@@ -82,6 +93,7 @@ class QuestionAPITestCase(TestCase):
         Question.objects.all().delete()
         Subtopic.objects.all().delete()
         Topic.objects.all().delete()
+        self.client = None
 
 
     def test_topic_retrieval_unauthenticated(self):
@@ -95,8 +107,9 @@ class QuestionAPITestCase(TestCase):
         response = self.client.get('/topics/',format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
-        self.assertTrue({'name': 'Topic1','description':'The first topic.'} in data)
-        self.assertTrue({'name': 'Topic2','description':'The second topic.'} in data)
+        self.assertTrue({'name': 'Topic 1','description':'The first topic.'} in data)
+        self.assertTrue({'name': 'Topic 2','description':'The second topic.'} in data)
+        self.client.logout()
 
 
     def test_topic_submission_unauthenticated(self):
@@ -148,6 +161,7 @@ class QuestionAPITestCase(TestCase):
         self.assertEqual(str(data[0]['name']),'Subtopic 1')
         self.assertEqual(str(data[1]['name']),'Subtopic 2')
         self.assertEqual(str(data[2]['name']),'Subtopic 3')
+        self.client.logout()
 
     def test_subtopic_submission_unauthenticated(self):
         '''Test that an attempt to add a subtopic by an unauthenticated user fails'''
@@ -171,11 +185,11 @@ class QuestionAPITestCase(TestCase):
 
         #Try with silver authenticated
         self.client.login(email='silver@fake.com',password='password2')
-        response = self.client.post('/topics/',topic_data,format='json')
+        response = self.client.post('/topics/',subtopic_data,format='json')
         self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
         self.client.logout()
 
-    def test_topic_submission_staff(self):
+    def test_subtopic_submission_staff(self):
         '''Check that staff can POST new subtopics'''
         subtopic_data={'name': 'PostedSubtopic',
                        'topic': 'Topic 1',
@@ -187,6 +201,172 @@ class QuestionAPITestCase(TestCase):
         self.assertTrue(Subtopic.objects.get(name='PostedSubtopic'))
         self.client.logout()
 
+    def test_all_question_retrieval_unauthenticated(self):
+        '''Check an unauthenticated user can't access questions'''
+        response = self.client.get('/questions/',format='json')
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
+
+    def test_all_questions_retrieval_unprivileged(self):
+        '''Check a basic user can only access non-restricted questions'''
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/',format='json')
+        data = json.loads(response.content)
+
+        self.assertFalse(data[0]['restricted'])
+        self.assertEqual(str(data[0]['question']),'What is my name?')
+        self.assertEqual(str(data[0]['subtopic']['topic']),'Topic 1')
+        self.assertEqual(len(data),1)
+        self.client.logout()
+
+    def test_all_question_retrieval_privileged(self):
+        """Check a privileged user can access all questions"""
+        self.client.login(username='test_silver', password='password2')
+        response = self.client.get('/questions/', format='json')
+        data = json.loads(response.content)
+        self.assertEqual(len(data), 4)
+        self.client.logout()
+
+    def test_all_question_retrieval_staff(self):
+        """Check a staff member can access all questions"""
+        self.client.login(username='test_staff', password='password3')
+        response = self.client.get('/questions/', format='json')
+        data = json.loads(response.content)
+        self.assertEqual(len(data), 4)
+        self.client.logout()
 
 
+    def test_fetch_question_by_id_unauthenticated(self):
+        """Check an unauthenticated user cant access individual questions"""
+        response = self.client.get('/questions/',{'question':1},format='json')
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
 
+    def test_fetch_question_by_id_unprivileged(self):
+        """An unprivileged user should only be able to access non-restricted questions"""
+        self.client.login(username='test_bronze',password='password1')
+        # Try on non-restricted question. Make sure only one is returned
+        response = self.client.get('/questions/',{'question':1},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(data[0]['id'],1)
+        self.assertEqual(len(data),1)
+
+        # Now try a restricted question. Should fail
+        response = self.client.get('/questions/',{'question':2},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
+
+
+    def test_fetch_question_by_id_privileged(self):
+        """A privileged user can access any question"""
+        self.client.login(username='test_silver',password='password2')
+        response = self.client.get('/questions/',{'question':2},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(data[0]['id'],2)
+        self.assertEqual(len(data),1)
+        self.client.logout()
+
+    def test_fetch_question_by_id_staff(self):
+        """A staff user can also access privileged questions"""
+        self.client.login(username='test_staff',password='password3')
+        response = self.client.get('/questions/',{'question':2},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(data[0]['id'],2)
+        self.assertEqual(len(data),1)
+        self.client.logout()
+
+    def test_fetch_by_topic_unauthenticated(self):
+        """An unauthenticated user cant access anything"""
+        response = self.client.get('/questions/', {'topic':'Topic 1'},format='json')
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
+
+    def test_fetch_by_topic_unprivileged(self):
+        """Basic user should only see the unrestricted questions in the topic"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'Topic 1'},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(len(data),1)
+        self.assertEqual(data[0]['subtopic']['topic'],'Topic 1')
+        self.assertEqual(data[0]['id'],1)
+        self.client.logout()
+
+    def test_fetch_by_topic_unprivileged_all_restricted(self):
+        """If a topic exists, the user is restricted from viewing all its questions, 403 should be returned"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'Topic 2'},format='json')
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
+        self.client.logout()
+
+    def test_fetch_by_topic_privileged(self):
+        """Privileged user can view all questions in any topic"""
+        self.client.login(username='test_silver',password='password2')
+        response = self.client.get('/questions/', {'topic':'Topic 1'},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(len(data),3)
+
+        #Questions should always be ordered by Subtopic then ID
+        self.assertEqual(data[0]['subtopic']['topic'],'Topic 1')
+        self.assertEqual(data[0]['id'],1)
+        self.assertEqual(data[1]['subtopic']['topic'],'Topic 1')
+        self.assertEqual(data[1]['id'],2)
+        self.client.logout()
+
+    def test_fetch_unknown_topic(self):
+        """Filtering on a non existent topic should return a 404 error"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'NonExistentTopic'},format='json')
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
+        self.client.logout()
+
+    def test_fetch_empty_topic(self):
+        """Filtering on an empty topic should also return 404 (no QUESTIONS could be found)"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'Topic 3'},format='json')
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
+        self.client.logout()
+
+    def test_fetch_by_subtopic_unprivleged(self):
+        """Basic users should only be able to see unrestricted questions"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'Topic 1','subtopic':'Subtopic 1'},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(len(data),1)
+        self.assertEqual(data[0]['subtopic']['topic'],'Topic 1')
+        self.assertEqual(data[0]['subtopic']['name'],'Subtopic 1')
+        self.assertEqual(data[0]['id'],1)
+
+    def test_fetch_by_subtopic_privilieged(self):
+        """Privileged user can see all the questions in a subtopic"""
+        self.client.login(username='test_silver',password='password2')
+        response = self.client.get('/questions/', {'topic':'Topic 1','subtopic':'Subtopic 1'},format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(len(data),2)
+        self.assertEqual(data[0]['subtopic']['topic'],'Topic 1')
+        self.assertEqual(data[0]['subtopic']['name'],'Subtopic 1')
+        self.assertEqual(data[0]['id'],1)
+        self.assertEqual(data[1]['subtopic']['topic'],'Topic 1')
+        self.assertEqual(data[1]['subtopic']['name'],'Subtopic 1')
+        self.assertEqual(data[1]['id'],2)
+
+    def test_fetch_by_subtopic_unprivileged_all_restricted(self):
+        """If all questions in the subtopic are restricted, 403 should be returned"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'Topic 1','subtopic':'Subtopic 2'},format='json')
+        self.assertEqual(response.status_code,status.HTTP_403_FORBIDDEN)
+
+    def test_fetch_by_subtopic_unknown_subtopic(self):
+        """If no such subtopic exists, should return 404"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'Topic 1','subtopic':'NonExistantSubtopic'},format='json')
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
+
+    def test_fetch_by_subtopic_empty_subtopic(self):
+        """If the subtopic is empty then 404 should be returned (no QUESTIONS found)"""
+        self.client.login(username='test_bronze',password='password1')
+        response = self.client.get('/questions/', {'topic':'Topic 2','subtopic':'Subtopic 4'},format='json')
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
