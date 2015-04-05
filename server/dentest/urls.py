@@ -9,6 +9,9 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
+    #django auth urls (required by django rest auth)
+    url(r'^', include('django.contrib.auth.urls')),
+
     #REST ENDPOINTS
     url(r'^questions/',q_views.QuestionView.as_view()),
     url(r'^topics/$',q_views.TopicView.as_view()),

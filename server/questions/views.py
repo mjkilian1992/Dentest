@@ -3,13 +3,14 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import permissions
 from serializers import *
 
 class TopicView(APIView):
     '''
     Access Topics. Only staff can edit these.
     '''
-
+    permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         return Topic.objects.all()
 
@@ -31,7 +32,7 @@ class SubtopicView(APIView):
     '''
     Access Subtopics
     '''
-
+    permission_classes = (permissions.IsAuthenticated,)
     def get_queryset(self):
         return Subtopic.objects.all()
 
@@ -53,7 +54,7 @@ class QuestionView(APIView):
     '''
     Access Questions.
     '''
-
+    permission_classes = (permissions.IsAuthenticated,)
     def privileged_user(self):
         '''
         Check a user can access restricted questions. True if the user
