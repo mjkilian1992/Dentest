@@ -10,7 +10,6 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import sys
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -43,12 +42,9 @@ INSTALLED_APPS = (
     'corsheaders',
 
     #Third Party Apps#
-    'allauth',
-    'allauth.account',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
-    'rest_auth.registration',
+    'djoser',
 
     #My Apps
     'questions',
@@ -56,6 +52,7 @@ INSTALLED_APPS = (
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     )
 }
@@ -65,10 +62,18 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+#Djoser Config
 
+DJOSER = {
+    'DOMAIN': '127.0.0.1:8000',
+    'SITE_NAME': 'Frontend',
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'LOGIN_AFTER_ACTIVATION': True,
+    'SEND_ACTIVATION_EMAIL': True,
+}
 #CORS CONFIG - REMOVE ON DEPLOYMENT
 CORS_ORIGIN_ALLOW_ALL = True
 

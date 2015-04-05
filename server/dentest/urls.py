@@ -9,7 +9,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
-    #django auth urls (required by django rest auth)
+    #django auth urls (required by django rest auth
     url(r'^', include('django.contrib.auth.urls')),
 
     #REST ENDPOINTS
@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     url(r'^topics/$',q_views.TopicView.as_view()),
     url(r'subtopics/$',q_views.SubtopicView.as_view()),
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
-    url(r'^rest-auth/',include('rest_auth.urls')),
-    url(r'^rest-auth/registration/',include('rest_auth.registration.urls')),
 
+    # Djoser Endpoints
+    url(r'^auth/', include('djoser.urls')),
 )
