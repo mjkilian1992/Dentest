@@ -48,6 +48,7 @@ INSTALLED_APPS = (
 
     #My Apps
     'questions',
+    'restful_auth',
 )
 
 REST_FRAMEWORK = {
@@ -57,23 +58,30 @@ REST_FRAMEWORK = {
     )
 }
 
-# alluth config
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_REQUIRED = True
+# Restful Auth Config
+USE_TZ = True # Allow timezones
+EMAIL_CONFIRMATION_DAYS_VALID = 3
+PASSWORD_RESET_DAYS_VALID = 3
+EMAIL_UNIQUE =True
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'restful_auth.backends.UsernameOrEmailBackend',
+)
+DOMAIN = '127.0.0.1:8000'
+SITE_NAME = 'Frontend'
+PASSWORD_RESET_CONFIRM_URL = 'password/reset/confirm/{uid}/{token}'
+ACTIVATION_URL = 'activate/{uid}/{token}'
+DEFAULT_PROTOCOL = 'http'
+FROM_EMAIL = 'dentest.reg@gmail.com'
+
+TEMPLATE_DIRS = (
+    '/restful_auth/templates/',
 )
 
-#Djoser Config
+#GROUPS CONFIG
+BASIC_GROUP_NAME = u'Bronze'
+PRIVILEGED_GROUPS = (u'Silver', u'Gold')
 
-DJOSER = {
-    'DOMAIN': '127.0.0.1:8000',
-    'SITE_NAME': 'Frontend',
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'LOGIN_AFTER_ACTIVATION': True,
-    'SEND_ACTIVATION_EMAIL': True,
-}
 #CORS CONFIG - REMOVE ON DEPLOYMENT
 CORS_ORIGIN_ALLOW_ALL = True
 

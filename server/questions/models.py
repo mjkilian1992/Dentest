@@ -1,10 +1,5 @@
 from django.db import models
-
 # Must be unicode! This is how they are stored in the database
-PRIVILEGED_GROUPS = (
-    u'Silver',
-)
-
 class Topic(models.Model):
     """Defines a top-level topic which acts as a root for a set of subtopics"""
     name = models.CharField(max_length=80, primary_key=True)
