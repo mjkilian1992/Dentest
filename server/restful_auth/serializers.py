@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from models import *
+from validators import *
+
 
 BASIC_GROUP = getattr(settings,'BASIC_GROUP_NAME')
 EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE')
@@ -71,6 +73,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(AuthTokenSerializer):
+    password = serializers.CharField(required=True)
 
     def validate(self,attrs):
         attrs = super(LoginSerializer,self).validate(attrs)
@@ -98,7 +101,12 @@ class LoginSerializer(AuthTokenSerializer):
 
 class RegistrationSerializer(UserModelSerializer):
     """Serializer for Users. Can be used for Registration"""
-    password1 = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True,validators=[
+        validate_length,
+        common_sequences,
+        complexity,
+        dictionary_words,
+    ])
     password2 = serializers.CharField(write_only=True)
 
     class Meta(UserModelSerializer.Meta):
@@ -181,7 +189,12 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     """
     username = serializers.CharField(required=True)
     key = serializers.CharField(required=True)
-    password1 = serializers.CharField(write_only=True)
+    password1 = serializers.CharField(write_only=True,validators=[
+        validate_length,
+        common_sequences,
+        complexity,
+        dictionary_words,
+    ])
     password2 = serializers.CharField(write_only=True)
 
     def validate(self,attrs):

@@ -14,7 +14,7 @@ class RestfulAuthRegistrationTestCase(TestCase):
         self.bronze.save()
         self.silver = Group(name='Silver')
         self.silver.save()
-        self.user = User.objects.create_user('test',email='inuse@fake.com',password='pass')
+        self.user = User.objects.create_user('test',email='inuse@fake.com',password='GBG18H42,]bb')
         EmailAddress.objects.create(user=self.user,email='inuse@fake.com',verified=True)
         self.client = APIClient()
 
@@ -34,8 +34,8 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'email':'test@fake.com',
             'first_name':'michael',
             'last_name':'kilian',
-            'password1':'pass',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         self.assertEqual(response.status_code,status.HTTP_201_CREATED)
@@ -55,8 +55,8 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'email':'test@fake.com',
             'first_name':'michael',
             'last_name':'kilian',
-            'password1':'pass',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         data = json.loads(response.content)
@@ -70,8 +70,8 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'email':'test@fake.com',
             'first_name':'michael',
             'last_name':'kilian',
-            'password1':'pass',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         data = json.loads(response.content)
@@ -85,8 +85,8 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'email':'inuse@fake.com',
             'first_name':'michael',
             'last_name':'kilian',
-            'password1':'pass',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         data= json.loads(response.content)
@@ -100,23 +100,42 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'email':'',
             'first_name':'michael',
             'last_name':'kilian',
-            'password1':'pass',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
         self.assertTrue('email' in data)  # Check for error message
 
+    def test_reg_passwords_invalid(self):
+        """
+        The users password must be sufficiently complex. Note that only the first password is checked,
+        as the second password must match the first anyway.
+        """
+        test_data = {
+            'username':'test1',
+            'email':'',
+            'first_name':'michael',
+            'last_name':'kilian',
+            'password1':'password',
+            'password2':'password',
+        }
+        response = self.client.post('/register/',test_data,format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
+        self.assertTrue('password1' in data)  # Check for error message
+
+
     def test_reg_passwords_dont_match(self):
-        """Test that a user cannot be created with an email address which is already in use"""
+        """If the two passwords entered dont match, an error should be thrown."""
         test_data = {
             'username':'test1',
             'email':'test@fake.com',
             'first_name':'michael',
             'last_name':'kilian',
-            'password1':'pass1',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'12345t6asdfghASD##',
         }
         response = self.client.post('/register/',test_data,format='json')
         data= json.loads(response.content)
@@ -134,14 +153,14 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'first_name':'michael',
             'last_name':'kilian',
             'password1':'',
-            'password2':'pass',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
         self.assertTrue('password1' in data)  # Check for error message
 
-        test_data['password1'] = 'pass'
+        test_data['password1'] = 'GBG18H42,]bb'
         test_data['password2'] = ''
         response = self.client.post('/register/',test_data,format='json')
         data = json.loads(response.content)
@@ -157,8 +176,8 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'email':'fake@fake.com',
             'first_name':'',
             'last_name':'kilian',
-            'password1':'pass',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         data = json.loads(response.content)
@@ -174,8 +193,8 @@ class RestfulAuthRegistrationTestCase(TestCase):
             'email':'fake@fake.com',
             'first_name':'michael',
             'last_name':'',
-            'password1':'pass',
-            'password2':'pass',
+            'password1':'GBG18H42,]bb',
+            'password2':'GBG18H42,]bb',
         }
         response = self.client.post('/register/',test_data,format='json')
         data = json.loads(response.content)

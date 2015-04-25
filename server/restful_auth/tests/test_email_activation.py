@@ -33,7 +33,7 @@ class RestfulAuthEmailActivationTestCase(TestCase):
         self.client = None
 
     def test_valid_activation(self):
-        """Test a valid confirmation"""
+        """Test a valid confirmation. Additionally check that the key cannot be reused"""
         response = self.client.post('/confirm_email/',self.correct_details,format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
@@ -41,6 +41,11 @@ class RestfulAuthEmailActivationTestCase(TestCase):
         # Need to refetch
         email_address = EmailAddress.objects.get(user=self.user)
         self.assertEqual(email_address.verified,True)
+
+        # Check key cannot be reused
+        response = self.client.post('/confirm_email/',self.correct_details,format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
 
     def test_confirmation_malformed_key(self):
         """A confirmation request with an incorrect key should fail"""

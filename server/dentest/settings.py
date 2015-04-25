@@ -69,10 +69,23 @@ AUTHENTICATION_BACKENDS = (
 )
 DOMAIN = '127.0.0.1:8000'
 SITE_NAME = 'Frontend'
-PASSWORD_RESET_CONFIRM_URL = 'password/reset/confirm/{uid}/{token}'
-ACTIVATION_URL = 'activate/{uid}/{token}'
+PASSWORD_RESET_CONFIRM_URL = 'password/reset/confirm/{username}/{token}'
+ACTIVATION_URL = 'activate/{username}/{token}'
 DEFAULT_PROTOCOL = 'http'
 FROM_EMAIL = 'dentest.reg@gmail.com'
+
+# Password Requirements
+PASSWORD_MIN_LENGTH = 8
+
+PASSWORD_COMPLEXITY = { # You can omit any or all of these for no limit for that particular set
+    "UPPER": 1,        # Uppercase
+    "LOWER": 1,        # Lowercase
+    "LETTERS": 1,       # Either uppercase or lowercase letters
+    "DIGITS": 1,       # Digits
+    "PUNCTUATION": 1,  # Punctuation (string.punctuation)
+    #"SPECIAL": 1,      # Not alphanumeric, space or punctuation character
+    #"WORDS": 1         # Words (alphanumeric sequences separated by a whitespace or punctuation character)
+}
 
 TEMPLATE_DIRS = (
     '/restful_auth/templates/',

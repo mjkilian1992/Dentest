@@ -17,13 +17,14 @@ class RestfulAuthPasswordResetConfirmTestCase(TestCase):
         self.silver = Group(name='Silver')
         self.silver.save()
         self.user = User.objects.create_user('test',email='inuse@fake.com',password='pass',first_name='Joe',last_name='Bloggs')
+        self.user_token = Token.objects.get(user=self.user)
         self.password_reset = PasswordReset.create(self.user)
         self.password_reset.send()
         self.correct_details = {
             'username':'test',
             'key':self.password_reset.key,
-            'password1':'newpass',
-            'password2':'newpass',
+            'password1':'Gbk234,]',
+            'password2':'Gbk234,]',
         }
         self.client = APIClient()
 
@@ -34,13 +35,24 @@ class RestfulAuthPasswordResetConfirmTestCase(TestCase):
         self.client = None
 
     def test_valid_reset(self):
-        """Test a valid password reset"""
+        """Test a valid password reset. Additionally check key cannot be reused"""
         response = self.client.post('/password_reset_confirm/',self.correct_details,format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
          # Need to refetch user (queryset caching)
         user = User.objects.get(username='test')
-        self.assertTrue(user.check_password('newpass')) # Check new password works
+        self.assertTrue(user.check_password('Gbk234,]')) # Check new password works
+
+        # Check key cannot be resused
+        response = self.client.post('/password_reset_confirm/',self.correct_details,format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
+
+        # Check user has a new authtoken
+        original_key = self.user_token.key
+        new_key = Token.objects.get(user=self.user)
+        if new_key == original_key:
+            self.fail("Token was not changed")
 
     def test_reset_malformed_key(self):
         """A reset request with an incorrect key should fail"""

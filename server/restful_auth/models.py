@@ -91,7 +91,7 @@ class EmailConfirmation(models.Model):
             'user':self.email_address.user,
             'domain': getattr(settings,'DOMAIN'),
             'site_name': getattr(settings,'SITE_NAME'),
-            'uid': self.email_address.user.pk,
+            'username': self.email_address.user.username,
             'token': self.key,
             'protocol': getattr(settings,'DEFAULT_PROTOCOL')
         }
@@ -123,9 +123,15 @@ class PasswordReset(models.Model):
                                            key=key)
 
     def confirm(self,key):
+        """Confirm the password reset. At this stage, generate a new token for the user"""
         if not self.key_expired() and key ==self.key and not self.used:
-            self.used = True
-            self.save()
+            with transaction.atomic():
+                self.used = True
+                self.save()
+                # Delete users current token and make a new one
+                Token.objects.filter(user=self.user).all().delete()
+                token = Token.objects.create(user=self.user)
+                token.save()
             return True
         return False
 
@@ -144,7 +150,7 @@ class PasswordReset(models.Model):
             'user':self.user,
             'domain': getattr(settings,'DOMAIN'),
             'site_name': getattr(settings,'SITE_NAME'),
-            'uid': self.user.pk,
+            'username': self.user.username,
             'token': self.key,
             'protocol': getattr(settings,'DEFAULT_PROTOCOL')
         }
