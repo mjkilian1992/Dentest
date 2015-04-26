@@ -65,6 +65,17 @@ class RestfulAuthTokenLoginTestCase(TestCase):
         self.assertEqual(data['username'],'test')
         self.assertTrue('token' in data)
 
+    def test_login_incorrect_credentials(self):
+        """
+        If the credentials provided dont match any known user an error should be returned.
+        """
+        incorrect = {'username':'wrong','password':'gibberish'}
+        response = self.client.post('/login/',incorrect,format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual('non_field_errors' in data)
+
+
     def test_login_not_verified(self):
         """
         Trying to log in without email being verified should result in an error and a confirmation email resend.
