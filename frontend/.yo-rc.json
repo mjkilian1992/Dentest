@@ -23,6 +23,14 @@
       {
         "name": "auth",
         "file": "auth/auth.js"
+      },
+      {
+        "name": "questions",
+        "file": "questions/questions.js"
+      },
+      {
+        "name": "globalConstants",
+        "file": "global_constants/global_constants.js"
       }
     ]
   }

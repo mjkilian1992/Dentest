@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from questions import views as q_views
 from restful_auth import views as auth_views
+from questions import generic_views as q_views
 
 urlpatterns = patterns('',
     # Examples:
@@ -11,7 +11,11 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     #REST ENDPOINTS
-    url(r'^questions/',q_views.QuestionView.as_view()),
+    url(r'^questions/question_number/(?P<question_number>[0-9]{1,100})/$',
+        q_views.QuestionRetrieveView.as_view()),
+    url(r'questions/by_topic/(?P<topic>[\w ]{1,80})/$',q_views.QuestionsListByTopic.as_view()),
+    url(r'questions/by_subtopic/(?P<topic>[\w ]{0,80})/(?P<subtopic>[\w ]{1,255})/$',q_views.QuestionsListBySubtopic.as_view()),
+    url(r'^questions/$',q_views.QuestionListCreateView.as_view()),
     url(r'^topics/$',q_views.TopicView.as_view()),
     url(r'subtopics/$',q_views.SubtopicView.as_view()),
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),

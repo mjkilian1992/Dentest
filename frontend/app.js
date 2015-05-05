@@ -1,4 +1,4 @@
-var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate', 'auth']);
+var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate', 'auth', 'questions', 'globalConstants']);
 
 angular.module('dentest').config(function($routeProvider) {
 
@@ -22,4 +22,4 @@ angular.module('dentest').run(function($rootScope) {
 
 });
 
-app.constant('REST_BASE_URL','https://dentest.com')
+

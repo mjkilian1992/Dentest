@@ -28,13 +28,15 @@ angular.module('auth').service('RestfulAuthService',['$http','REST_BASE_URL',fun
     self.user_profile = function(){
         return api_user;
     };
+   
+    var query_params = {params:{format:'json'}};
     
     //===================================API METHODS===========================================================
     //===================================LOGIN=======================================
     self.login = function(username,password,error_handler){
         //Log a user in. error_handler is a callback function which handles any errors returned.
         //Will return an empty object if no errors occurs, otherwise a set of error messages
-        $http.post(api_urls.login,{username:username,password:password})
+        $http.post(api_urls.login,{username:username,password:password},query_params)
         .then(function(response){ //success
             //extract data
             api_user.username = response.data.username;
@@ -67,7 +69,7 @@ angular.module('auth').service('RestfulAuthService',['$http','REST_BASE_URL',fun
         //Register a user. The user details should contain a username,email,password1 and password2, first_name and last_name.
         //error handler is a callback function which handles any errors returned.
         //If successful, an empty object is returned to the error_handler. Otherwise it will be populated with errors.
-        $http.post(api_urls.registration,user_details)
+        $http.post(api_urls.registration,user_details,query_params)
         .then(function(response){ //success
             //Log the new user in
             self.login(user_details.username,user_details.password1,error_handler);
@@ -82,7 +84,7 @@ angular.module('auth').service('RestfulAuthService',['$http','REST_BASE_URL',fun
         //Make a password reset request. Requires the full set of user details (username,email,first_name,last_name)
         //error handler is a callback function which handles any errors returned.
         //If successful, an empty object is returned to the error_handler. Otherwise it will be populated with errors.
-        $http.post(api_urls.password_reset,reset_details)
+        $http.post(api_urls.password_reset,reset_details,query_params)
         .then(function(response){ //success
             //if the user was logged in when they did this, they now need to be logged out
             self.logout();
@@ -97,7 +99,7 @@ angular.module('auth').service('RestfulAuthService',['$http','REST_BASE_URL',fun
         //Confirm a password reset. Requres a username, key and matching password pair (password1 and password2)
         //error handler is a callback function which handles any errors returned.
         //If successful, an empty object is returned to the error_handler. Otherwise it will be populated with errors.
-        $http.post(api_urls.password_reset_confirm, reset_confirm_details)
+        $http.post(api_urls.password_reset_confirm, reset_confirm_details,query_params)
         .then(function(response){ //success
             //if this succeeds log the user in with their new password
             self.login(reset_confirm_details.username,reset_confirm_details.password1,error_handler);
@@ -112,7 +114,7 @@ angular.module('auth').service('RestfulAuthService',['$http','REST_BASE_URL',fun
         //Confirm an email address. Requres a usernameand key.
         //error handler is a callback function which handles any errors returned.
         //If successful, an empty object is returned to the error_handler. Otherwise it will be populated with errors.
-        $http.post(api_urls.confirm_email,email_confirm_details)
+        $http.post(api_urls.confirm_email,email_confirm_details,query_params)
         .then(function(response){ //success
             error_handler({});
          },function(response){ //error
@@ -125,7 +127,7 @@ angular.module('auth').service('RestfulAuthService',['$http','REST_BASE_URL',fun
         //Update a user's info. Will require their email to be reconfirmed.
         //error handler is a callback function which handles any errors returned.
         //If successful, an empty object is returned to the error_handler. Otherwise it will be populated with errors.
-        $http.put(api_urls.update_profile,user_details)
+        $http.put(api_urls.update_profile,user_details,query_params)
         .then(function(response){ //success
             //will need to log the user out
             self.logout();

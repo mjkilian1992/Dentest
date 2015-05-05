@@ -1,7 +1,8 @@
 'use_strict';
 
 describe('RestfulAuthService',function(){
-    beforeEach(module('dentest'));
+    beforeEach(module('auth'));
+    beforeEach(module('globalConstants'));
     
      //Test Data
     var bronze_user = {
@@ -42,12 +43,12 @@ describe('RestfulAuthService',function(){
     describe('Logging in',function(){
  
         it('should make a request to the correct api endpoint',function(){
-            mockBackend.expectPOST(baseURL + '/login/').respond(200,{});
+            mockBackend.expectPOST(baseURL + '/login/?format=json').respond(200,{});
             authservice.login('test','test',error_handler);
             mockBackend.flush();
         });
         it("should store the users details and set the Authorization header with the token if they have the correct credentials",inject(function($http){
-            mockBackend.expectPOST(baseURL + '/login/').respond(200,bronze_login_response);
+            mockBackend.expectPOST(baseURL + '/login/?format=json').respond(200,bronze_login_response);
             authservice.login('testBronze','zZ123##<>',error_handler);
             mockBackend.flush();
             expect(authservice.is_logged_in()).toBe(true);
@@ -58,7 +59,7 @@ describe('RestfulAuthService',function(){
         }));
         it("should return a list of errors if the credentials were incorrect",function(){
             var serializer_errors = {'non_field_errors':'Unable to login with credentials provided'}
-            mockBackend.expectPOST(baseURL + '/login/').respond(401,serializer_errors);
+            mockBackend.expectPOST(baseURL + '/login/?format=json').respond(401,serializer_errors);
             authservice.login('testBronze','gibberish',error_handler);
             mockBackend.flush();
             expect(authservice.is_logged_in()).toBe(false);
@@ -69,7 +70,7 @@ describe('RestfulAuthService',function(){
     //====================================LOGOUT===========================================================================
     describe('Logging out',function(){
         it("should clear the users profile if they are logged in (relies on login working)",inject(function($http){
-            mockBackend.expectPOST(baseURL + '/login/').respond(200,bronze_login_response);
+            mockBackend.expectPOST(baseURL + '/login/?format=json').respond(200,bronze_login_response);
             authservice.login('testBronze','zZ123##<>',error_handler);
             mockBackend.flush()
             //Check preconditions
@@ -87,14 +88,14 @@ describe('RestfulAuthService',function(){
     //=================================REGISTRATION==========================================================================
     describe('Registration',function(){
         it("should make a request to the correct api endpoint",function(){
-            mockBackend.expectPOST(baseURL + '/register/').respond(400,{}); //cause an error so login is not called
+            mockBackend.expectPOST(baseURL + '/register/?format=json').respond(400,{}); //cause an error so login is not called
             authservice.register(bronze_reg_details,error_handler);
             mockBackend.flush();
         });
         
         it("should log the user in if successful (relies on login)",function(){
-            mockBackend.expectPOST(baseURL + '/register/').respond(201,{});
-            mockBackend.expectPOST(baseURL + '/login/').respond(200,bronze_login_response);
+            mockBackend.expectPOST(baseURL + '/register/?format=json').respond(201,{});
+            mockBackend.expectPOST(baseURL + '/login/?format=json').respond(200,bronze_login_response);
             authservice.register(bronze_reg_details,error_handler);
             mockBackend.flush();
             expect(authservice.login).toHaveBeenCalledWith('testBronze','AsDf1234{}',error_handler);
@@ -102,7 +103,7 @@ describe('RestfulAuthService',function(){
         });
         
         it("should return errors if invalid details were provided",function(){
-            mockBackend.expectPOST(baseURL + '/register/').respond(400,{'errors':[]});
+            mockBackend.expectPOST(baseURL + '/register/?format=json').respond(400,{'errors':[]});
             authservice.register(bronze_reg_details,error_handler);
             mockBackend.flush();
             expect(authservice.login).not.toHaveBeenCalled();
@@ -113,13 +114,13 @@ describe('RestfulAuthService',function(){
     //==================================PASSWORD RESET========================================================================
     describe('Password Reset',function(){
         it("should make a request to the correct api endpoint",function(){
-            mockBackend.expectPOST(baseURL + '/password_reset/').respond(201,{});
+            mockBackend.expectPOST(baseURL + '/password_reset/?format=json').respond(201,{});
             authservice.password_reset(bronze_user,error_handler);
             mockBackend.flush();
         });
         
         it("should return error if invalid details were provided",function(){
-            mockBackend.expectPOST(baseURL + '/password_reset/').respond(401,{'errors':[]});
+            mockBackend.expectPOST(baseURL + '/password_reset/?format=json').respond(401,{'errors':[]});
             authservice.password_reset(bronze_user,error_handler);
             mockBackend.flush();
             expect(errors).toEqual({'errors':[]});
@@ -135,14 +136,14 @@ describe('RestfulAuthService',function(){
             password2:'1337:@H4XX0Rz',
         };
         it('should make a request to the correct api endpoint',function(){
-            mockBackend.expectPOST(baseURL + '/password_reset_confirm/').respond(400,{}); //fake error to avoid login
+            mockBackend.expectPOST(baseURL + '/password_reset_confirm/?format=json').respond(400,{}); //fake error to avoid login
             authservice.password_reset_confirm(reset_info,error_handler);
             mockBackend.flush();
         });
         
         it("should log the user in if successful (relies on login)",function(){
-            mockBackend.expectPOST(baseURL + '/password_reset_confirm/').respond(200,{});
-            mockBackend.expectPOST(baseURL + '/login/').respond(200,bronze_login_response);
+            mockBackend.expectPOST(baseURL + '/password_reset_confirm/?format=json').respond(200,{});
+            mockBackend.expectPOST(baseURL + '/login/?format=json').respond(200,bronze_login_response);
             authservice.password_reset_confirm(reset_info,error_handler);
             mockBackend.flush();
             expect(authservice.login).toHaveBeenCalledWith('testBronze','1337:@H4XX0Rz',error_handler);
@@ -150,7 +151,7 @@ describe('RestfulAuthService',function(){
         });
         
         it('should return errors if invalid details were provided',function(){
-            mockBackend.expectPOST(baseURL + '/password_reset_confirm/').respond(400,{'errors':[]});
+            mockBackend.expectPOST(baseURL + '/password_reset_confirm/?format=json').respond(400,{'errors':[]});
             authservice.password_reset_confirm(reset_info,error_handler);
             mockBackend.flush();
             expect(errors).toEqual({'errors':[]});
@@ -164,12 +165,12 @@ describe('RestfulAuthService',function(){
             key:'1234567890',
         };
         it('should make a request to the correct api endpoint',function(){
-            mockBackend.expectPOST(baseURL + '/confirm_email/').respond(200,{});
+            mockBackend.expectPOST(baseURL + '/confirm_email/?format=json').respond(200,{});
             authservice.confirm_email(reset_info,error_handler);
             mockBackend.flush();
         });
         it('should return errors if invalid details were provided',function(){
-            mockBackend.expectPOST(baseURL + '/confirm_email/').respond(400,{'errors':[]});
+            mockBackend.expectPOST(baseURL + '/confirm_email/?format=json').respond(400,{'errors':[]});
             authservice.confirm_email(reset_info,error_handler);
             mockBackend.flush();
             expect(errors).toEqual({'errors':[]});
@@ -179,20 +180,20 @@ describe('RestfulAuthService',function(){
     //==========================================PROFILE UPDATE=================================================================
     describe('Profile Update',function(){
         it('should make a request to the correct api endpoint',function(){
-            mockBackend.expectPUT(baseURL + '/update_profile/').respond(200,{});
+            mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(200,{});
             authservice.update_profile(bronze_user,error_handler);
             mockBackend.flush();
         });
         
         it('should return errors if invalid details were provided',function(){
-            mockBackend.expectPUT(baseURL + '/update_profile/').respond(400,{'errors':[]});
+            mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(400,{'errors':[]});
             authservice.update_profile(bronze_user,error_handler);
             mockBackend.flush();
             expect(errors).toEqual({'errors':[]});
         });
         
         it('should log the user out',function(){
-            mockBackend.expectPUT(baseURL + '/update_profile/').respond(200,{});
+            mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(200,{});
             authservice.update_profile(bronze_user,error_handler);
             mockBackend.flush()
             expect(authservice.logout).toHaveBeenCalled();

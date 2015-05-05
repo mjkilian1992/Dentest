@@ -109,8 +109,9 @@ class QuestionAPITokenAuthTestCase(TestCase):
         response = self.client.get('/topics/', format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertTrue({'name': 'Topic 1', 'description': 'The first topic.'} in data)
-        self.assertTrue({'name': 'Topic 2', 'description': 'The second topic.'} in data)
+        self.assertEqual(data['count'],3)
+        self.assertTrue({'name': 'Topic 1', 'description': 'The first topic.'} in data['results'])
+        self.assertTrue({'name': 'Topic 2', 'description': 'The second topic.'} in data['results'])
 
 
     def test_token_topic_submission_unauthenticated(self):
@@ -157,8 +158,10 @@ class QuestionAPITokenAuthTestCase(TestCase):
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+        self.assertEqual(data['count'],4)
         # Ordering should be by Topic name, then Subtopic name
         # Returned value will be in unicode
+        data = data['results']
         self.assertEqual(str(data[0]['name']), 'Subtopic 1')
         self.assertEqual(str(data[1]['name']), 'Subtopic 2')
         self.assertEqual(str(data[2]['name']), 'Subtopic 3')
@@ -212,11 +215,12 @@ class QuestionAPITokenAuthTestCase(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
         response = self.client.get('/questions/', format='json')
         data = json.loads(response.content)
-
+        self.assertEqual(data['count'],1) # User can only access the one unrestricted question
+        data = data['results']
         self.assertFalse(data[0]['restricted'])
         self.assertEqual(str(data[0]['question']), 'What is my name?')
         self.assertEqual(str(data[0]['subtopic']['topic']), 'Topic 1')
-        self.assertEqual(len(data), 1)
+
 
 
     def test_token_all_question_retrieval_privileged(self):
@@ -224,7 +228,7 @@ class QuestionAPITokenAuthTestCase(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.silver_token.key)
         response = self.client.get('/questions/', format='json')
         data = json.loads(response.content)
-        self.assertEqual(len(data), 4)
+        self.assertEqual(data['count'], 4)
 
 
     def test_token_all_question_retrieval_staff(self):
@@ -232,26 +236,25 @@ class QuestionAPITokenAuthTestCase(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.staff_token.key)
         response = self.client.get('/questions/', format='json')
         data = json.loads(response.content)
-        self.assertEqual(len(data), 4)
+        self.assertEqual(data['count'], 4)
 
 
     def test_token_fetch_question_by_id_unauthenticated(self):
         """Check an unauthenticated user cant access individual questions"""
-        response = self.client.get('/questions/', {'question': 1}, format='json')
+        response = self.client.get('/questions/question_number/1/',  format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_token_fetch_question_by_id_unprivileged(self):
         """An unprivileged user should only be able to access non-restricted questions"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
         # Try on non-restricted question. Make sure only one is returned
-        response = self.client.get('/questions/', {'question': 1}, format='json')
+        response = self.client.get('/questions/question_number/1/', format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data[0]['id'], 1)
-        self.assertEqual(len(data), 1)
+        self.assertEqual(data['id'], 1)
 
         # Now try a restricted question. Should fail
-        response = self.client.get('/questions/', {'question': 2}, format='json')
+        response = self.client.get('/questions/question_number/2/', format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -259,33 +262,29 @@ class QuestionAPITokenAuthTestCase(TestCase):
     def test_token_fetch_question_by_id_privileged(self):
         """A privileged user can access any question"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.silver_token.key)
-        response = self.client.get('/questions/', {'question': 2}, format='json')
+        response = self.client.get('/questions/question_number/2/', format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data[0]['id'], 2)
-        self.assertEqual(len(data), 1)
-
+        self.assertEqual(data['id'], 2)
 
     def test_token_fetch_question_by_id_staff(self):
         """A staff user can also access privileged questions"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.staff_token.key)
-        response = self.client.get('/questions/', {'question': 2}, format='json')
+        response = self.client.get('/questions/question_number/2/', format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data[0]['id'], 2)
-        self.assertEqual(len(data), 1)
-
+        self.assertEqual(data['id'], 2)
 
     def test_token_fetch_by_topic_unauthenticated(self):
         """An unauthenticated user cant access anything"""
-        response = self.client.get('/questions/', {'topic': 'Topic 1'}, format='json')
+        response = self.client.get('/questions/by_topic/Topic 1/', format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_token_fetch_by_topic_unprivileged(self):
         """Basic user should only see the unrestricted questions in the topic"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
         response = self.client.get('/questions/', {'topic': 'Topic 1'}, format='json')
-        data = json.loads(response.content)
+        data = json.loads(response.content)['results']
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]['subtopic']['topic'], 'Topic 1')
@@ -295,15 +294,15 @@ class QuestionAPITokenAuthTestCase(TestCase):
     def test_token_fetch_by_topic_unprivileged_all_restricted(self):
         """If a topic exists, the user is restricted from viewing all its questions, 403 should be returned"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 2'}, format='json')
+        response = self.client.get('/questions/by_topic/Topic 2/', format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
     def test_token_fetch_by_topic_privileged(self):
         """Privileged user can view all questions in any topic"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.silver_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 1'}, format='json')
-        data = json.loads(response.content)
+        response = self.client.get('/questions/by_topic/Topic 1/', format='json')
+        data = json.loads(response.content)['results']
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(data), 3)
 
@@ -317,22 +316,22 @@ class QuestionAPITokenAuthTestCase(TestCase):
     def test_token_fetch_unknown_topic(self):
         """Filtering on a non existent topic should return a 404 error"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
-        response = self.client.get('/questions/', {'topic': 'NonExistentTopic'}, format='json')
+        response = self.client.get('/questions/by_topic/NonExistantTopic/', format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
     def test_token_fetch_empty_topic(self):
         """Filtering on an empty topic should also return 404 (no QUESTIONS could be found)"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 3'}, format='json')
+        response = self.client.get('/questions/by_topic/Topic 3/', format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
     def test_token_fetch_by_subtopic_unprivleged(self):
         """Basic users should only be able to see unrestricted questions"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 1', 'subtopic': 'Subtopic 1'}, format='json')
-        data = json.loads(response.content)
+        response = self.client.get('/questions/by_subtopic/Topic 1/Subtopic 1/', format='json')
+        data = json.loads(response.content)['results']
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(data), 1)
         self.assertEqual(data[0]['subtopic']['topic'], 'Topic 1')
@@ -342,8 +341,8 @@ class QuestionAPITokenAuthTestCase(TestCase):
     def test_token_fetch_by_subtopic_privilieged(self):
         """Privileged user can see all the questions in a subtopic"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.silver_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 1', 'subtopic': 'Subtopic 1'}, format='json')
-        data = json.loads(response.content)
+        response = self.client.get('/questions/by_subtopic/Topic 1/Subtopic 1/', format='json')
+        data = json.loads(response.content)['results']
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(data), 2)
         self.assertEqual(data[0]['subtopic']['topic'], 'Topic 1')
@@ -356,18 +355,18 @@ class QuestionAPITokenAuthTestCase(TestCase):
     def test_token_fetch_by_subtopic_unprivileged_all_restricted(self):
         """If all questions in the subtopic are restricted, 403 should be returned"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 1', 'subtopic': 'Subtopic 2'}, format='json')
+        response = self.client.get('/questions/by_subtopic/Topic 1/Subtopic 2/', format='json')
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_token_fetch_by_subtopic_unknown_subtopic(self):
         """If no such subtopic exists, should return 404"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 1', 'subtopic': 'NonExistantSubtopic'},
+        response = self.client.get('/questions/by_subtopic/Topic 1/NonExistantSubtopic/',
                                    format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_token_fetch_by_subtopic_empty_subtopic(self):
         """If the subtopic is empty then 404 should be returned (no QUESTIONS found)"""
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
-        response = self.client.get('/questions/', {'topic': 'Topic 2', 'subtopic': 'Subtopic 4'}, format='json')
+        response = self.client.get('/questions/by_subtopic/Topic 2/Subtopic 4/', format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
