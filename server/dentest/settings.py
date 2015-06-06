@@ -69,7 +69,7 @@ AUTHENTICATION_BACKENDS = (
 )
 DOMAIN = '127.0.0.1:8000'
 SITE_NAME = 'Frontend'
-PASSWORD_RESET_CONFIRM_URL = 'password/reset/confirm/{username}/{token}'
+PASSWORD_RESET_CONFIRM_URL = 'password_reset_confirm/{username}/{token}'
 ACTIVATION_URL = 'activate/{username}/{token}'
 DEFAULT_PROTOCOL = 'http'
 FROM_EMAIL = 'dentest.reg@gmail.com'

@@ -81,7 +81,7 @@ angular.module('auth').service('RestfulAuthService', ['$http','$q', 'REST_BASE_U
             }).then(function(response){
                 deferred.resolve(response); //login will have stripped out data already
             },function(response){
-                //may have been stripped out depending on wheter login or register failed
+                //may have been stripped out depending on whether login or register failed
                 var result = response.data || response;
                 deferred.reject(result);
             });
