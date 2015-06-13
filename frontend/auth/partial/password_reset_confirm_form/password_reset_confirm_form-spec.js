@@ -54,7 +54,7 @@ describe('PasswordResetConfirmFormCtrl', function() {
     }));
 
     //Inject dependencies
-    beforeEach(inject(function($location,$rootScope,$routeParams){
+    beforeEach(inject(function($location,$rootScope){
         _$location_ = $location;
         _$rootScope_ = $rootScope;
     }));
@@ -102,5 +102,5 @@ describe('PasswordResetConfirmFormCtrl', function() {
         expect(ctrl.password2_errors).toEqual(['Passwords must contain at least 8 characters and must be alphanumeric.']);
         expect(ctrl.non_field_errors).toEqual(['non_field_error1']);
         expect(_$location_.url()).toEqual('/password_reset_confirm/test/sddf');
-    })
+    });
 });
