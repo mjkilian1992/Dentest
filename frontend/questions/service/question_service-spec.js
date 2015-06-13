@@ -175,11 +175,11 @@ describe('QuestionService', function () {
             expect(page_info.no_of_pages).toEqual(3);
         });
 
-        it('should return the full response if the request is successful', function () {
+        it('should return the results without pagination info if the request is successful', function () {
             mockBackend.expectGET(baseURL + '/topics/' + buildParams(1, 1)).respond(200, topicResponsePage1);
             qService.getTopics(1).then(result_handler);
             mockBackend.flush();
-            expect(result).toEqual(topicResponsePage1);
+            expect(result).toEqual(topicResponsePage1.results);
         });
 
         it('should return errors if the request fails', function () {
@@ -211,11 +211,11 @@ describe('QuestionService', function () {
             expect(page_info.no_of_pages).toEqual(3);
         });
 
-        it('should return the full response if the request is successful', function () {
+        it('should return the results without pagination info if the request is successful', function () {
             mockBackend.expectGET(baseURL + '/subtopics/' + buildParams(1, 1)).respond(200, subtopicResponsePage1);
             qService.getSubtopics(1).then(result_handler);
             mockBackend.flush();
-            expect(result).toEqual(subtopicResponsePage1);
+            expect(result).toEqual(subtopicResponsePage1.results);
         });
 
         it('should return errors if the request fails', function () {
@@ -247,11 +247,11 @@ describe('QuestionService', function () {
 
             });
 
-            it('should return the full response if the request is successful', function () {
+            it('should return the results without pagination info if the request is successful', function () {
                 mockBackend.expectGET(baseURL + '/questions/' + buildParams(1, 1)).respond(200, allQuestionsResponsePage1);
                 qService.getQuestions(1).then(result_handler);
                 mockBackend.flush();
-                expect(result).toEqual(allQuestionsResponsePage1);
+                expect(result).toEqual(allQuestionsResponsePage1.results);
             });
 
             it('should return errors if the request fails', function () {
@@ -281,11 +281,11 @@ describe('QuestionService', function () {
                 expect(page_info.next_page_number).toEqual(2);
             });
 
-            it('should return the full response if the request is successful', function () {
+            it('should return the results without pagination info if the request is successful', function () {
                 mockBackend.expectGET(baseURL + '/questions/by_topic/Math/' + buildParams(1, 1)).respond(200, questionsByTopicResponsePage1);
                 qService.getQuestionsByTopic(1, 'Math').then(result_handler);
                 mockBackend.flush();
-                expect(result).toEqual(questionsByTopicResponsePage1);
+                expect(result).toEqual(questionsByTopicResponsePage1.results);
             });
 
             it('should return errors if the request fails', function () {
@@ -315,11 +315,11 @@ describe('QuestionService', function () {
                 expect(page_info.next_page_number).toEqual(null);
             });
 
-            it('should return the full response if the request is successful', function () {
+            it('should return the results without pagination info if the request is successful', function () {
                 mockBackend.expectGET(baseURL + '/questions/by_subtopic/Math/Algebra/' + buildParams(1, 1)).respond(200, questionsBySubtopicResponsePage1);
                 qService.getQuestionsBySubtopic(1, 'Math', 'Algebra').then(result_handler);
                 mockBackend.flush();
-                expect(result).toEqual(questionsBySubtopicResponsePage1);
+                expect(result).toEqual(questionsBySubtopicResponsePage1.results);
             });
 
             it('should return errors if the request fails', function () {
@@ -368,40 +368,43 @@ describe('QuestionService', function () {
 
     //=========================PAGINATION=================================================================
     describe('Pagination', function () {
-            xit('should give the next page of topics after a request if next_page is called', function () {
+            it('should give the next page of topics after a request if next_page is called', function () {
                 mockBackend.expectGET(baseURL + '/topics/' + buildParams(2, 1)).respond(200, topicResponsePage2);
                 qService.getTopics(2).then(result_handler);
                 mockBackend.flush();
                 mockBackend.expectGET(baseURL + '/topics/' + buildParams(3, 1)).respond(200, topicResponsePage3);
                 qService.next_page().then(result_handler);
                 mockBackend.flush();
-                expect(result).toEqual(topicResponsePage3);
+                expect(result).toEqual(topicResponsePage3.results);
 
             });
 
-            xit('should give the previous page of topics after a request if previous_page is called', function () {
+            it('should give the previous page of topics after a request if previous_page is called', function () {
                 mockBackend.expectGET(baseURL + '/topics/' + buildParams(2, 1)).respond(200, topicResponsePage2);
                 qService.getTopics(2).then(result_handler);
                 mockBackend.flush();
                 mockBackend.expectGET(baseURL + '/topics/' + buildParams(1, 1)).respond(200, topicResponsePage1);
                 qService.previous_page().then(result_handler);
                 mockBackend.flush();
-                expect(result).toEqual(topicResponsePage1);
+                expect(result).toEqual(topicResponsePage1.results);
             });
 
-            xit('should handle the case where there is no further page and next_page is called', function () {
+            it('should handle the case where there is no further page and next_page is called', function () {
                 mockBackend.expectGET(baseURL + '/topics/' + buildParams(3, 1)).respond(200, topicResponsePage3);
                 qService.getTopics(3);
                 mockBackend.flush();
-                qService.next_page().catch(result_handler);
+                //console.log('ABOUT TO CALL NEXT PAGE');
+                qService.next_page().then(result_handler,result_handler);
                 expect(result).toEqual({errors:['There is no next page.']});
             });
 
-            xit('should handle the case where there is no previous page and previous_page is called', function () {
+            it('should handle the case where there is no previous page and previous_page is called', function () {
                 mockBackend.expectGET(baseURL + '/topics/' + buildParams(1, 1)).respond(200, topicResponsePage1);
                 qService.getTopics(1);
                 mockBackend.flush();
-                qService.previous_page().catch(result_handler);
+                //console.log('ABOUT TO CALL PREVIOUS PAGE');
+                var result = null;
+                qService.previous_page().then(result_handler,result_handler);
                 expect(result).toEqual({errors:['There is no previous page.']});
             });
 

@@ -69,7 +69,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
             $http.get(pagination_info.next_page_link)
                 .then(function (response) { //success
                     self.build_pagination_info(pagination_info.current_page_number + 1, response.data);
-                    deferred.resolve(response.data);
+                    deferred.resolve(response.data.results);
                 }, function (response) { //failure
                     deferred.reject(response.data);
                 });
@@ -85,7 +85,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
             $http.get(pagination_info.previous_page_link)
                 .then(function (response) { //success
                     self.build_pagination_info(pagination_info.current_page_number - 1, response.data);
-                    deferred.resolve(response.data);
+                    deferred.resolve(response.data.results);
                 }, function (response) { //failure
                     deferred.reject(response.data);
                 });
@@ -109,7 +109,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         $http.get(api_urls.topics, {params: build_query_params(page_number, page_size)})
             .then(function (response) { //success
                 self.build_pagination_info(page_number, response.data);
-                deferred.resolve(response.data);
+                deferred.resolve(response.data.results);
             }, function (response) { //failure
                 deferred.reject(response.data);
             });
@@ -122,7 +122,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         $http.get(api_urls.subtopics, {params: build_query_params(page_number, page_size)})
             .then(function (response) { //success
                 self.build_pagination_info(page_number, response.data);
-                deferred.resolve(response.data);
+                deferred.resolve(response.data.results);
             }, function (response) { //failure
                 deferred.reject(response.data);
             });
@@ -135,7 +135,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         $http.get(api_urls.questions, {params: build_query_params(page_number, page_size)})
             .then(function (response) { //success
                 self.build_pagination_info(page_number, response.data);
-                deferred.resolve(response.data);
+                deferred.resolve(response.data.results);
             }, function (response) { //failure
                 deferred.reject(response.data);
             });
@@ -148,7 +148,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         $http.get(api_urls.questions_by_topic + topic + '/', {params: build_query_params(page_number, page_size)})
             .then(function (response) { //success
                 self.build_pagination_info(page_number, response.data);
-                deferred.resolve(response.data);
+                deferred.resolve(response.data.results);
             }, function (response) { //failure
                 deferred.reject(response.data);
             });
@@ -162,7 +162,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
             {params: build_query_params(page_number, page_size)})
             .then(function (response) { //success
                 self.build_pagination_info(page_number, response.data);
-                deferred.resolve(response.data);
+                deferred.resolve(response.data.results);
             }, function (response) { //failure
                 deferred.reject(response.data);
             });
