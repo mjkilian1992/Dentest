@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="dentest">
 <head>
-  <title></title>
+  <title>Dentest.com</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
   <link href="app.less" type="text/css" rel="stylesheet/less">
@@ -13,8 +13,6 @@
 
   <!-- JS from Bower Components -->
   <script src="bower_components/less.js/dist/less-1.6.2.js" data-concat="false"></script>
-  <script src="bower_components/jquery/jquery.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/underscore/underscore.js"></script>
   <script src="bower_components/moment/moment.js"></script>
   <script src="bower_components/angular/angular.js"></script>
@@ -42,15 +40,58 @@
   <script src="auth/partial/email_confirmation_form/email_confirmation_form.js"></script>
   <script src="auth/partial/update_profile/update_profile.js"></script>
   <script src="questions/partial/main_question_viewer/main_question_viewer.js"></script>
+  <script src="partial/home-screen-partial/home-screen-partial.js"></script>
   <!-- Add New Component JS Above -->
 
   <div>
+      <!--======================  NAVBAR  ============================-->
+      <nav class="navbar navbar-default navbar-static-top">
+          <div class="container-fluid">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                          data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#/home">Dentest</a>
+              </div>
+
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav" id="navbar-page-links">
+                      <li><a href="#">Questions</a></li>
+                      <li><a href="#">Quiz</a></li>+
+                      <li><a href="#">About</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right" id="user_signup_and_profile">
+                      <li><a href="#">Signup</a></li>
+                  </ul>
+              </div>
+              <!-- /.navbar-collapse -->
+          </div>
+          <!-- /.container-fluid -->
+      </nav>
+
+
+    <!-- ========================================= PAGE CONTENT ============================-->
     <div id="content" class="container">
       <div class="row">
         <div ng-view>
         </div>
       </div>
     </div>
+
+
+      <!-- ==================================== FOOTER =====================================-->
+      <footer class="footer">
+      <div class="container">
+        <p class="text-muted">www.dentest.com</p>
+      </div>
+    </footer>
+
   </div>
 
 </body>

@@ -7,6 +7,7 @@
 @import "auth/auth.less";
 @import "questions/questions.less";
 @import "global_constants/global_constants.less";
+@import "partial/home-screen-partial/home-screen-partial.less";
 /* Add Component LESS Above */
 
 /* Required for Angular UI Bootstrap */
@@ -23,3 +24,51 @@
 //		.translate(0,0);
 //	}
 //}
+
+
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+
+
+
+//============================NAVBAR, FOOTER & BODY ==========================
+
+// Variables
+// Alignment
+@navbar-height: 60px;
+@footer-height: 30px;
+@side-margin-width: 20px;
+
+//rules
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: @footer-height;
+  background-color: blue;
+}
+
+
+#content{
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  width:90%;
+  margin: 0 auto;
+
+  background-color: white;
+
+
+}
+
+.footer {
+  //positioning
+  position: absolute;
+  width: 100%;
+  height: @footer-height;
+  text-align: center;
+}

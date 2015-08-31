@@ -10,10 +10,7 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
         self.subtopic = $routeParams.subtopic || 'All';
 
         //Fetch questions
-        self.retrieve_questions = retrieve_questions;
-        function retrieve_questions(page_number) {
-
-
+        self.retrieve_questions = function retrieve_questions(page_number) {
             if (self.topic != 'All' && self.subtopic != 'All') {
                 QuestionService.getQuestionsBySubtopic(page_number, self.topic, self.subtopic).then(success, error);
             } else if (self.topic != 'All' && self.subtopic == 'All') {

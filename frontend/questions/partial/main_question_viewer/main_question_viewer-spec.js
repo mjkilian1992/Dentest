@@ -1,3 +1,5 @@
+'use_strict';
+
 describe('MainQuestionViewerCtrl', function () {
 
     //===============================TEST DATA=====================================

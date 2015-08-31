@@ -2,8 +2,9 @@ var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngA
 
 angular.module('dentest').config(function($routeProvider) {
 
+    $routeProvider.when('/',{templateUrl: 'partial/home-screen-partial/home-screen-partial.html'});
     /* Add New Routes Above */
-    $routeProvider.otherwise({redirectTo:'/home'});
+    $routeProvider.otherwise({redirectTo:'/'});
 
 });
 
