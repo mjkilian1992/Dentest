@@ -1,0 +1,39 @@
+<form name="login_form" ng-controller='LoginFormCtrl as loginctrl' ng-submit='loginctrl.login()'>
+    <div class="form-group">
+        <label for="login_form_username">Username or Email</label>
+        <input type="text"
+               id="login_form_username"
+               class="form-control"
+               name="login_username"
+               ng-model="loginctrl.login_details.username"
+               required
+               placeholder="Username or email">
+    </div>
+
+
+    <div class="form-group">
+        <label for="login_form_password1">Password</label>
+        <input type="password"
+               id="login_form_password1"
+               class="form-control"
+               name="login_password"
+               ng-model="loginctrl.login_details.password"
+               required
+               placeholder="Password">
+    </div>
+
+    <div class="form-group">
+    <div class="errors">
+        <ul ng-repeat="error in loginctrl.non_field_errors">
+            <li>{{error}}</li>
+        </ul>
+    </div>
+    </div>
+
+    <div class="form-group">
+        <input class="btn btn-default" type="submit" value="Login" ng-disabled="login_form.$invalid"/>
+    </div>
+
+    
+    <a href="/password_reset">Forgotten Password?</a>
+</form>

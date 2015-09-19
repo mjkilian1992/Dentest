@@ -1,0 +1,17 @@
+<div class="col-md-12" ng-controller="EmailConfirmationFormCtrl as emlCnfmCtrl">
+    <div ng-show="emlCnfmCtrl.non_field_errors.length <= 0">
+        <form name="email_confirm_form" ng-submit="emlCnfmCtrl.confirm_email()">
+            <div class="form-group">
+                <label for="email_confirm_submit">Hit 'Confirm' to complete your email activation:</label>
+                <input type="submit" value="Confirm">
+            </div>
+        </form>
+    </div>
+    <div ng-show="emlCnfmCtrl.non_field_errors.length > 0">
+        <h5>Oops! A problem occurred:</h5>
+        <ul ng-repeat="error in emlCnfmCtrl.non_field_errors">
+            <li>{{error}}</li>
+        </ul>
+    </div>
+
+</div>

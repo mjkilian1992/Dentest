@@ -1,0 +1,89 @@
+<form name="update_profile_form" ng-controller="UpdateProfileFormCtrl as update_ctrl" ng-submit="update_ctrl.update_profile()">
+    <div class="form-group">
+        <label for="update_profile_form_username">Username</label>
+        <input type="text"
+               id="update_profile_form_username"
+               class="form-control"
+               name="update_profile_username"
+               ng-model="update_ctrl.user_details.username"
+               required
+               placeholder="Username"
+               ng-disabled="self.edit_mode === false">
+
+        <div class="errors">
+            <ul ng-repeat="error in update_ctrl.username_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="update_profile_form_email">Email</label>
+        <input type="email"
+               id="update_profile_form_email"
+               class="form-control"
+               name="update_profile_email"
+               ng-model="update_ctrl.user_details.email"
+               required
+               placeholder="example@youremail.com"
+               ng-disabled="self.edit_mode === false">
+
+        <div class="errors">
+            <ul ng-repeat="error in update_ctrl.email_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+     <div class="form-group">
+        <label for="update_profile_form_first_name">First Name</label>
+        <input type="text"
+               id="update_profile_form_first_name"
+               class="form-control"
+               name="update_profile_first_name"
+               ng-model="update_ctrl.user_details.first_name"
+               required
+               placeholder="Joe"
+               ng-disabled="self.edit_mode === false">
+
+        <div class="errors">
+            <ul ng-repeat="error in update_ctrl.first_name_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="update_profile_form_last_name">Surname</label>
+        <input type="text"
+               id="update_profile_form_last_name"
+               class="form-control"
+               name="update_profile_form_last_name"
+               ng-model="update_ctrl.user_details.last_name"
+               required
+               placeholder="Bloggs"
+               ng-disabled="self.edit_mode === false">
+
+        <div class="errors">
+            <ul ng-repeat="error in update_ctrl.last_name_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="errors">
+            <ul ng-repeat="error in update_ctrl.non_field_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <input class="btn btn-default" type="button" value="Edit" ng-click="update_ctrl.allow_editing()" ng-disabled="update_ctrl.edit_mode"/>
+        <input class="btn btn-default" type="submit" value="Save" ng-disabled="update_profile_form.$invalid || !update_ctrl.edit_mode"/>
+    </div>
+
+    
+    
+</form>

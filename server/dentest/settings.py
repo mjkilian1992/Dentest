@@ -67,8 +67,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'restful_auth.backends.UsernameOrEmailBackend',
 )
-DOMAIN = '127.0.0.1:8000'
-SITE_NAME = 'Frontend'
+DOMAIN = 'localhost:9001'
+SITE_NAME = 'Dentest'
 PASSWORD_RESET_CONFIRM_URL = 'password_reset_confirm/{username}/{token}'
 ACTIVATION_URL = 'email_activation/{username}/{token}'
 DEFAULT_PROTOCOL = 'http'
@@ -146,4 +146,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Email Config
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

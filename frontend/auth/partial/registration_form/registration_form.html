@@ -1,0 +1,128 @@
+<div>
+    <h5>Please provide:</h5>
+    <ul>
+        <li>A username between 6 and 30 characters long.</li>
+        <li>A password at least 8 characters long with at least one uppercase letter, one digit and one
+            piece of punctuation.
+        </li>
+        <li>A valid email address (you will be asked to confirm this via email).</li>
+        <li>Your first and last name.</li>
+    </ul>
+</div>
+
+<form name="reg_form" ng-controller='RegistrationFormCtrl as regctrl' ng-submit='regctrl.register()'>
+    <div class="form-group">
+        <label for="reg_form_username">Username</label>
+        <input type="text"
+               id="reg_form_username"
+               class="form-control"
+               name="reg_username"
+               ng-model="regctrl.registration_details.username"
+               required
+               placeholder="Username">
+
+        <div class="errors">
+            <ul ng-repeat="error in regctrl.username_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="reg_form_email">Email</label>
+        <input type="email"
+               id="reg_form_email"
+               class="form-control"
+               name="reg_email"
+               ng-model="regctrl.registration_details.email"
+               required
+               placeholder="example@youremail.com">
+
+        <div class="errors">
+            <ul ng-repeat="error in regctrl.email_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="reg_form_password1">Password</label>
+        <input type="password"
+               id="reg_form_password1"
+               class="form-control"
+               name="reg_form_password1"
+               ng-model="regctrl.registration_details.password1"
+               required
+               placeholder="Password">
+
+        <div class="errors">
+            <ul ng-repeat="error in regctrl.password1_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="reg_form_password2">Confirm Password</label>
+        <input type="password"
+               id="reg_form_password2"
+               class="form-control"
+               name="reg_form_password2"
+               ng-model="regctrl.registration_details.password2"
+               required
+               placeholder="Confirm Password">
+
+        <div class="errors">
+            <ul ng-repeat="error in regctrl.password2_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="reg_form_first_name">First Name</label>
+        <input type="text"
+               id="reg_form_first_name"
+               class="form-control"
+               ng-model="regctrl.registration_details.first_name"
+               required
+               placeholder="Joe">
+
+        <div class="errors">
+            <ul ng-repeat="error in regctrl.first_name_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="reg_form_last_name">Surname</label>
+        <input type="text"
+               id="reg_form_last_name"
+               class="form-control"
+               ng-model="regctrl.registration_details.last_name"
+               required
+               placeholder="Bloggs">
+
+        <div class="errors">
+            <ul ng-repeat="error in regctrl.last_name_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="errors">
+            <ul ng-repeat="error in regctrl.non_field_errors">
+                <li>{{error}}</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <input class="btn btn-default" type="submit" value="Register" ng-disabled="reg_form.$invalid"/>
+    </div>
+
+
+</form>
