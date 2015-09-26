@@ -202,6 +202,12 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         Will confirm the password reset if the key and username provided match
         and the passwords entered are valid and match
         """
+        password1 = attrs.get("password1",None)
+        password2 = attrs.get("password2",None)
+        if password1 is None or password2 is None:
+            raise serializers.ValidationError("One or both passwords field(s) are empty.")
+        if password1 != password2:
+            raise serializers.ValidationError("Passwords do not match.")
         try:
             user = User.objects.get(username=attrs['username'])
             reset = PasswordReset.objects.get(user=user)
@@ -209,12 +215,7 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
             raise serializers.ValidationError("User does not exist or has not requested a password reset.")
         if not reset.confirm(attrs['key']):
             raise serializers.ValidationError('Key is incorrect, expired or has already been used.')
-        password1 = attrs.get("password1",None)
-        password2 = attrs.get("password2",None)
-        if password1 is None or password2 is None:
-            raise serializers.ValidationError("One or both passwords field(s) are empty.")
-        if password1 != password2:
-            raise serializers.ValidationError("Passwords do not match.")
+
         return attrs
 
     def update(self,instance,validated_data):

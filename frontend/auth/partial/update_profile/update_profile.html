@@ -80,8 +80,11 @@
 
 
     <div class="form-group">
-        <input class="btn btn-default" type="button" value="Edit" ng-click="update_ctrl.allow_editing()" ng-disabled="update_ctrl.edit_mode"/>
-        <input class="btn btn-default" type="submit" value="Save" ng-disabled="update_profile_form.$invalid || !update_ctrl.edit_mode"/>
+        <input class="btn btn-warning" type="button" value="Edit" ng-click="update_ctrl.allow_editing()"
+               ng-hide="update_ctrl.edit_mode" ng-disabled="update_ctrl.edit_mode"/>
+        <input class="btn btn-success" type="submit" value="Save"
+               ng-disabled="update_profile_form.$invalid || !update_ctrl.edit_mode"
+               ng-hide="!update_ctrl.edit_mode" />
     </div>
 
     

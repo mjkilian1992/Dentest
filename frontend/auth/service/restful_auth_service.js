@@ -1,6 +1,6 @@
 'use_strict';
 
-angular.module('auth').service('RestfulAuthService', ['$http','$q', 'REST_BASE_URL', function ($http, $q, base_url) {
+angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', 'REST_BASE_URL', function ($cookies,$http, $q, base_url) {
     var self = this;
 
     //define backend urls
@@ -34,6 +34,13 @@ angular.module('auth').service('RestfulAuthService', ['$http','$q', 'REST_BASE_U
     //Common values and methods
     var query_params = {params: {format: 'json'}};
 
+    //grab cookie info if its there
+    if($cookies.get('dentest_user')){
+        api_user = $cookies.getObject('dentest_user');
+        logged_in = true;
+        console.log(api_user);
+    }
+
     //===================================API METHODS===========================================================
     //===================================LOGIN=======================================
     self.login = function (username, password) {
@@ -49,8 +56,12 @@ angular.module('auth').service('RestfulAuthService', ['$http','$q', 'REST_BASE_U
                 api_user.last_name = response.data.last_name;
                 api_user_token = response.data.token;
                 //Add auth token to headers for all future requests
-                $http.defaults.headers.common['Authorization'] = api_user_token;
+                $http.defaults.headers.common['Authorization'] = "Token " + api_user_token;
                 logged_in = true;
+
+                //Set cookies
+                $cookies.putObject('dentest_user',api_user);
+
                 deferred.resolve(response.data);
             },function(response){
                 deferred.reject(response.data);
@@ -67,6 +78,7 @@ angular.module('auth').service('RestfulAuthService', ['$http','$q', 'REST_BASE_U
         api_user_token = null;
         $http.defaults.headers.common['Authorization'] = null;
         logged_in = false;
+        $cookies.remove('dentest_user');
     };
 
     //==================================REGISTRATION===================================
@@ -121,6 +133,7 @@ angular.module('auth').service('RestfulAuthService', ['$http','$q', 'REST_BASE_U
     //=================================CONFIRM EMAIL======================================
     self.confirm_email = function (email_confirm_details) {
         //Confirm an email address. Requires a username and key
+        console.log(email_confirm_details);
         var deferred = $q.defer();
         $http.post(api_urls.confirm_email, email_confirm_details, query_params)
             .then(function(response){

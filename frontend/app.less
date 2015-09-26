@@ -9,6 +9,7 @@
 @import "global_constants/global_constants.less";
 @import "partial/home-screen-partial/home-screen-partial.less";
 @import "partial/navbar/navbar.less";
+@import "partial/footer/footer.less";
 /* Add Component LESS Above */
 
 /* Required for Angular UI Bootstrap */
@@ -28,39 +29,36 @@
 
 
 
+//============================NAVBAR, FOOTER & BODY ==========================
+
+// Variables
+@footer-height: 40px;
+
 
 html {
   position: relative;
   min-height: 100%;
 }
-
-
-
-
-//============================NAVBAR, FOOTER & BODY ==========================
-
-// Variables
-// Alignment
-@navbar-height: 60px;
-@footer-height: 30px;
-@side-margin-width: 20px;
-
-//rules
 body {
   /* Margin bottom by footer height */
-  margin-bottom: @footer-height;
-  background-color: blue;
+  margin-bottom: 60px;
 }
 
-
-#content{
-
-}
-
-.footer {
-  //positioning
+footer {
   position: absolute;
+  bottom: 0;
   width: 100%;
+  /* Set the fixed height of the footer here */
   height: @footer-height;
-  text-align: center;
+  background-color: #f5f5f5;
+}
+
+main{
+  margin:auto;
+}
+.centered_content {
+  position: relative;
+  alignment: center;
+  margin: auto;
+
 }

@@ -3,3 +3,4 @@ from models import *
 # Register your models here.
 admin.site.register(EmailConfirmation)
 admin.site.register(EmailAddress)
+admin.site.register(PasswordReset)

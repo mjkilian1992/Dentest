@@ -14,8 +14,7 @@ angular.module('auth').controller('UpdateProfileFormCtrl',['$location','RestfulA
     self.update_profile = function(){
         RestfulAuthService.update_profile(self.user_details).then(
             function(){
-                self.user_details = RestfulAuthService.user_profile(); //Update form fields
-                alert('Details updated successfully!');
+                self.user_details = RestfulAuthService.user_profile(); //Update form field
                 self.edit_mode=false;
             },
             function(response){
@@ -30,7 +29,7 @@ angular.module('auth').controller('UpdateProfileFormCtrl',['$location','RestfulA
 
     self.allow_editing = function(){
         self.edit_mode = true;
-    }
+    };
 
 
 }]);

@@ -1,17 +1,18 @@
 <div class="col-md-12" ng-controller="EmailConfirmationFormCtrl as emlCnfmCtrl">
     <div ng-show="emlCnfmCtrl.non_field_errors.length <= 0">
         <form name="email_confirm_form" ng-submit="emlCnfmCtrl.confirm_email()">
+            <h4>Hit 'Confirm' to finish your email activation and start using Dentest!</h4>
             <div class="form-group">
-                <label for="email_confirm_submit">Hit 'Confirm' to complete your email activation:</label>
-                <input type="submit" value="Confirm">
+                <input class="btn btn-success" type="submit" value="Confirm">
             </div>
         </form>
     </div>
     <div ng-show="emlCnfmCtrl.non_field_errors.length > 0">
-        <h5>Oops! A problem occurred:</h5>
-        <ul ng-repeat="error in emlCnfmCtrl.non_field_errors">
-            <li>{{error}}</li>
-        </ul>
+        <h4>Oops! A problem occurred...</h4>
+        <p ng-repeat="error in emlCnfmCtrl.non_field_errors">
+            <span class="text-danger">{{error}}</span >
+        </p>
+        <p>Your email may already be confirmed. Try logging in. If this does not work, please visit our support page.</p>
     </div>
 
 </div>

@@ -73,7 +73,7 @@ class RestfulAuthTokenLoginTestCase(TestCase):
         response = self.client.post('/login/',incorrect,format='json')
         data = json.loads(response.content)
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
-        self.assertEqual('non_field_errors' in data)
+        self.assertTrue('non_field_errors' in data)
 
 
     def test_login_not_verified(self):

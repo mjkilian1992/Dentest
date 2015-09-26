@@ -1,6 +1,7 @@
-var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngAnimate', 'auth', 'questions', 'globalConstants']);
+var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute','ngCookies', 'ngAnimate', 'auth', 'questions', 'globalConstants']);
 
-angular.module('dentest').config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
+angular.module('dentest').config(['$routeProvider','$locationProvider',
+    function($routeProvider,$locationProvider) {
 
     /* -----------------ROUTING ----------------------*/
     /*------------------Routes------------------------*/
@@ -12,6 +13,19 @@ angular.module('dentest').config(['$routeProvider','$locationProvider', function
     $locationProvider.hashPrefix('!');
 
 }]);
+
+
+angular.module('dentest').run(['$rootScope','$location','RestfulAuthService',
+    function($rootScope,$location,RestfulAuthService){
+        //intercepts when a user tries to access restricted routes
+        $rootScope.$on('$routeChangeStart', function (event, next) {
+            var userAuthenticated = RestfulAuthService.is_logged_in(); /* Check if the user is logged in */
+            if (!userAuthenticated && next.restricted) {
+                $location.path('/signup');
+            }
+        });
+    }
+]);
 
 angular.module('dentest').run(function($rootScope) {
 

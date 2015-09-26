@@ -9,8 +9,7 @@
 </head>
 <body>
 
-  <!-- Livereload script for development only (stripped during dist build) -->
-  <script src="http://localhost:35729/livereload.js" data-concat="false"></script>
+
 
   <!-- JS from Bower Components -->
   <script src="bower_components/jquery/jquery.js"></script>
@@ -21,6 +20,7 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
   <!-- Add New Bower Component JS Above -->
@@ -44,28 +44,25 @@
   <script src="partial/navbar/navbar.js"></script>
   <!-- Add New Component JS Above -->
 
-  <div>
+<div id="everything_above_footer">
     <!------------------------------------ NAVBAR ------------------------------------>
     <div ng-include="'partial/navbar/navbar.html'"></div>
 
 
     <!-- ========================================= PAGE CONTENT ============================-->
-    <div id="content" class="container">
+    <main class="container">
       <div class="row">
         <div ng-view>
         </div>
       </div>
-    </div>
+    </main>
 
-
+</div>
       <!-- ==================================== FOOTER =====================================-->
-    <footer class="footer">
-      <div class="container">
-        <p class="text-muted">www.dentest.com</p>
-      </div>
+    <footer ng-include="'partial/footer/footer.html'">
+
     </footer>
 
-  </div>
 
 </body>
 </html>
