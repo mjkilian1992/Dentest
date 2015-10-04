@@ -9,7 +9,7 @@ angular.module('questions').config(function($routeProvider) {
         resolve: {
             default_page_size: ['QuestionService', function (QuestionService) {
                 //TODO Work out page size for users screen
-                QuestionService.set_page_size(50);
+                QuestionService.set_page_size(1);
             }],
         },
     });

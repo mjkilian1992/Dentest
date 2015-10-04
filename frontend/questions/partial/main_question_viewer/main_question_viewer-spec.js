@@ -19,8 +19,7 @@ describe('MainQuestionViewerCtrl', function () {
                 }
             ]
         };
-        ;
-    }
+    };
 
     var allQuestionsResponsePage2 = function (baseURL) {
         return {

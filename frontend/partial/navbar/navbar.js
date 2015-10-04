@@ -15,7 +15,7 @@ angular.module('dentest').controller('NavbarCtrl',['$location','RestfulAuthServi
     self.logout = function(){
         RestfulAuthService.logout();
         $location.path('/');
-    }
+    };
 
 
 }]);

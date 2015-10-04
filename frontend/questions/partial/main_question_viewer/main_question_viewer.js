@@ -9,7 +9,7 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
         self.topic = $routeParams.topic || 'All';
         self.subtopic = $routeParams.subtopic || 'All';
 
-
+        self.ui_page_number = 1;
 
         //Fetch questions
         self.retrieve_questions = function (page_number) {
@@ -56,6 +56,10 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
                 self.retrieve_questions(1);
             }
             return QuestionService.get_page_size();
+        };
+
+        self.no_of_items = function(){
+            return QuestionService.get_pagination_info().no_of_items;
         };
 
         self.no_of_pages = function () {

@@ -96,7 +96,7 @@ describe('QuestionService', function () {
                     restricted: false
                 }
             ]
-        }
+        };
     };
 
     var questionsBySubtopicResponsePage1 = {
@@ -291,6 +291,7 @@ describe('QuestionService', function () {
             mockBackend.flush();
             expect(qService.build_pagination_info).toHaveBeenCalledWith(1, questionsByTopicResponsePage1(baseURL));
             var page_info = qService.get_pagination_info();
+            expect(page_info.no_of_items).toEqual(3);
             expect(page_info.current_page_number).toEqual(1);
             expect(page_info.previous_page_number).toEqual(null);
             expect(page_info.next_page_number).toEqual(2);
@@ -428,6 +429,7 @@ describe('QuestionService', function () {
             mockBackend.flush();
             var pagination_info = qService.get_pagination_info();
             expect(pagination_info).toEqual({
+                no_of_items: 3,
                 no_of_pages: 3,
                 current_page_number: 1,
                 next_page_number: 2,

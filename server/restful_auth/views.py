@@ -43,19 +43,16 @@ class PasswordResetView(APIView):
 class PasswordResetConfirmView(APIView):
     """View which allows user to confirm their password reset, so the password can be changed"""
     def post(self,request,format=None):
-        print 'REQUEST: ' + str(request.data)
         try:
-            try:
-                user = User.objects.get(username=request.data['username'])
-            except ObjectDoesNotExist:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            serializer = PasswordResetConfirmSerializer(user,data=request.data,partial=True)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.validated_data,status=status.HTTP_200_OK)
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print 'EXCEPTION: ' + str(e.__class__)
+            user = User.objects.get(username=request.data['username'])
+        except ObjectDoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        serializer = PasswordResetConfirmSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserUpdateView(APIView):
     """View for updating the users profile. If their email is changed it must be confirmed"""

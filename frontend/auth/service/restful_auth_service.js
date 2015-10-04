@@ -37,7 +37,9 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
     //grab cookie info if its there
     if($cookies.get('dentest_user')){
         api_user = $cookies.getObject('dentest_user');
+        api_user_token = $cookies.getObject('dentest_token');
         logged_in = true;
+        $http.defaults.headers.common['Authorization'] = "Token " + api_user_token;
     }
 
     //===================================API METHODS===========================================================
@@ -60,6 +62,7 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
 
                 //Set cookies
                 $cookies.putObject('dentest_user',api_user);
+                $cookies.putObject('dentest_token',api_user_token);
 
                 deferred.resolve(response.data);
             },function(response){
@@ -78,6 +81,7 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
         $http.defaults.headers.common['Authorization'] = null;
         logged_in = false;
         $cookies.remove('dentest_user');
+        $cookies.remove('dentest_token');
     };
 
     //==================================REGISTRATION===================================

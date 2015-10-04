@@ -13,6 +13,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
     var page_size = 50; //Can replace this with clever method later
 
     var pagination_info = {
+        no_of_items: 0,
         no_of_pages: null,
         current_page_number: null,
         next_page_number: null,
@@ -36,6 +37,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
     };
 
     self.clear_pagination_info = function () {
+        pagination_info.no_of_items = 0;
         pagination_info.no_of_pages = null;
         pagination_info.current_page_number = null;
         pagination_info.next_page_number = null;
@@ -45,6 +47,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
     };
 
     self.build_pagination_info = function (request_page_number, response) {
+        pagination_info.no_of_items = response.count;
         pagination_info.next_page_link = response.next;
         pagination_info.previous_page_link = response.previous;
         pagination_info.current_page_number = request_page_number;

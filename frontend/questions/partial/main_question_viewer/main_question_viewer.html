@@ -1,4 +1,26 @@
-<div class="col-md-12" ng-controller="MainQuestionViewerCtrl">
+<div class="question-list" ng-controller="MainQuestionViewerCtrl as qCtrl">
+    <div></div>
+    <div class="question-box"  ng-repeat="question in qCtrl.questions">
+        <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
+            <div class="panel-heading">
+                <div ><strong><a href="#">{{question.subtopic.topic}}</a> ->
+                    <a href="#">{{question.subtopic.name}}</a></strong></div>
+                <div class="question-id-tag" ><strong>ID: <a href="#">{{question.id}}</a></strong></div>
+            </div>
+            <div class="panel-body">
+                <div class="question-text"><p>{{question.question}}</p></div>
 
+                <div ng-init="isCollapsed = true">
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="isCollapsed = !isCollapsed">Show Answer</button>
+                    <hr>
+                    <div collapse="isCollapsed">
+                        <div class="well well-sm"><div class="answer-text"><p>{{question.answer}}</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <pagination  ng-model="qCtrl.ui_page_number"  ng-change="qCtrl.retrieve_questions()"
+                class="pagination-sm" boundary-links="true" rotate="false" ></pagination>
 </div>
