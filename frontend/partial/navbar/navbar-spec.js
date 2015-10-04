@@ -31,8 +31,8 @@ describe('NavbarCtrl', function() {
 
      //Set up spies
     beforeEach(inject(function(RestfulAuthService){
-        spyOn(RestfulAuthService,'is_logged_in').andCallThrough();
-        spyOn(RestfulAuthService,'user_profile').andCallThrough();
+        spyOn(RestfulAuthService,'is_logged_in').and.callThrough();
+        spyOn(RestfulAuthService,'user_profile').and.callThrough();
         authService = RestfulAuthService;
     }));
 

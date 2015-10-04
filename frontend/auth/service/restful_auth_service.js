@@ -38,7 +38,6 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
     if($cookies.get('dentest_user')){
         api_user = $cookies.getObject('dentest_user');
         logged_in = true;
-        console.log(api_user);
     }
 
     //===================================API METHODS===========================================================
@@ -133,7 +132,6 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
     //=================================CONFIRM EMAIL======================================
     self.confirm_email = function (email_confirm_details) {
         //Confirm an email address. Requires a username and key
-        console.log(email_confirm_details);
         var deferred = $q.defer();
         $http.post(api_urls.confirm_email, email_confirm_details, query_params)
             .then(function(response){

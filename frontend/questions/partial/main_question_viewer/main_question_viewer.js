@@ -9,8 +9,10 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
         self.topic = $routeParams.topic || 'All';
         self.subtopic = $routeParams.subtopic || 'All';
 
+
+
         //Fetch questions
-        self.retrieve_questions = function retrieve_questions(page_number) {
+        self.retrieve_questions = function (page_number) {
             if (self.topic !== 'All' && self.subtopic !== 'All') {
                 QuestionService.getQuestionsBySubtopic(page_number, self.topic, self.subtopic).then(success, error);
             } else if (self.topic !== 'All' && self.subtopic === 'All') {
@@ -19,6 +21,9 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
                 QuestionService.getQuestions(page_number).then(success, error);
             }
         };
+
+        // ========================================= MAKE A CALL TO RETRIEVE QUESTIONS ON INSTANTIATION================
+        self.retrieve_questions(1);
 
         //Pagination Navigators
         self.next_page = function () {

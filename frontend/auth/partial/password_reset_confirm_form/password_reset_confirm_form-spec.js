@@ -16,7 +16,7 @@ describe('PasswordResetConfirmFormCtrl', function() {
             self.password_reset_confirm = function(reset_confirm_details){
                 var deferred = $q.defer();
                 var clause1 = reset_confirm_details.username === 'test1';
-                var clause2 = reset_confirm_details.token === '123456789';
+                var clause2 = reset_confirm_details.key=== '123456789';
                 var clause3 = reset_confirm_details.password1 === reset_confirm_details.password2;
                 var clause4 = password_re.test(reset_confirm_details.password1);
                 var clause5 = password_re.test(reset_confirm_details.password2);
@@ -44,7 +44,7 @@ describe('PasswordResetConfirmFormCtrl', function() {
 
     //Set up spies
     beforeEach(inject(function(RestfulAuthService){
-        spyOn(RestfulAuthService,'password_reset_confirm').andCallThrough();
+        spyOn(RestfulAuthService,'password_reset_confirm').and.callThrough();
         service = RestfulAuthService;
     }));
 
@@ -69,7 +69,7 @@ describe('PasswordResetConfirmFormCtrl', function() {
         //set location to include valid username and token
         _$location_.url('/password_reset_confirm/test1/123456789');
         routeParams.username = 'test1';
-        routeParams.token = '123456789';
+        routeParams.key = '123456789';
 
         ctrl.reset_confirm_details = {
             password1: 'Password123',
@@ -88,7 +88,7 @@ describe('PasswordResetConfirmFormCtrl', function() {
     it('should report all errors encountered if the confirm fails',function(){
         _$location_.url('/password_reset_confirm/test/sddf');
         routeParams.username = 'test';
-        routeParams.token = 'sddf';
+        routeParams.key = 'sddf';
 
         ctrl.reset_confirm_details = {
             password1: '',

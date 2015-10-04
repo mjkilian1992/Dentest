@@ -15,7 +15,7 @@ angular.module('auth').controller('RegistrationFormCtrl',['$location','RestfulAu
     self.register = function(){
         RestfulAuthService.register(self.registration_details).then(
             function(){
-                $location.path('/registration_success');
+                $location.path('/signup_success');
             },
             function(response){
                 self.username_errors = response.username || [];

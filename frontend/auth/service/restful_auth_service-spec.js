@@ -30,14 +30,15 @@ describe('RestfulAuthService',function(){
         baseURL = REST_BASE_URL;
         errors = null;
         mockBackend = $httpBackend;
-        spyOn(RestfulAuthService,'login').andCallThrough();
-        spyOn(RestfulAuthService,'logout').andCallThrough();
+        spyOn(RestfulAuthService,'login').and.callThrough();
+        spyOn(RestfulAuthService,'logout').and.callThrough();
         authservice = RestfulAuthService;
     }));
 
     afterEach(function(){
         mockBackend.verifyNoOutstandingExpectation();
         mockBackend.verifyNoOutstandingRequest();
+        authservice.logout(); //just clears all persistent state
     });
 
     //========================================LOGIN======================================================================
@@ -56,7 +57,7 @@ describe('RestfulAuthService',function(){
             expect(authservice.is_logged_in()).toBe(true);
             expect(authservice.user_profile()).toEqual(bronze_user);
             //expectation works because the header is set on the REAL http service
-            expect($http.defaults.headers.common['Authorization']).toEqual(bronze_token);
+            expect($http.defaults.headers.common['Authorization']).toEqual('Token ' + bronze_token);
         }));
 
         it("should return a list of errors if the credentials were incorrect",function(){
@@ -78,7 +79,7 @@ describe('RestfulAuthService',function(){
             mockBackend.flush();
             //Check preconditions
             expect(authservice.user_profile()).toEqual(bronze_user);
-            expect($http.defaults.headers.common['Authorization']).toEqual(bronze_token);
+            expect($http.defaults.headers.common['Authorization']).toEqual('Token ' + bronze_token);
             //Now check logout clears info
             authservice.logout();
             expect(authservice.is_logged_in()).toBe(false);

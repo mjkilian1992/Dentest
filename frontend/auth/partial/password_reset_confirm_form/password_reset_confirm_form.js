@@ -9,7 +9,7 @@ angular.module('auth').controller('PasswordResetConfirmFormCtrl',['$location','$
         //Username and token should be parsed out of URL by $routeProvider
         self.reset_confirm_details.username = $routeParams.username;
         self.reset_confirm_details.key = $routeParams.key;
-        console.log(self.reset_confirm_details);
+
         RestfulAuthService.password_reset_confirm(self.reset_confirm_details).then(
             function(){
                 $location.url('/');

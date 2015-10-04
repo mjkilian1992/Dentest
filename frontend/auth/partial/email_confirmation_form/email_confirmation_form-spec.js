@@ -26,7 +26,7 @@ describe('EmailConfirmationFormCtrl',function() {
 
     //Set up spies
     beforeEach(inject(function (RestfulAuthService) {
-        spyOn(RestfulAuthService, 'confirm_email').andCallThrough();
+        spyOn(RestfulAuthService, 'confirm_email').and.callThrough();
         service = RestfulAuthService;
     }));
 

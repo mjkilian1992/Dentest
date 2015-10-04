@@ -57,7 +57,7 @@ describe('UpdateProfileCtrl', function () {
 
     //Set up spies
     beforeEach(inject(function (RestfulAuthService) {
-        spyOn(RestfulAuthService, 'update_profile').andCallThrough();
+        spyOn(RestfulAuthService, 'update_profile').and.callThrough();
         service = RestfulAuthService;
     }));
 

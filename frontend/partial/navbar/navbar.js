@@ -6,7 +6,6 @@ angular.module('dentest').controller('NavbarCtrl',['$location','RestfulAuthServi
     self.get_username = function(){
         var api_user = RestfulAuthService.user_profile();
         if(api_user != null){
-            console.log('FETCH ON NAVBAR: ' + api_user['username']);
             return api_user['username'];
         }else{
             return null;

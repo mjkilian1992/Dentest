@@ -30,7 +30,7 @@ describe('LoginFormCtrl', function() {
 
     //Set up spies
     beforeEach(inject(function(RestfulAuthService){
-        spyOn(RestfulAuthService,'login').andCallThrough();
+        spyOn(RestfulAuthService,'login').and.callThrough();
         service = RestfulAuthService;
     }));
 

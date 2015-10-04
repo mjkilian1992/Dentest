@@ -31,7 +31,7 @@ describe('PasswordResetFormCtrl', function() {
 
     //Set up spies
     beforeEach(inject(function(RestfulAuthService){
-        spyOn(RestfulAuthService,'password_reset').andCallThrough();
+        spyOn(RestfulAuthService,'password_reset').and.callThrough();
         service = RestfulAuthService;
     }));
 
