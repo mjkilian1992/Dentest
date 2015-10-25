@@ -1,0 +1,30 @@
+<div class="col-md-12" ng-controller="TopicViewCtrl as tCtrl">
+    <div class="topic-box"  ng-hide="tCtrl.topic_not_found">
+        <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
+            <div class="panel-heading">
+                <div >
+                    <strong>
+                        <a ng-href="/topic/{{tCtrl.topic.name}}">{{tCtrl.topic.name}}</a>
+                    </strong>
+                    <strong class="right_justified_header_content">
+                        <a ng-href="/questions/{{tCtrl.topic.name}}">Show Questions</a>
+                    </strong>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="topic-text"><p>{{tCtrl.topic.description}}</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-danger" ng-show="tCtrl.topic_not_found">
+        <div class="panel-heading">
+            <h5>Topic does not exist!</h5>
+        </div>
+        <div class="panel-body">
+            <p>We cant find a topic with that name. If you are revisiting this weblink,
+                the topic may have been removed or renamed.</p>
+        </div>
+    </div>
+</div>

@@ -99,7 +99,9 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
     //========================API CONFIG==============================
     var api_urls = {
         topics: REST_BASE_URL + '/topics/',
+        single_topic: REST_BASE_URL + '/topic/',
         subtopics: REST_BASE_URL + '/subtopics/',
+        single_subtopic: REST_BASE_URL + '/subtopic/',
         questions: REST_BASE_URL + '/questions/',
         questions_by_topic: REST_BASE_URL + '/questions/by_topic/',
         questions_by_subtopic: REST_BASE_URL + '/questions/by_subtopic/',
@@ -119,6 +121,18 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         return deferred.promise;
     };
 
+    //====================GET SINGLE TOPIC============================
+    self.getTopic = function(topicName){
+        var deferred = $q.defer();
+        $http.get(api_urls.single_topic + topicName + '/?format=json')
+            .then(function (response) { //success
+                deferred.resolve(response.data);
+            }, function (response) { //failure
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    };
+
     //========================GET SUBTOPICS===========================
     self.getSubtopics = function (page_number) {
         var deferred = $q.defer();
@@ -126,6 +140,18 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
             .then(function (response) { //success
                 self.build_pagination_info(page_number, response.data);
                 deferred.resolve(response.data.results);
+            }, function (response) { //failure
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    };
+
+    //====================GET SINGLE SUBTOPIC============================
+    self.getSubtopic = function(topicName,subtopicName){
+        var deferred = $q.defer();
+        $http.get(api_urls.single_subtopic + topicName + '/' + subtopicName + '/?format=json')
+            .then(function (response) { //success
+                deferred.resolve(response.data);
             }, function (response) { //failure
                 deferred.reject(response.data);
             });

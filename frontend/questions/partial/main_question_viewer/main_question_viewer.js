@@ -10,9 +10,11 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
         self.subtopic = $routeParams.subtopic || 'All';
 
         self.ui_page_number = 1;
+        self.ui_total_items = null;
+        self.ui_page_size = null;
 
         //Fetch questions
-        self.retrieve_questions = function (page_number) {
+        var retrieve_questions = function (page_number) {
             if (self.topic !== 'All' && self.subtopic !== 'All') {
                 QuestionService.getQuestionsBySubtopic(page_number, self.topic, self.subtopic).then(success, error);
             } else if (self.topic !== 'All' && self.subtopic === 'All') {
@@ -22,8 +24,12 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
             }
         };
 
+        self.retrieve_questions = function(){
+            return retrieve_questions(self.ui_page_number);
+        };
+
         // ========================================= MAKE A CALL TO RETRIEVE QUESTIONS ON INSTANTIATION================
-        self.retrieve_questions(1);
+        self.retrieve_questions();
 
         //Pagination Navigators
         self.next_page = function () {
@@ -44,7 +50,8 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
 
         //Pagination Getters (state stored by QuestionService)
         self.current_page_number = function () {
-            return QuestionService.get_pagination_info().current_page_number;
+            self.ui_page_number = QuestionService.get_pagination_info().current_page_number;
+            return self.ui_page_number;
         };
 
         self.page_size = function (page_size) {
@@ -55,11 +62,13 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
                 QuestionService.set_page_size(page_size);
                 self.retrieve_questions(1);
             }
-            return QuestionService.get_page_size();
+            self.ui_page_size = QuestionService.get_page_size();
+            return self.ui_page_size;
         };
 
         self.no_of_items = function(){
-            return QuestionService.get_pagination_info().no_of_items;
+            self.ui_total_items = QuestionService.get_pagination_info().no_of_items;
+            return self.ui_total_items;
         };
 
         self.no_of_pages = function () {
@@ -68,14 +77,28 @@ angular.module('questions').controller('MainQuestionViewerCtrl', ['QuestionServi
 
         //convenience methods for handling responses
         function success(response) {
+            //synchronise page state
+            self.page_size();
+            self.no_of_items();
+            self.current_page_number();
+
             self.questions = response;
             self.errors = [];
         }
 
         function error(response) {
+            //synchronise page state
+            self.page_size();
+            self.no_of_items();
+            self.current_page_number();
+
             self.questions = [];
             self.errors = [];
         }
+
+
+
+
 
 
     }

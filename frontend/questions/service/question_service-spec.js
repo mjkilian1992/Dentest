@@ -127,6 +127,17 @@ describe('QuestionService', function () {
         restricted: false
     };
 
+    var singleTopicResponse = {
+        name: "Math",
+        description: "Numbers and stuff"
+    };
+
+    var singleSubtopicResponse = {
+        topic: "Math",
+        name: "Algebra",
+        description: "That thing where letters represent numbers."
+    };
+
 //================================TESTS START HERE==================================================
     beforeEach(module('questions'));
     beforeEach(module('globalConstants'));
@@ -205,6 +216,29 @@ describe('QuestionService', function () {
         });
     });
 
+    describe("Fetching a single Topic",function(){
+        it('should make a request to the correct API endpoint',function(){
+            mockBackend.expectGET(baseURL+'/topic/Math/?format=json').respond(200,singleTopicResponse);
+            qService.getTopic('Math').then(result_handler,result_handler);
+            mockBackend.flush();
+        });
+
+        it('should return a topic if it exists',function(){
+            mockBackend.expectGET(baseURL+'/topic/Math/?format=json').respond(200,singleTopicResponse);
+            qService.getTopic('Math').then(result_handler,result_handler);
+            mockBackend.flush();
+            expect(result).toEqual(singleTopicResponse);
+        });
+
+        it('should return an error if the requested topic does not exist',function(){
+            mockBackend.expectGET(baseURL+'/topic/Nonsense/?format=json').respond(404,{detail:'Not found.'});
+            qService.getTopic('Nonsense').then(result_handler,result_handler);
+            mockBackend.flush();
+            expect(result).toEqual({detail:'Not found.'});
+        });
+    });
+
+
     //======================================FETCHING SUBTOPICS===============================================
     describe('Fetching Subtopics', function () {
 
@@ -238,6 +272,28 @@ describe('QuestionService', function () {
             qService.getSubtopics(1).catch(result_handler);
             mockBackend.flush();
             expect(result).toEqual({errors: ['errors']});
+        });
+    });
+
+    describe("Fetching a single Subtopic",function(){
+        it('should make a request to the correct API endpoint',function(){
+            mockBackend.expectGET(baseURL+'/subtopic/Math/Algebra/?format=json').respond(200,singleSubtopicResponse);
+            qService.getSubtopic('Math','Algebra').then(result_handler,result_handler);
+            mockBackend.flush();
+        });
+
+        it('should return a subtopic if it exists',function(){
+            mockBackend.expectGET(baseURL+'/subtopic/Math/Algebra/?format=json').respond(200,singleSubtopicResponse);
+            qService.getSubtopic('Math','Algebra').then(result_handler,result_handler);
+            mockBackend.flush();
+            expect(result).toEqual(singleSubtopicResponse);
+        });
+
+        it('should return an error if the requested topic does not exist',function(){
+            mockBackend.expectGET(baseURL+'/subtopic/Math/Algebra/?format=json').respond(404,{detail:'Not found.'});
+            qService.getSubtopic('Math','Algebra').then(result_handler,result_handler);
+            mockBackend.flush();
+            expect(result).toEqual({detail:'Not found.'});
         });
     });
 

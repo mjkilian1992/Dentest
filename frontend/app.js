@@ -6,6 +6,7 @@ angular.module('dentest').config(['$routeProvider','$locationProvider',
     /* -----------------ROUTING ----------------------*/
     /*------------------Routes------------------------*/
     $routeProvider.when('/',{templateUrl: 'partial/home-screen-partial/home-screen-partial.html'});
+
     /* Add New Routes Above */
     $routeProvider.otherwise({redirectTo:'/'});
     /*------------------HTML5 Mode Conf---------------*/

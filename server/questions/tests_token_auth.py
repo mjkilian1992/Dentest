@@ -146,6 +146,27 @@ class QuestionAPITokenAuthTestCase(TestCase):
         self.assertTrue(Topic.objects.get(name='PostedTopic'))
 
 
+    def test_token_single_topic_retrieval_unauthenticated(self):
+        """Check that an unauthenticated user cannot access topics"""
+        response = self.client.get('/topic/Topic 1/', format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertTrue('detail' in data)
+
+    def test_token_single_topic_retrieval_authenticated(self):
+        """Check that an authenticated user can access a topic"""
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
+        response = self.client.get('/topic/Topic 1/', format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data['name'],'Topic 1')
+        self.assertEqual(data['description'],'The first topic.')
+
+
+
+
+
+
     def test_token_subtopic_retrieval_unauthenticated(self):
         """Check an unauthenticated user cant access Subtopics"""
         response = self.client.get('/subtopics/', format='json')
@@ -203,6 +224,25 @@ class QuestionAPITokenAuthTestCase(TestCase):
         response = self.client.post('/subtopics/', subtopic_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertTrue(Subtopic.objects.get(name='PostedSubtopic'))
+
+    def test_token_single_subtopic_retrieval_unauthenticated(self):
+        """Check that an unauthenticated user cannot access topics"""
+        response = self.client.get('/subtopic/Topic 1/Subtopic 1/', format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertTrue('detail' in data)
+
+    def test_token_single_subtopic_retrieval_authenticated(self):
+        """Check that an authenticated user can access a topic"""
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
+        response = self.client.get('/subtopic/Topic 1/Subtopic 1/', format='json')
+        data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data['topic'],'Topic 1')
+        self.assertEqual(data['name'],'Subtopic 1')
+        self.assertEqual(data['description'],'The first subtopic of topic 1.')
+
+
 
 
     def test_token_all_question_retrieval_unauthenticated(self):

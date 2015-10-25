@@ -1,4 +1,6 @@
 <!--======================  NAVBAR  ============================-->
+
+
 <nav class="navbar navbar-default" role="navigation" ng-controller="NavbarCtrl as navctrl">
 
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -26,12 +28,12 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
 
-    <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'" ng-click="navCollapsed = true">
+    <div class="collapse navbar-collapse" ng-class="{'in':!navCollapsed}" >
 
 
         <ul class="nav navbar-nav">
 
-            <li><a href="/questions">Questions</a></li>
+            <li><a href="/topic_choices">Questions</a></li>
 
             <li><a href="#">Quiz</a></li>
 
@@ -44,12 +46,11 @@
 
             <li class="active" ng-hide="navctrl.is_logged_in() == true"><a href="/signup">Sign Up</a></li>
 
-            <li class="dropdown" ng-show="navctrl.is_logged_in() == true">
-
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> {{navctrl.get_username()}} <b class="caret"></b></a>
-
-                <ul class="dropdown-menu">
-
+            <li uib-dropdown id="user-dropdown"\ ng-show="navctrl.is_logged_in() == true">
+                <a href uib-dropdown-toggle>
+                    {{navctrl.get_username()}}<b class="caret"></b>
+                </a>
+                <ul class="uib-dropdown-menu" aria-labelledby="user-dropdown">
                     <li><a href="/update_profile">Manage my user details</a></li>
 
                     <li><a href="/password_reset">Change password</a></li>
@@ -60,9 +61,7 @@
 
                     <li><a ng-click="navctrl.logout()">Logout</a></li>
                 </ul>
-
             </li>
-
         </ul>
 
     </div>

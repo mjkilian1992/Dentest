@@ -1,0 +1,55 @@
+<div class="col-md-12" ng-controller="QuestionByIdViewCtrl as qCtrl">
+    <h4  ng-hide="qCtrl.question_not_found|| qCtrl.question_restricted" >
+        Question {{qCtrl.question.id}}
+    </h4>
+
+    <div class="question-box"  ng-hide="qCtrl.question_not_found|| qCtrl.question_restricted">
+        <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
+            <div class="panel-heading">
+                <div >
+                    <strong>
+                        <a ng-href="/topic/{{qCtrl.question.subtopic.topic}}">
+                            {{qCtrl.question.subtopic.topic}}
+                        </a> ->
+                        <a href="/subtopic/{{qCtrl.question.subtopic.topic}}/{{qCtrl.question.subtopic.name}}">
+                            {{qCtrl.question.subtopic.name}}
+                        </a>
+                    </strong>
+                </div>
+                <div class="question-id-tag" ><strong>ID: <a ng-href="/question_no/{{qCtrl.question.id}}">{{qCtrl.question.id}}</a></strong></div>
+            </div>
+            <div class="panel-body">
+                <div class="question-text"><p>{{qCtrl.question.question}}</p></div>
+
+                <div ng-init="isCollapsed = true">
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="isCollapsed = !isCollapsed">Show Answer</button>
+                    <hr>
+                    <div collapse="isCollapsed">
+                        <div class="well well-sm"><div class="answer-text"><p>{{qCtrl.question.answer}}</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-danger" ng-show="qCtrl.question_not_found">
+        <div class="panel-heading">
+            <h5>Question does not exist!</h5>
+        </div>
+        <div class="panel-body">
+            <p>We cant find a question with that ID number. Please try another.</p>
+        </div>
+    </div>
+
+    <div class="panel panel-danger" ng-show="qCtrl.question_restricted">
+        <div class="panel-heading">
+            <h5>Sign up to our premium service</h5>
+        </div>
+        <div class="panel-body">
+            <p>This question is restricted to subscribed members. Please take out a Dentest subscription to view
+            this question.
+            </p>
+        </div>
+    </div>
+
+</div>

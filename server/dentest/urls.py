@@ -14,10 +14,12 @@ urlpatterns = patterns('',
     url(r'^questions/question_number/(?P<question_number>[0-9]{1,100})/$',
         q_views.QuestionRetrieveView.as_view()),
     url(r'questions/by_topic/(?P<topic>[\w ]{1,80})/$',q_views.QuestionsListByTopic.as_view()),
-    url(r'questions/by_subtopic/(?P<topic>[\w ]{0,80})/(?P<subtopic>[\w ]{1,255})/$',q_views.QuestionsListBySubtopic.as_view()),
+    url(r'questions/by_subtopic/(?P<topic>[\w ]{1,80})/(?P<subtopic>[\w ]{1,255})/$',q_views.QuestionsListBySubtopic.as_view()),
     url(r'^questions/$',q_views.QuestionListCreateView.as_view()),
     url(r'^topics/$',q_views.TopicView.as_view()),
+    url(r'^topic/(?P<topic_name>[\w ]{1,80})/$',q_views.TopicRetrieveView.as_view()),
     url(r'subtopics/$',q_views.SubtopicView.as_view()),
+    url(r'^subtopic/(?P<topic_name>[\w ]{1,80})/(?P<subtopic_name>[\w ]{1,255})/$',q_views.SubtopicRetrieveView.as_view()),
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
 
     # REST AUTH ENDPOINTS

@@ -1,0 +1,37 @@
+<div class="col-md-12" ng-controller="SubtopicViewCtrl as sCtrl">
+    <div class="subtopic-box"  ng-hide="sCtrl.subtopic_not_found">
+        <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
+            <div class="panel-heading">
+                <div >
+                    <strong>
+                        <a ng-href="/topic/{{sCtrl.subtopic.topic}}">
+                            {{sCtrl.subtopic.topic}}
+                        </a> ->
+                        <a href="/subtopic/{{sCtrl.subtopic.topic}}/{{sCtrl.subtopic.name}}">
+                            {{sCtrl.subtopic.name}}
+                        </a>
+                    </strong>
+                    <strong class="right_justified_header_content">
+                        <a ng-href="/questions/{{sCtrl.subtopic.topic}}/{{sCtrl.subtopic.name}}">Show Questions</a>
+                    </strong>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="topic-text"><p>{{sCtrl.subtopic.description}}</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-danger" ng-show="sCtrl.subtopic_not_found">
+        <div class="panel-heading">
+            <h5>Subtopic does not exist!</h5>
+        </div>
+        <div class="panel-body">
+            <p>We cant find a subtopic with that name. If you are revisiting this weblink,
+                the topic may have been removed or renamed.</p>
+        </div>
+    </div>
+</div>
+
+</div>
