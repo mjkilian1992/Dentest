@@ -1,7 +1,8 @@
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
-from rest_framework import permissions
+from rest_framework import permissions, status
+from rest_framework.response import Response
 from models import *
 from serializers import *
 from mixins import QuestionApiMixin
@@ -149,3 +150,22 @@ class QuestionsListBySubtopic(QuestionApiMixin, ListAPIView):
                 # but all questions in it are restricted
                 raise PermissionDenied
             return questions
+
+
+class QuestionsBySearch(QuestionApiMixin,ListAPIView):
+
+    def get_queryset(self):
+        search_terms = self.kwargs.get('search_terms',None)
+        if search_terms is None:
+            raise ValidationError("Must provide a search term")
+
+        if self.privileged_user():
+            questions = Question.objects.all()
+        else:
+            questions = Question.objects.filter(restricted=False)
+        relevant_questions = watson.filter(questions,search_terms)
+        if relevant_questions.exists():
+            return relevant_questions
+        else:
+            raise Http404
+

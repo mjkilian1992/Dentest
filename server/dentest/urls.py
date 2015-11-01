@@ -16,13 +16,15 @@ urlpatterns = patterns('',
     url(r'questions/by_topic/(?P<topic>[\w ]{1,80})/$',q_views.QuestionsListByTopic.as_view()),
     url(r'questions/by_subtopic/(?P<topic>[\w ]{1,80})/(?P<subtopic>[\w ]{1,255})/$',q_views.QuestionsListBySubtopic.as_view()),
     url(r'^questions/$',q_views.QuestionListCreateView.as_view()),
+    url(r'^questions_search/(?P<search_terms>.*)/$',q_views.QuestionsBySearch.as_view()),
     url(r'^topics/$',q_views.TopicView.as_view()),
     url(r'^topic/(?P<topic_name>[\w ]{1,80})/$',q_views.TopicRetrieveView.as_view()),
     url(r'subtopics/$',q_views.SubtopicView.as_view()),
     url(r'^subtopic/(?P<topic_name>[\w ]{1,80})/(?P<subtopic_name>[\w ]{1,255})/$',q_views.SubtopicRetrieveView.as_view()),
-    url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
+
 
     # REST AUTH ENDPOINTS
+    url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
     url(r'^login/$',auth_views.LoginView.as_view()),
     url(r'^register/$',auth_views.RegistrationView.as_view()),
     url(r'^confirm_email/$',auth_views.ConfirmEmailView.as_view()),

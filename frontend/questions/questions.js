@@ -54,6 +54,17 @@ angular.module('questions').config(function($routeProvider) {
         restricted: true
     });
 
+    $routeProvider.when('/question_search/:search_string',{
+        templateUrl: 'questions/partial/question_search/question_search.html',
+        resolve: {
+            default_page_size: ['QuestionService', function (QuestionService) {
+                //TODO Work out page size for users screen
+                QuestionService.set_page_size(50);
+            }],
+        },
+        restricted: true
+    });
+
     $routeProvider.when('/topic/:topic_name',{
         templateUrl: 'questions/partial/topic_view/topic_view.html',
         restricted: true

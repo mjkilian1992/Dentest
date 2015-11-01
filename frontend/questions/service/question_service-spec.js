@@ -216,25 +216,25 @@ describe('QuestionService', function () {
         });
     });
 
-    describe("Fetching a single Topic",function(){
-        it('should make a request to the correct API endpoint',function(){
-            mockBackend.expectGET(baseURL+'/topic/Math/?format=json').respond(200,singleTopicResponse);
-            qService.getTopic('Math').then(result_handler,result_handler);
+    describe("Fetching a single Topic", function () {
+        it('should make a request to the correct API endpoint', function () {
+            mockBackend.expectGET(baseURL + '/topic/Math/?format=json').respond(200, singleTopicResponse);
+            qService.getTopic('Math').then(result_handler, result_handler);
             mockBackend.flush();
         });
 
-        it('should return a topic if it exists',function(){
-            mockBackend.expectGET(baseURL+'/topic/Math/?format=json').respond(200,singleTopicResponse);
-            qService.getTopic('Math').then(result_handler,result_handler);
+        it('should return a topic if it exists', function () {
+            mockBackend.expectGET(baseURL + '/topic/Math/?format=json').respond(200, singleTopicResponse);
+            qService.getTopic('Math').then(result_handler, result_handler);
             mockBackend.flush();
             expect(result).toEqual(singleTopicResponse);
         });
 
-        it('should return an error if the requested topic does not exist',function(){
-            mockBackend.expectGET(baseURL+'/topic/Nonsense/?format=json').respond(404,{detail:'Not found.'});
-            qService.getTopic('Nonsense').then(result_handler,result_handler);
+        it('should return an error if the requested topic does not exist', function () {
+            mockBackend.expectGET(baseURL + '/topic/Nonsense/?format=json').respond(404, {detail: 'Not found.'});
+            qService.getTopic('Nonsense').then(result_handler, result_handler);
             mockBackend.flush();
-            expect(result).toEqual({detail:'Not found.'});
+            expect(result).toEqual({detail: 'Not found.'});
         });
     });
 
@@ -275,25 +275,25 @@ describe('QuestionService', function () {
         });
     });
 
-    describe("Fetching a single Subtopic",function(){
-        it('should make a request to the correct API endpoint',function(){
-            mockBackend.expectGET(baseURL+'/subtopic/Math/Algebra/?format=json').respond(200,singleSubtopicResponse);
-            qService.getSubtopic('Math','Algebra').then(result_handler,result_handler);
+    describe("Fetching a single Subtopic", function () {
+        it('should make a request to the correct API endpoint', function () {
+            mockBackend.expectGET(baseURL + '/subtopic/Math/Algebra/?format=json').respond(200, singleSubtopicResponse);
+            qService.getSubtopic('Math', 'Algebra').then(result_handler, result_handler);
             mockBackend.flush();
         });
 
-        it('should return a subtopic if it exists',function(){
-            mockBackend.expectGET(baseURL+'/subtopic/Math/Algebra/?format=json').respond(200,singleSubtopicResponse);
-            qService.getSubtopic('Math','Algebra').then(result_handler,result_handler);
+        it('should return a subtopic if it exists', function () {
+            mockBackend.expectGET(baseURL + '/subtopic/Math/Algebra/?format=json').respond(200, singleSubtopicResponse);
+            qService.getSubtopic('Math', 'Algebra').then(result_handler, result_handler);
             mockBackend.flush();
             expect(result).toEqual(singleSubtopicResponse);
         });
 
-        it('should return an error if the requested topic does not exist',function(){
-            mockBackend.expectGET(baseURL+'/subtopic/Math/Algebra/?format=json').respond(404,{detail:'Not found.'});
-            qService.getSubtopic('Math','Algebra').then(result_handler,result_handler);
+        it('should return an error if the requested topic does not exist', function () {
+            mockBackend.expectGET(baseURL + '/subtopic/Math/Algebra/?format=json').respond(404, {detail: 'Not found.'});
+            qService.getSubtopic('Math', 'Algebra').then(result_handler, result_handler);
             mockBackend.flush();
-            expect(result).toEqual({detail:'Not found.'});
+            expect(result).toEqual({detail: 'Not found.'});
         });
     });
 
@@ -435,6 +435,42 @@ describe('QuestionService', function () {
             qService.getQuestionByID(1).catch(result_handler);
             mockBackend.flush();
             expect(result).toEqual({errors: ['errors']});
+        });
+    });
+
+    describe("Searching for Questions", function () {
+        it("should point to the correct API endpoint", function () {
+            mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(200, {}); //response doesnt matter
+            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            mockBackend.flush();
+        });
+
+        it("should return a list of questions if the search matched something", function () {
+            mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(200, allQuestionsResponsePage1(baseURL));
+            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            mockBackend.flush();
+            expect(result).toEqual(allQuestionsResponsePage1(baseURL).results);
+
+        });
+
+        it("should build pagination info if request was successful", function () {
+            mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(200, allQuestionsResponsePage1(baseURL));
+            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            mockBackend.flush();
+            expect(qService.build_pagination_info).toHaveBeenCalledWith(1, allQuestionsResponsePage1(baseURL));
+            var page_info = qService.get_pagination_info();
+            expect(page_info.current_page_number).toEqual(1);
+            expect(page_info.previous_page_number).toEqual(null);
+            expect(page_info.next_page_number).toEqual(2);
+            expect(page_info.no_of_pages).toEqual(4);
+
+        });
+
+        it("should return an error if no questions matched", function () {
+            mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(404, {detail: 'Not found.'});
+            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            mockBackend.flush();
+            expect(result).toEqual({detail: 'Not found.'});
         });
     });
 

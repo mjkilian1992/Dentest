@@ -1,4 +1,7 @@
 from django.db import models
+
+import watson
+
 # Must be unicode! This is how they are stored in the database
 class Topic(models.Model):
     """Defines a top-level topic which acts as a root for a set of subtopics"""
@@ -45,3 +48,7 @@ class Question(models.Model):
     class Meta:
         ordering = ['subtopic','id']
         verbose_name_plural = 'Questions'
+
+
+# Register Watson Models
+watson.register(Question)

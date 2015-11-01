@@ -106,6 +106,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         questions_by_topic: REST_BASE_URL + '/questions/by_topic/',
         questions_by_subtopic: REST_BASE_URL + '/questions/by_subtopic/',
         question_by_id: REST_BASE_URL + '/questions/question_number/',
+        question_search: REST_BASE_URL + '/questions_search/',
     };
 
     //========================GET TOPICS==============================
@@ -211,5 +212,16 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         return deferred.promise;
     };
 
+    self.getQuestionsSearch = function(page_number,search_string) {
+        var deferred = $q.defer();
+        $http.get(api_urls.question_search + search_string + '/', {params: build_query_params(page_number, page_size)})
+            .then(function (response) { //success
+                self.build_pagination_info(page_number, response.data);
+                deferred.resolve(response.data.results);
+            }, function (response) { //failure
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    };
 
 }]);

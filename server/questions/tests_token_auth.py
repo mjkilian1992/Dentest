@@ -410,3 +410,17 @@ class QuestionAPITokenAuthTestCase(TestCase):
         self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.bronze_token.key)
         response = self.client.get('/questions/by_subtopic/Topic 2/Subtopic 4/', format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_token_search_question(self):
+        """Search should return some results if text matches"""
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.silver_token.key)
+
+        # should only return one question
+        response = self.client.get('/questions_search/Have I run out/',format='json')
+        data = json.loads(response.content)['results']
+        self.assertEqual(data[0]['question'],'Have I run out of questions?')
+        self.assertEqual(len(data),1)
+
+        # should return nothing
+        response = self.client.get('/questions_search/BlaBlaBla1233:::/',format='json')
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
