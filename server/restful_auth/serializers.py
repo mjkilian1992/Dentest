@@ -1,18 +1,14 @@
 from django.contrib.auth.models import User,Group
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import transaction
-from django.conf import settings
-from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from models import *
 from validators import *
 
-
-BASIC_GROUP = getattr(settings,'BASIC_GROUP_NAME')
 EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE')
 
 class UserModelSerializer(serializers.ModelSerializer):
+    """Serializer for Users. Any new fields should be added here"""
     email = serializers.EmailField(required=True)
     first_name = serializers.CharField(max_length=30,required=True)
     last_name = serializers.CharField(max_length=30,required=True)
@@ -60,7 +56,7 @@ class UserModelSerializer(serializers.ModelSerializer):
                                                 password=password,
                                                 first_name=first_name,
                                                 last_name=last_name)
-                group = Group.objects.get(name=BASIC_GROUP)
+                group = Group.objects.get(name="Free")
                 group.user_set.add(user)
                 emailaddress = EmailAddress(user=user,email=email)
                 user.save()
@@ -73,6 +69,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(AuthTokenSerializer):
+    """Serializer to handle RESFTFUL login. Checks the password provided and gives User their token"""
     password = serializers.CharField(required=True)
 
     def validate(self,attrs):
@@ -116,6 +113,7 @@ class RegistrationSerializer(UserModelSerializer):
         )
 
     def validate(self,attrs):
+        """In addition to checking user fields are acceptable, need to check passwords match"""
         password1 = attrs.get("password1",None)
         password2 = attrs.get("password2",None)
         if password1 is None or password2 is None:
@@ -155,6 +153,7 @@ class PasswordResetSerializer(serializers.Serializer):
             raise serializers.ValidationError('Incorrect details entered.')
 
     def create(self,validated_data):
+        """Create a new password reset request"""
         user = User.objects.get(username=validated_data['username'])
         try:
             with transaction.atomic():

@@ -1,4 +1,3 @@
-__author__ = 'mkilian'
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.template import loader
@@ -6,6 +5,7 @@ from django.template import loader
 
 def send_email(to_email, from_email, context, subject_template_name,
                plain_body_template_name, html_body_template_name=None):
+    """Used to send an email to the user"""
     subject = loader.render_to_string(subject_template_name, context)
     subject = ''.join(subject.splitlines())
     body = loader.render_to_string(plain_body_template_name, context)
@@ -17,6 +17,7 @@ def send_email(to_email, from_email, context, subject_template_name,
 
 
 def get_email_context(self, user):
+    """Pulls site settings together to splice into emails"""
     token = self.token_generator.make_token(user)
     uid = user.pk
     return {

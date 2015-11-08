@@ -1,12 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from restful_auth import views as auth_views
 from questions import generic_views as q_views
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'dentest.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 
@@ -22,13 +18,8 @@ urlpatterns = patterns('',
     url(r'subtopics/$',q_views.SubtopicView.as_view()),
     url(r'^subtopic/(?P<topic_name>[\w ]{1,80})/(?P<subtopic_name>[\w ]{1,255})/$',q_views.SubtopicRetrieveView.as_view()),
 
-
-    # REST AUTH ENDPOINTS
+    # REST Framework Authentication (only need to be able to log in to REST view
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
-    url(r'^login/$',auth_views.LoginView.as_view()),
-    url(r'^register/$',auth_views.RegistrationView.as_view()),
-    url(r'^confirm_email/$',auth_views.ConfirmEmailView.as_view()),
-    url(r'^password_reset/$',auth_views.PasswordResetView.as_view()),
-    url(r'^password_reset_confirm/$',auth_views.PasswordResetConfirmView.as_view()),
-    url(r'^update_profile/$',auth_views.UserUpdateView.as_view()),
+    # REST AUTH ENDPOINTS
+    url(r'',include('restful_auth.urls',namespace='restful_auth')),
 )

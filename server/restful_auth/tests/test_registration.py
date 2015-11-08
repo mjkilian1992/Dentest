@@ -1,18 +1,20 @@
 import json
+
 from django.test import TestCase
 from django.core import mail
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import Group
 from rest_framework.test import APIClient
 from rest_framework import status
-from rest_framework.authtoken.models import Token
+
 from ..models import *
+
 
 class RestfulAuthRegistrationTestCase(TestCase):
 
     def setUp(self):
-        self.bronze = Group(name='Bronze')
+        self.bronze = Group(name='Free')
         self.bronze.save()
-        self.silver = Group(name='Silver')
+        self.silver = Group(name='Premium')
         self.silver.save()
         self.user = User.objects.create_user('test',email='inuse@fake.com',password='GBG18H42,]bb')
         EmailAddress.objects.create(user=self.user,email='inuse@fake.com',verified=True)
@@ -39,6 +41,7 @@ class RestfulAuthRegistrationTestCase(TestCase):
         }
         response = self.client.post('/register/',test_data,format='json')
         self.assertEqual(response.status_code,status.HTTP_201_CREATED)
+
         user = User.objects.get(username__iexact='test1')
         self.assertEqual(user.email,'test@fake.com')
         self.assertEqual(user.get_full_name(),'michael kilian')

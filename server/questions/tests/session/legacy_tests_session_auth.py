@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User, Group
 from rest_framework.test import APIClient
 from rest_framework import status
-from models import *
+from questions.models import *
 
 #  Create your test_sessions here.
 

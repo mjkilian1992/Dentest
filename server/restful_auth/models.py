@@ -1,13 +1,11 @@
 import datetime
 import utils
-
 from django.db import models, transaction
 from django.contrib.auth.models import User
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.conf import settings
+from django_countries.fields import CountryField
 
 from managers import EmailConfirmationManager, PasswordResetManager
 from signal_receivers import * # Makes sure signal receivers are registered on startup
@@ -15,10 +13,14 @@ from signal_receivers import * # Makes sure signal receivers are registered on s
 EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE',True)
 EMAIL_EXPIRATION_DAYS = getattr(settings,'EMAIL_CONFIRMATION_DAYS_VALID')
 PASSWORD_RESET_EXPIRATION_DAYS = getattr(settings,'PASSWORD_RESET_DAYS_VALID')
+
 # Overrides basic User with whatever custom model is in use.
+class Profile(models.Model):
+    """Extended user model. Can add custom user attributes here"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    country_of_residence = CountryField()
 
-
-# Create your models here.
+#.
 class EmailAddress(models.Model):
     """
     A users email address.
@@ -146,6 +148,7 @@ class PasswordReset(models.Model):
 
 
     def send(self):
+        """ Send password reset email to the user who requested it"""
         context =  {
             'user':self.user,
             'domain': getattr(settings,'DOMAIN'),

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/frontend.iml" filepath="$PROJECT_DIR$/.idea/frontend.iml" />
       <module fileurl="file://$PROJECT_DIR$/../server/.idea/server.iml" filepath="$PROJECT_DIR$/../server/.idea/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../server_refactored/.idea/server_refactored.iml" filepath="$PROJECT_DIR$/../server_refactored/.idea/server_refactored.iml" />
     </modules>
   </component>
 </project>

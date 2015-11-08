@@ -1,4 +1,3 @@
-__author__ = 'mkilian'
 from django.contrib.auth.models import User
 from django.contrib.auth.backends import ModelBackend
 from django.db.models import Q
@@ -7,7 +6,7 @@ from django.db.models import Q
 class UsernameOrEmailBackend(ModelBackend):
 
     def authenticate(self, **credentials):
-        ret = None
+        """Try first to authenticate the user by email, then username"""
         ret = self._authenticate_by_email(**credentials)
         if not ret:
             ret = self._authenticate_by_username(**credentials)
@@ -15,6 +14,7 @@ class UsernameOrEmailBackend(ModelBackend):
 
 
     def _authenticate_by_username(self, **credentials):
+        """Authenticate the user by username"""
         username_field = 'username'
         username = credentials.get('username')
         password = credentials.get('password')
@@ -31,6 +31,7 @@ class UsernameOrEmailBackend(ModelBackend):
             return None
 
     def _authenticate_by_email(self, **credentials):
+        """Authenticate the user by email"""
         # Even though allauth will pass along `email`, other apps may
         # not respect this setting. For example, when using
         # django-tastypie basic authentication, the login is always

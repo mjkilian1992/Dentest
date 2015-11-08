@@ -1,16 +1,15 @@
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
-from rest_framework import permissions, status
-from rest_framework.response import Response
-from models import *
+from rest_framework import permissions
 from serializers import *
 from mixins import QuestionApiMixin
 from pagination import *
 
 
 class TopicView(ListCreateAPIView):
-
+    """Allows listing and creating of Topics"""
     serializer_class = TopicSerializer
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = ClientControllablePagination
@@ -24,9 +23,8 @@ class TopicView(ListCreateAPIView):
         serializer.save()
 
 
-
-
 class SubtopicView(ListCreateAPIView):
+    """Allows listing and creation of Subtopics"""
     serializer_class = SubtopicSerializer
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = ClientControllablePagination
@@ -41,12 +39,14 @@ class SubtopicView(ListCreateAPIView):
 
 
 class QuestionListCreateView(QuestionApiMixin, ListCreateAPIView):
+    """Allows list and creation of questions"""
+
     def get_queryset(self):
-        '''
+        """
         Show restricted questions only to Silver+ users. Questions can be
         accessed individually by question number or filtered by subtopic
         :return:
-        '''
+        """
 
         # No filtering. Just display all questions user has permissions for
         if self.privileged_user():
@@ -59,14 +59,16 @@ class QuestionListCreateView(QuestionApiMixin, ListCreateAPIView):
             raise PermissionDenied  # Need to raise forbidden if not staff member
         serializer.save()
 
+
 class TopicRetrieveView(RetrieveAPIView):
+    """Used for looking up a topic by name"""
     lookup_url_kwarg = 'topic_name'
 
     serializer_class = TopicSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_object(self):
-        '''Fetch a specfic topic by name'''
+        """Fetch a specfic topic by name"""
         try:
             topic = Topic.objects.get(pk=self.kwargs[self.lookup_url_kwarg])
         except:
@@ -75,6 +77,7 @@ class TopicRetrieveView(RetrieveAPIView):
 
 
 class SubtopicRetrieveView(RetrieveAPIView):
+    """Used for looking up a Subtopic by name"""
     serializer_class = SubtopicSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -83,17 +86,18 @@ class SubtopicRetrieveView(RetrieveAPIView):
         subtopic = self.kwargs.get('subtopic_name', None)
         '''Fetch a specfic subtopic by name'''
         try:
-            subtopic = Subtopic.objects.get(topic=topic,name=subtopic)
+            subtopic = Subtopic.objects.get(topic=topic, name=subtopic)
         except:
             raise Http404
         return subtopic
 
 
 class QuestionRetrieveView(QuestionApiMixin, RetrieveAPIView):
+    """Used for looking up a question by ID"""
     lookup_url_kwarg = 'question_number'
 
     def get_object(self):
-        '''If the user doesnt have permission to access the provided question, they are given 403 response'''
+        """If the user doesnt have permission to access the provided question, they are given 403 response"""
         try:
             question = Question.objects.get(pk=self.kwargs[self.lookup_url_kwarg])
         except:
@@ -105,6 +109,7 @@ class QuestionRetrieveView(QuestionApiMixin, RetrieveAPIView):
 
 
 class QuestionsListByTopic(QuestionApiMixin, ListAPIView):
+    """List all questions which belong to the named topic"""
     lookup_field = 'topic'
     lookup_url_kwarg = 'topic'
 
@@ -129,6 +134,8 @@ class QuestionsListByTopic(QuestionApiMixin, ListAPIView):
 
 
 class QuestionsListBySubtopic(QuestionApiMixin, ListAPIView):
+    """List all questions which belong to the named topic,subtopic pair"""
+
     def get_queryset(self):
         topic = self.kwargs.get('topic', None)
         subtopic = self.kwargs.get('subtopic', None)
@@ -152,10 +159,11 @@ class QuestionsListBySubtopic(QuestionApiMixin, ListAPIView):
             return questions
 
 
-class QuestionsBySearch(QuestionApiMixin,ListAPIView):
+class QuestionsBySearch(QuestionApiMixin, ListAPIView):
+    """Return questions which match user-provided search terms"""
 
     def get_queryset(self):
-        search_terms = self.kwargs.get('search_terms',None)
+        search_terms = self.kwargs.get('search_terms', None)
         if search_terms is None:
             raise ValidationError("Must provide a search term")
 
@@ -163,9 +171,8 @@ class QuestionsBySearch(QuestionApiMixin,ListAPIView):
             questions = Question.objects.all()
         else:
             questions = Question.objects.filter(restricted=False)
-        relevant_questions = watson.filter(questions,search_terms)
+        relevant_questions = watson.filter(questions, search_terms)
         if relevant_questions.exists():
             return relevant_questions
         else:
             raise Http404
-

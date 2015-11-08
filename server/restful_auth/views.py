@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
 from serializers import *
-# Create your views here.
+
 
 class RegistrationView(APIView):
     """View for handling user registration"""

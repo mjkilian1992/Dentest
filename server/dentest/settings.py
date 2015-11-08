@@ -46,51 +46,15 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'djoser',
     'watson',
+    'django_countries',
 
     #My Apps
     'questions',
     'restful_auth',
 )
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':(
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-}
 
-# Restful Auth Config
-USE_TZ = True # Allow timezones
-EMAIL_CONFIRMATION_DAYS_VALID = 3
-PASSWORD_RESET_DAYS_VALID = 3
-EMAIL_UNIQUE =True
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'restful_auth.backends.UsernameOrEmailBackend',
-)
-DOMAIN = 'localhost:9001'
-SITE_NAME = 'Dentest'
-PASSWORD_RESET_CONFIRM_URL = 'password_reset_confirm/{username}/{token}'
-ACTIVATION_URL = 'email_activation/{username}/{token}'
-DEFAULT_PROTOCOL = 'http'
-FROM_EMAIL = 'dentest.reg@gmail.com'
 
-# Password Requirements
-PASSWORD_MIN_LENGTH = 8
-
-PASSWORD_COMPLEXITY = { # You can omit any or all of these for no limit for that particular set
-    "UPPER": 1,        # Uppercase
-    "LOWER": 1,        # Lowercase
-    "LETTERS": 1,       # Either uppercase or lowercase letters
-    "DIGITS": 1,       # Digits
-    "PUNCTUATION": 1,  # Punctuation (string.punctuation)
-    #"SPECIAL": 1,      # Not alphanumeric, space or punctuation character
-    #"WORDS": 1         # Words (alphanumeric sequences separated by a whitespace or punctuation character)
-}
-
-TEMPLATE_DIRS = (
-    '/restful_auth/templates/',
-)
 
 #GROUPS CONFIG
 BASIC_GROUP_NAME = u'Bronze'
@@ -148,3 +112,48 @@ STATIC_URL = '/static/'
 
 # Email Config
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+}
+
+#===================================RESTFUL AUTH CONFIG===============================================================#
+
+# Site info
+USE_TZ = True # Allow timezones
+DOMAIN = 'localhost:9001'
+SITE_NAME = 'Dentest'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'restful_auth.backends.UsernameOrEmailBackend',
+)
+EMAIL_UNIQUE =True # Asserts that an email can only be used once for reg
+
+
+# email confirmations & password resets
+EMAIL_CONFIRMATION_DAYS_VALID = 3
+ACTIVATION_URL = 'email_activation/{username}/{token}'
+PASSWORD_RESET_DAYS_VALID = 3
+PASSWORD_RESET_CONFIRM_URL = 'password_reset_confirm/{username}/{token}'
+DEFAULT_PROTOCOL = 'http'
+FROM_EMAIL = 'dentest.reg@gmail.com'
+
+TEMPLATE_DIRS = (
+    '/restful_auth/templates/',
+)
+
+# Password Requirements
+PASSWORD_MIN_LENGTH = 8
+PASSWORD_COMPLEXITY = { # You can omit any or all of these for no limit for that particular set
+    "UPPER": 1,        # Uppercase
+    "LOWER": 1,        # Lowercase
+    "LETTERS": 1,       # Either uppercase or lowercase letters
+    "DIGITS": 1,       # Digits
+    "PUNCTUATION": 1,  # Punctuation (string.punctuation)
+    #"SPECIAL": 1,      # Not alphanumeric, space or punctuation character
+    #"WORDS": 1         # Words (alphanumeric sequences separated by a whitespace or punctuation character)
+}
