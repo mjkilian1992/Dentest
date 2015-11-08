@@ -204,13 +204,17 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
         """
         password1 = attrs.get("password1",None)
         password2 = attrs.get("password2",None)
+        key = attrs.get("key",None)
+
         if password1 is None or password2 is None:
             raise serializers.ValidationError("One or both passwords field(s) are empty.")
         if password1 != password2:
             raise serializers.ValidationError("Passwords do not match.")
+        if key is None:
+            raise serializers.ValidationError("Password reset key not provided to serializer")
         try:
             user = User.objects.get(username=attrs['username'])
-            reset = PasswordReset.objects.get(user=user)
+            reset = PasswordReset.objects.get(user=user,key=key)
         except ObjectDoesNotExist:
             raise serializers.ValidationError("User does not exist or has not requested a password reset.")
         if not reset.confirm(attrs['key']):

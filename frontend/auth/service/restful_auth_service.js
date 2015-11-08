@@ -152,8 +152,7 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
         var deferred = $q.defer();
         $http.put(api_urls.update_profile, user_details, query_params)
             .then(function (response) { //success
-                //will need to log the user out
-                self.logout();
+            self.api_user = user_details;
                 deferred.resolve(response.data);
             },function(response) {
                 deferred.reject(response.data);

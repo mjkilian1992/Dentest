@@ -40,6 +40,7 @@ class PasswordResetView(APIView):
             return Response(serializer.validated_data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 
+
 class PasswordResetConfirmView(APIView):
     """View which allows user to confirm their password reset, so the password can be changed"""
     def post(self,request,format=None):

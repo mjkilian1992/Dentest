@@ -1,4 +1,5 @@
-angular.module('auth').controller('EmailConfirmationFormCtrl', ['$location', '$routeParams','RestfulAuthService', function ($location, $routeParams, RestfulAuthService) {
+angular.module('auth').controller('EmailConfirmationFormCtrl', ['$location', '$routeParams','Notification','RestfulAuthService',
+ function ($location, $routeParams,Notification, RestfulAuthService) {
     var self = this;
 
     //errors
@@ -11,6 +12,10 @@ angular.module('auth').controller('EmailConfirmationFormCtrl', ['$location', '$r
         };
         RestfulAuthService.confirm_email(confirm_details).then(
             function () {
+                Notification.success({
+                    title: "Welcome " + confirm_details.username,
+                    message:"You account has been confirmed successfully. Please log in to continue.",
+                });
                 $location.url('/');
             },
             function (response) {

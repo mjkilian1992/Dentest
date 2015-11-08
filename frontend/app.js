@@ -1,7 +1,7 @@
-var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute','ngCookies', 'ngAnimate', 'auth', 'questions', 'globalConstants']);
+var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute','ngCookies', 'ngAnimate','ui-notification', 'auth', 'questions', 'globalConstants']);
 
-angular.module('dentest').config(['$routeProvider','$locationProvider',
-    function($routeProvider,$locationProvider) {
+angular.module('dentest').config(['$routeProvider','$locationProvider','NotificationProvider',
+    function($routeProvider,$locationProvider,NotificationProvider) {
 
     /* -----------------ROUTING ----------------------*/
     /*------------------Routes------------------------*/
@@ -13,9 +13,21 @@ angular.module('dentest').config(['$routeProvider','$locationProvider',
     $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('!');
 
+
+    /*-----------------Notification Cong------------*/
+    NotificationProvider.setOptions({
+        delay: 10000,
+        startTop: 60,
+        startRight: 10,
+        verticalSpacing: 20,
+        horizontalSpacing: 20,
+        positionX: 'left',
+        positionY: 'top'
+    });
+
 }]);
 
-
+//================================================RESTRICT ROUTING FOR ROUTE WHICH REQUIRE LOGIN======================/
 angular.module('dentest').run(['$rootScope','$location','RestfulAuthService',
     function($rootScope,$location,RestfulAuthService){
         //intercepts when a user tries to access restricted routes

@@ -1,4 +1,5 @@
-angular.module('auth').controller('UpdateProfileFormCtrl',['$location','RestfulAuthService',function($location,RestfulAuthService){
+angular.module('auth').controller('UpdateProfileFormCtrl',['$location','Notification','RestfulAuthService',
+function($location,Notification,RestfulAuthService){
     var self = this;
 
     //Instantiate fields with saved values for user
@@ -16,6 +17,10 @@ angular.module('auth').controller('UpdateProfileFormCtrl',['$location','RestfulA
             function(){
                 self.user_details = RestfulAuthService.user_profile(); //Update form field
                 self.edit_mode=false;
+                Notification.success({
+                    title:"Account details updated successfully",
+                    message:"Your details have been saved",
+                });
             },
             function(response){
                 self.username_errors = response.username || [];

@@ -1,4 +1,5 @@
-angular.module('auth').controller('PasswordResetConfirmFormCtrl',['$location','$routeParams','RestfulAuthService',function($location,$routeParams,RestfulAuthService){
+angular.module('auth').controller('PasswordResetConfirmFormCtrl',['$location','$routeParams'.'Notification','RestfulAuthService',
+function($location,$routeParams,Notification,RestfulAuthService){
     var self = this;
 
     self.password1_errors = [];
@@ -12,6 +13,10 @@ angular.module('auth').controller('PasswordResetConfirmFormCtrl',['$location','$
 
         RestfulAuthService.password_reset_confirm(self.reset_confirm_details).then(
             function(){
+                Notification.success({
+                    title:"Password reset successfully",
+                    message:"Your new password has been saved",
+                });
                 $location.url('/');
             },
             function(response){
