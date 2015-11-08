@@ -4,7 +4,8 @@ angular.module('auth',
         'ui.utils',
         'ngRoute',
         'ngAnimate',
-        'ngCookies'
+        'ngCookies',
+        'ui-notification',
     ]);
 
 angular.module('auth').config(function ($routeProvider) {

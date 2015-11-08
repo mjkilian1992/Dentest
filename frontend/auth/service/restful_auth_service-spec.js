@@ -117,13 +117,13 @@ describe('RestfulAuthService',function(){
     describe('Password Reset',function(){
         it("should make a request to the correct api endpoint",function(){
             mockBackend.expectPOST(baseURL + '/password_reset/?format=json').respond(201,{});
-            authservice.password_reset(bronze_user);
+            authservice.password_reset({username:bronze_user.username});
             mockBackend.flush();
         });
 
         it("should return error if invalid details were provided",function(){
             mockBackend.expectPOST(baseURL + '/password_reset/?format=json').respond(401,{'errors':[]});
-            authservice.password_reset(bronze_user).catch(error_handler);
+            authservice.password_reset({username:bronze_user.username}).catch(error_handler);
             mockBackend.flush();
             expect(errors).toEqual({'errors':[]});
         });
@@ -209,12 +209,5 @@ describe('RestfulAuthService',function(){
             expect(errors).toEqual({'errors':[]});
         });
 
-        it('should log the user out',function(){
-            mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(200,{});
-            authservice.update_profile(bronze_user);
-            mockBackend.flush();
-            expect(authservice.logout).toHaveBeenCalled();
-            expect(authservice.is_logged_in()).toBe(false);
-        });
     });
 });

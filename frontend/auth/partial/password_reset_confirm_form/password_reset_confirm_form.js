@@ -1,4 +1,4 @@
-angular.module('auth').controller('PasswordResetConfirmFormCtrl',['$location','$routeParams'.'Notification','RestfulAuthService',
+angular.module('auth').controller('PasswordResetConfirmFormCtrl',['$location','$routeParams','Notification','RestfulAuthService',
 function($location,$routeParams,Notification,RestfulAuthService){
     var self = this;
 

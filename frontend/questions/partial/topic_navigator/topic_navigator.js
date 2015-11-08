@@ -9,7 +9,6 @@ angular.module('questions').controller('TopicNavigatorCtrl', ['QuestionService',
         var structure_topics = function () {
             QuestionService.getSubtopics(1).then(
                 function (results) {
-                    console.log(results);
                     var temp_topic_list = {};
 
                     //strip out topics and subtopics
