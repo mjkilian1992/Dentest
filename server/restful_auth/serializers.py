@@ -128,17 +128,10 @@ class RegistrationSerializer(UserModelSerializer):
 class PasswordResetSerializer(serializers.Serializer):
     """Sends the user a password reset email if they fill in their details correctly"""
     username = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
-    first_name = serializers.CharField(max_length=30,required=True)
-    last_name = serializers.CharField(max_length=30,required=True)
     class Meta:
         fields = (
             'username',
-            'email',
-            'first_name',
-            'last_name',
         )
-
 
     def validate(self,attrs):
         """Checks all user data is entered correctly, then sends password"""
@@ -146,11 +139,7 @@ class PasswordResetSerializer(serializers.Serializer):
             user = User.objects.get(username=attrs['username'])
         except ObjectDoesNotExist:
             raise serializers.ValidationError('Username entered is wrong or does not exist.')
-        if user.email == attrs['email'] and user.first_name.lower() == attrs['first_name'].lower() and \
-            user.last_name.lower() == attrs['last_name'].lower():
-            return attrs
-        else:
-            raise serializers.ValidationError('Incorrect details entered.')
+        return attrs
 
     def create(self,validated_data):
         """Create a new password reset request"""
