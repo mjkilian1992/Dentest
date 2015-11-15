@@ -198,11 +198,11 @@ describe('RestfulAuthService',function(){
     describe('Profile Update',function(){
         it('should make a request to the correct api endpoint',function(){
             mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(200,{});
-            authservice.update_profile(bronze_user);
+            authservice.update_profile({});
             mockBackend.flush();
         });
 
-        it('should return errors if invalid details were provided',function(){
+        it('should return errors if invalid details were provided or username was included',function(){
             mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(400,{'errors':[]});
             authservice.update_profile(bronze_user).catch(error_handler);
             mockBackend.flush();

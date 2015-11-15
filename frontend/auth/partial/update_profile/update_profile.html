@@ -1,21 +1,5 @@
 <form name="update_profile_form" ng-controller="UpdateProfileFormCtrl as update_ctrl" ng-submit="update_ctrl.update_profile()">
-    <div class="form-group">
-        <label for="update_profile_form_username">Username</label>
-        <input type="text"
-               id="update_profile_form_username"
-               class="form-control"
-               name="update_profile_username"
-               ng-model="update_ctrl.user_details.username"
-               required
-               placeholder="Username"
-               ng-disabled="self.edit_mode === false">
-
-        <div class="errors">
-            <ul ng-repeat="error in update_ctrl.username_errors">
-                <li>{{error}}</li>
-            </ul>
-        </div>
-    </div>
+    <h4>Username: {{update_ctrl.user_details.username}}</h4>
 
     <div class="form-group">
         <label for="update_profile_form_email">Email</label>
@@ -26,7 +10,7 @@
                ng-model="update_ctrl.user_details.email"
                required
                placeholder="example@youremail.com"
-               ng-disabled="self.edit_mode === false">
+               ng-disabled="update_ctrl.edit_mode === false">
 
         <div class="errors">
             <ul ng-repeat="error in update_ctrl.email_errors">
@@ -43,7 +27,7 @@
                ng-model="update_ctrl.user_details.first_name"
                required
                placeholder="Joe"
-               ng-disabled="self.edit_mode === false">
+               ng-disabled="update_ctrl.edit_mode === false">
 
         <div class="errors">
             <ul ng-repeat="error in update_ctrl.first_name_errors">
@@ -61,7 +45,7 @@
                ng-model="update_ctrl.user_details.last_name"
                required
                placeholder="Bloggs"
-               ng-disabled="self.edit_mode === false">
+               ng-disabled="update_ctrl.edit_mode === false">
 
         <div class="errors">
             <ul ng-repeat="error in update_ctrl.last_name_errors">

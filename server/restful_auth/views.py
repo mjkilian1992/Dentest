@@ -59,6 +59,9 @@ class UserUpdateView(APIView):
     """View for updating the users profile. If their email is changed it must be confirmed"""
     permission_classes = (permissions.IsAuthenticated,)
     def put(self,request,format='json'):
+        # Dont want to allow change of username
+        if 'username' in request.data:
+            raise ValidationError("Change of username is not allowed")
         serializer = UserModelSerializer(request.user,data=request.data,partial=True)
         if serializer.is_valid():
             serializer.save()

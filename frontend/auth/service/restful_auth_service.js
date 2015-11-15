@@ -152,10 +152,11 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
         var deferred = $q.defer();
         $http.put(api_urls.update_profile, user_details, query_params)
             .then(function (response) { //success
-            self.api_user = user_details;
+                self.api_user = user_details;
                 deferred.resolve(response.data);
             },function(response) {
                 deferred.reject(response.data);
+                console.log(self.api_user);
             });
         return deferred.promise;
     };

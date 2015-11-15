@@ -17,7 +17,6 @@ class RestfulAuthProfileUpdateTestCase(TestCase):
         self.user = User.objects.create_user('test',email='inuse@fake.com',password='pass',first_name='Joe',last_name='Bloggs')
         EmailAddress.objects.create(user=self.user,email='inuse@fake.com',verified='True')
         self.original_details = {
-            'username':'test',
             'email':'inuse@fake.com',
             'first_name':'Joe',
             'last_name':'Bloggs',
@@ -35,39 +34,18 @@ class RestfulAuthProfileUpdateTestCase(TestCase):
         response = self.client.put('/update_profile/',self.original_details,format='json')
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
-    def test_username_update(self):
-        """A user can change their username so long as the new username isnt taken and is valid"""
-        # Check valid username is accepted
-        self.original_details['username'] = 'test1'
+    def test_disallow_username_update(self):
+        """A user should not be able to change their username (this uniquely identifies them"""
+        data = {
+            'username' : 'newUsername',
+            'email': 'newemail@fake.com',
+            'first_name': 'Steve',
+            'last_name': 'P',
+        }
         self.client.force_authenticate(user=self.user)
-        response = self.client.put('/update_profile/',self.original_details,format='json')
-        data = json.loads(response.content)
-        self.assertEqual(response.status_code,status.HTTP_200_OK)
-        self.assertEqual(data['username'],'test1')
-        self.assertEqual(len(User.objects.all()),1) # Should not create a new user
-        self.assertEqual(len(mail.outbox),0) # No verification email should be sent
-
-        # Check invalid username is rejected
-        self.original_details['username'] = '~~1234567890sdfghjkl;zxcvbnm,.sdfghjkl~~'
-        self.client.force_authenticate(user=self.user)
-        response = self.client.put('/update_profile/',self.original_details,format='json')
-        data = json.loads(response.content)
+        response = self.client.put('/update_profile/',data,format='json')
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
-        self.assertTrue('username' in data)
-        self.assertEqual(len(User.objects.all()),1) # Make sure account still exists
-        self.assertEqual(len(mail.outbox),0) # No verification email should be sent
-
-        # Check username which is already in use is reject
-        User.objects.create_user(username='test2')
-        self.assertEqual(len(User.objects.all()),2)
-        self.original_details['username'] = 'test2'
-        self.client.force_authenticate(user=self.user)
-        response = self.client.put('/update_profile/',self.original_details,format='json')
-        data = json.loads(response.content)
-        self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
-        self.assertTrue('username' in data)
-        self.assertEqual(len(User.objects.all()),2) # Make sure account still exists
-        self.assertEqual(len(mail.outbox),0) # No verification email should be sent
+        self.assertEqual(len(User.objects.all()),1) #No new user should be created
 
     def test_email_update(self):
         """A user can update their email to a new valid email. This email must be reconfirmed"""
@@ -116,7 +94,6 @@ class RestfulAuthProfileUpdateTestCase(TestCase):
         """Make sure that a complete update maintains the same user"""
         pk_before_change = self.user.pk
         data = {
-            'username':'test',
             'email': 'newemail@fake.com',
             'first_name': 'Steve',
             'last_name': 'P',
