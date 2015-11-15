@@ -210,4 +210,25 @@ describe('RestfulAuthService',function(){
         });
 
     });
+
+    //=========================================USER COOKIE==============================================================
+    describe('User Cookie',function(){
+        it("should be created at login",inject(function($cookies){
+            mockBackend.expectPOST(baseURL + '/login/?format=json').respond(200,bronze_login_response);
+            authservice.login('testBronze','zZ123##<>');
+            mockBackend.flush();
+            expect(authservice.is_logged_in()).toBe(true);
+            expect(authservice.user_profile()).toEqual(bronze_user);
+            expect($cookies.getObject('dentest_user')).toEqual(bronze_user);
+            expect($cookies.getObject('dentest_token')).toEqual(bronze_token);
+        }));
+
+        it("should be destroyed on logout",inject(function($cookies){
+            $cookies.putObject('dentest_user',{username:"test"});
+            $cookies.putObject('dentest_token',"sklgasdgaodf13r2etawerqedgserwrstwgergwhbrgnfpj");
+            authservice.logout();
+            expect($cookies.getObject('dentest_user')).toEqual(undefined);
+            expect($cookies.getObject('dentest_token')).toEqual(undefined);
+        }));
+    });
 });

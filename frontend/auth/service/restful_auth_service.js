@@ -12,6 +12,7 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
         confirm_email: base_url + '/confirm_email/',
         update_profile: base_url + '/update_profile/',
     };
+
     //hold user credentials to be accessed
     var api_user = {
         username: null,

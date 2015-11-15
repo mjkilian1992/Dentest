@@ -110,7 +110,6 @@ describe('UpdateProfileCtrl', function () {
             last_name: 'IsThis',
         });
 
-        expect(ctrl.username_errors).toEqual([]);
         expect(ctrl.email_errors).toEqual([]);
         expect(ctrl.first_name_errors).toEqual([]);
         expect(ctrl.last_name_errors).toEqual([]);
@@ -130,7 +129,6 @@ describe('UpdateProfileCtrl', function () {
         _$rootScope_.$apply(); //Force promises to be return
 
         expect(service.update_profile).toHaveBeenCalled();
-        expect(ctrl.username_errors).toEqual(['This is not a valid username.']);
         expect(ctrl.email_errors).toEqual([]);
         expect(ctrl.first_name_errors).toEqual(['This is not a valid first name.']);
         expect(ctrl.last_name_errors).toEqual(['This is not a valid last name.']);
