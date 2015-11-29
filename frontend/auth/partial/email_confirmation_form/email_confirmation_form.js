@@ -16,7 +16,7 @@ angular.module('auth').controller('EmailConfirmationFormCtrl', ['$location', '$r
                     title: "Welcome " + confirm_details.username,
                     message:"You account has been confirmed successfully. Please log in to continue.",
                 });
-                $location.url('/');
+                $location.path('/');
             },
             function (response) {
                 self.non_field_errors = response.non_field_errors || [];

@@ -1,0 +1,16 @@
+<div class="col-md-12" ng-controller="SelectContentCtrl as sCtrl">
+    <div style="font-size:larger">
+        <div ng-repeat="topic in sCtrl.topic_list">
+                {{topic.topic}}  <input type="checkbox" ng-model="topic.include" ng-change="sCtrl.selectTopic(topic.topic)" />
+                <br/>
+                <ul>
+                    <li ng-repeat="subtopic in topic.subtopics">
+                        <!-- add ng-change to get realtime updates -->
+                         {{ subtopic.name }} <input type="checkbox" ng-model="subtopic.include" >
+                    </li>
+                </ul>
+        </div>
+
+</div>
+
+

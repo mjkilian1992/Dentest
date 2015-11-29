@@ -1,4 +1,4 @@
-var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute','ngCookies', 'ngAnimate','ui-notification', 'auth', 'questions', 'globalConstants']);
+var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngCookies', 'ngAnimate', 'ui-notification', 'auth', 'questions', 'globalConstants', 'quiz']);
 
 angular.module('dentest').config(['$routeProvider','$locationProvider','NotificationProvider',
     function($routeProvider,$locationProvider,NotificationProvider) {

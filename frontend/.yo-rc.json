@@ -18,6 +18,20 @@
         "marker": "/* Add Component LESS Above */",
         "template": "@import \"<%= filename %>\";"
       }
-    }
+    },
+    "modules": [
+      {
+        "name": "quiz",
+        "file": "quiz/quiz.js"
+      },
+      {
+        "name": "auth",
+        "file": "auth/auth.js"
+      },
+      {
+        "name": "questions",
+        "file": "questions/questions.js"
+      }
+    ]
   }
 }

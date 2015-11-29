@@ -159,6 +159,33 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         return deferred.promise;
     };
 
+    //=====================PROCESS SUBTOPICS INTO HIERARCHY==============
+    self.structureSubtopicsHierarchically = function(getSubtopicsResponse){
+        /*Processes the response of a getSubtopics call into a hierarchical grouping where subtopics are below topics*/
+        var temp_topic_list = {};
+        var topic_list = [];
+        var results = getSubtopicsResponse;
+
+        //strip out topics and subtopics
+        for (var i = 0; i < results.length; i++) {
+            var topic = results[i].topic;
+            if (topic in temp_topic_list) {
+                temp_topic_list[topic].push(results[i].name);
+            } else {
+                temp_topic_list[topic] = [results[i].name];
+            }
+        }
+
+        //now build into a list of objects
+        for(topic in temp_topic_list){
+            var top_obj = {};
+            top_obj.topic = topic;
+            top_obj.subtopics = temp_topic_list[topic];
+            topic_list.push(top_obj);
+        }
+        return topic_list;
+    }
+
     //=========================GET QUESTIONS==========================
     self.getQuestions = function (page_number) {
         var deferred = $q.defer();
