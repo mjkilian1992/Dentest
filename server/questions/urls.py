@@ -3,6 +3,7 @@ from questions import generic_views as views
 from questions import views as single_views
 urlpatterns = patterns('',
 
+
     # ========================QUESTION VIEWS==========================================================================#
     # Fetch question by ID
     url(r'^questions/question_number/(?P<question_number>[0-9]{1,100})/$',
@@ -27,5 +28,5 @@ urlpatterns = patterns('',
     url(r'subtopics/$',views.SubtopicView.as_view()),
     url(r'^subtopic/(?P<topic_name>[\w ]{1,80})/(?P<subtopic_name>[\w ]{1,255})/$',views.SubtopicRetrieveView.as_view()),
 
-    url(r'^quiz/$',single_views.QuizView.as_view()),
+
 )

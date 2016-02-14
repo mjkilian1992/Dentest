@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from questions import generic_views as q_views
+from questions import views as single_q_views
 
 urlpatterns = patterns('',
 
@@ -17,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^topic/(?P<topic_name>[\w ]{1,80})/$',q_views.TopicRetrieveView.as_view()),
     url(r'subtopics/$',q_views.SubtopicView.as_view()),
     url(r'^subtopic/(?P<topic_name>[\w ]{1,80})/(?P<subtopic_name>[\w ]{1,255})/$',q_views.SubtopicRetrieveView.as_view()),
-
+    url(r'^quiz/$',single_q_views.QuizView.as_view()),
     # REST Framework Authentication (only need to be able to log in to REST view
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
     # REST AUTH ENDPOINTS

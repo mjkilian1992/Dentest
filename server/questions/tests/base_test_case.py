@@ -72,7 +72,7 @@ class BaseQuestionAPITestCase(TestCase):
                                      restricted=False)
         q2 = Question.objects.create(id=2,
                                      question='What app is this?',
-                                     answer='Dentest_token',
+                                     answer='Dentest',
                                      subtopic=s1,
                                      restricted=True)
         q3 = Question.objects.create(id=3,

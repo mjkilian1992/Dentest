@@ -14,7 +14,7 @@ class QuizView(APIView):
 
     def post(self,request,format=None):
         # Get raw questions
-        topic_list = json.loads(request.data['topic_list'])
+        topic_list = request.data['topic_list']
         max_questions = int(request.data['max_questions'])
         enough_questions_available = True
 
@@ -22,7 +22,7 @@ class QuizView(APIView):
         total_questions_available = 0
         questions_available_per_topic = []
         for topic in topic_list:
-            subtopic = Subtopic.objects.get(topic=topic.topic,subtopic=topic.subtopic)
+            subtopic = Subtopic.objects.get(topic=topic['topic'],name=topic['subtopic'])
             questions = Question.objects.filter(subtopic=subtopic)
             count = questions.count()
             total_questions_available += count
@@ -36,35 +36,31 @@ class QuizView(APIView):
 
         # Redistribute based on limits
         # Reduce questions required for topics with too few questions
-        questions_per_topic = [target_questions_per_topic * len(topic_list)]
+        questions_per_topic = [target_questions_per_topic] * len(topic_list)
         questions_left_to_assign = max_questions
-        for c in enumerate(questions_per_topic):
-            index = c[0]
-            questions_for_topic = c[1]
-            if questions_per_topic > questions_available_per_topic:
+        for index,questions_for_topic in enumerate(questions_per_topic):
+            if questions_per_topic[index] > questions_available_per_topic[index]:
                 questions_per_topic[index] = questions_available_per_topic[index]
-                questions_left_to_assign -=  questions_available_per_topic[index]
+            questions_left_to_assign -=  questions_per_topic[index]
 
         # Now try to add questions for other topics
         while questions_left_to_assign > 0:
-            for qNo in enumerate(questions_per_topic):
-                if qNo[1] < questions_available_per_topic[qNo[0]]:
-                    questions_per_topic[qNo[0]] += 1
+            for index, qNo in enumerate(questions_per_topic):
+                if qNo < questions_available_per_topic[index]:
+                    questions_per_topic[index] += 1
                     questions_left_to_assign -= 1
                     if questions_left_to_assign == 0:
                         break;
-            if questions_left_to_assign == 0:
-                break;
 
         # Now combine topic list with questions for each
         topics_and_question_numbers = zip(topic_list,questions_per_topic)
 
         # build queryset
         queryset = []
-        for t in topics_and_question_numbers:
-            subtopic = Subtopic.objects.get(topic=t[1].topic,subtopic=t[1].subtopic)
+        for topic,number_of_questions in topics_and_question_numbers:
+            subtopic = Subtopic.objects.get(topic=topic['topic'],name=topic['subtopic'])
             questions = Question.objects.filter(subtopic=subtopic).order_by('?')
-            queryset = list(chain(queryset, questions[0:t[1]]))
+            queryset = list(chain(queryset, questions[0:number_of_questions]))
 
         serializer = QuestionSerializer(queryset, many=True)
         return Response(serializer.data)
