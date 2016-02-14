@@ -21,7 +21,6 @@ angular.module('quiz').controller('SelectContentCtrl',['QuestionService',functio
             topic_obj.include = false;
         }
         self.topic_list = temp_topic_list;
-        console.log(self.topic_list);
     },
     function(results){
         self.topic_list = [];
@@ -29,15 +28,14 @@ angular.module('quiz').controller('SelectContentCtrl',['QuestionService',functio
     });
 
 
-    /* When a topic is selected for inclusion, it should include/uninclude all of its subtopics. This method acheives this.*/
-    self.selectTopic = function(topic_name){
+    /* When a topic is selected for inclusion, it should include/uninclude all of its subtopics. This method achieves this.*/
+    self.selectSubtopicsOfTopic = function(topic_name){
         angular.forEach(self.topic_list, function(topic_obj){
             if(topic_obj.topic===topic_name){
                 //Change all subtopics to match new topic inclusion value
                 angular.forEach(topic_obj.subtopics, function(subtopic_obj){
                     subtopic_obj.include = topic_obj.include;
                 });
-                return;
             }
         });
 

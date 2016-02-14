@@ -251,4 +251,8 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         return deferred.promise;
     };
 
+    self.getQuizByTopics = function(topic_list,total_questions){
+        var deferred = $q.defer();
+
+    }
 }]);

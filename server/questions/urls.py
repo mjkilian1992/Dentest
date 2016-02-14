@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from questions import generic_views as views
-
+from questions import views as single_views
 urlpatterns = patterns('',
 
     # ========================QUESTION VIEWS==========================================================================#
@@ -27,4 +27,5 @@ urlpatterns = patterns('',
     url(r'subtopics/$',views.SubtopicView.as_view()),
     url(r'^subtopic/(?P<topic_name>[\w ]{1,80})/(?P<subtopic_name>[\w ]{1,255})/$',views.SubtopicRetrieveView.as_view()),
 
+    url(r'^quiz/$',single_views.QuizView.as_view()),
 )
