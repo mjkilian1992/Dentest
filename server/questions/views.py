@@ -1,5 +1,6 @@
 import json
 from itertools import chain
+from rest_framework.exceptions import ValidationError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -16,7 +17,10 @@ class QuizView(APIView):
         # Get raw questions
         topic_list = request.data['topic_list']
         max_questions = int(request.data['max_questions'])
-        enough_questions_available = True
+
+        # Catch empty topic list
+        if len(topic_list) < 1:
+            raise ValidationError("Topic list provided was empty");
 
         # Work out the max number of questions available in database per topic
         total_questions_available = 0
@@ -32,6 +36,7 @@ class QuizView(APIView):
         if total_questions_available < max_questions:
             max_questions = total_questions_available
             enough_questions_available = False
+
         target_questions_per_topic = max_questions / len(topic_list)
 
         # Redistribute based on limits

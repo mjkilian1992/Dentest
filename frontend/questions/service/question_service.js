@@ -107,6 +107,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         questions_by_subtopic: REST_BASE_URL + '/questions/by_subtopic/',
         question_by_id: REST_BASE_URL + '/questions/question_number/',
         question_search: REST_BASE_URL + '/questions_search/',
+        quiz: REST_BASE_URL + '/quiz/'
     };
 
     //========================GET TOPICS==============================
@@ -147,6 +148,17 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         return deferred.promise;
     };
 
+    self.getAllSubtopics = function(){
+        var deferred = $q.defer();
+        $http.get(api_urls.subtopics, {params: build_query_params(1, 1000000)})
+            .then(function (response) { //success
+                deferred.resolve(response.data.results);
+            }, function (response) { //failure
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    }
+
     //====================GET SINGLE SUBTOPIC============================
     self.getSubtopic = function(topicName,subtopicName){
         var deferred = $q.defer();
@@ -159,7 +171,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         return deferred.promise;
     };
 
-    //=====================PROCESS SUBTOPICS INTO HIERARCHY==============
+     //=====================PROCESS SUBTOPICS INTO HIERARCHY==============
     self.structureSubtopicsHierarchically = function(getSubtopicsResponse){
         /*Processes the response of a getSubtopics call into a hierarchical grouping where subtopics are below topics*/
         var temp_topic_list = {};
@@ -184,7 +196,9 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
             topic_list.push(top_obj);
         }
         return topic_list;
-    }
+    };
+
+
 
     //=========================GET QUESTIONS==========================
     self.getQuestions = function (page_number) {
@@ -251,8 +265,16 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         return deferred.promise;
     };
 
-    self.getQuizByTopics = function(topic_list,total_questions){
+    self.getQuizByTopics = function(topic_list,max_questions){
         var deferred = $q.defer();
+        console.log(topic_list);
+        $http.post(api_urls.quiz + '?format=json', {topic_list:topic_list,max_questions:max_questions})
+            .then(function(response){
+                deferred.resolve(response.data);
+            },    function(response){
+                deferred.reject(response.data);
+            });
+        return deferred.promise;
+    };
 
-    }
 }]);

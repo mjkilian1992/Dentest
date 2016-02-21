@@ -1,7 +1,7 @@
 <div class="col-md-12" ng-controller="SelectContentCtrl as sCtrl">
     <div style="font-size:larger">
         <div ng-repeat="topic in sCtrl.topic_list">
-                {{topic.topic}}  <input type="checkbox" ng-model="topic.include" ng-change="sCtrl.selectSubtopicOfTopic(topic.topic)" />
+                {{topic.topic}}  <input type="checkbox" ng-model="topic.include" ng-change="sCtrl.selectSubtopicsOfTopic(topic.topic)" />
                 <br/>
                 <ul>
                     <li ng-repeat="subtopic in topic.subtopics">
@@ -10,6 +10,12 @@
                     </li>
                 </ul>
         </div>
+    </div>
+    <div>
+        <label>Max Questions</label>
+        <input type="number" ng-value="sCtrl.maxQuestions" min="10" max="100">
+    </div>
+    <btn class="btn btn-primary" ng-click="sCtrl.generateNewQuiz()">Confirm</btn>
 
 </div>
 
