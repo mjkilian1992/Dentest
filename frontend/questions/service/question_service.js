@@ -267,7 +267,6 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
 
     self.getQuizByTopics = function(topic_list,max_questions){
         var deferred = $q.defer();
-        console.log(topic_list);
         $http.post(api_urls.quiz + '?format=json', {topic_list:topic_list,max_questions:max_questions})
             .then(function(response){
                 deferred.resolve(response.data);

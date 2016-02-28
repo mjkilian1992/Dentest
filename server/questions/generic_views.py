@@ -154,7 +154,7 @@ class QuestionsListBySubtopic(QuestionApiMixin, ListAPIView):
 
             if not questions.exists():
                 # Catch case where subtopic exists,
-                # but all questions in it are restricted
+                # but all qu`estions in it are restricted
                 raise PermissionDenied
             return questions
 

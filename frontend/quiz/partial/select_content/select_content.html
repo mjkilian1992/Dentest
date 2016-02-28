@@ -1,13 +1,21 @@
 <div class="col-md-12" ng-controller="SelectContentCtrl as sCtrl">
+    <h4>Select Quiz Content</h4>
+    <p>Choose a set of topics and a maximum number of questions in your quiz. Dentest will do it's best to create
+    a quiz containing a random set of questions distributed among the chosen topics. If the topics you select
+    dont contain enough questions between them to satisfy the maximum questions you desire, Dentest will return all
+    questions from the selected topics.</p>
+    <br/>
+
     <div style="font-size:larger">
         <div ng-repeat="topic in sCtrl.topic_list">
-                {{topic.topic}}  <input type="checkbox" ng-model="topic.include" ng-change="sCtrl.selectSubtopicsOfTopic(topic.topic)" />
+                <label>{{topic.topic}}</label> <input type="checkbox" ng-model="topic.include" ng-change="sCtrl.selectSubtopicsOfTopic(topic.topic)" />
                 <br/>
                 <ul>
                     <li ng-repeat="subtopic in topic.subtopics">
                         <!-- add ng-change to get realtime updates -->
-                         {{ subtopic.name }} <input type="checkbox" ng-model="subtopic.include" >
+                         <label>{{ subtopic.name }}</label> <input type="checkbox" ng-model="subtopic.include" >
                     </li>
+                    <br/>
                 </ul>
         </div>
     </div>
@@ -15,6 +23,7 @@
         <label>Max Questions</label>
         <input type="number" ng-value="sCtrl.maxQuestions" min="10" max="100">
     </div>
+    <br/>
     <btn class="btn btn-primary" ng-click="sCtrl.generateNewQuiz()">Confirm</btn>
 
 </div>

@@ -6,12 +6,9 @@ angular.module('questions').service('TopicSelectionService',['QuestionService','
 
     /* Fetch a fresh topic list from the server */
     self.getCleanTopicList = function(){
-        console.log("Clean Topic List Called");
         var deferred = $q.defer();
         QuestionService.getAllSubtopics().then(function(results){
             var temp_topic_list = QuestionService.structureSubtopicsHierarchically(results);
-            console.log("TEMP");
-            console.log(temp_topic_list);
             //need to add a boolean field to each one for checkbox effect
             for( var i =0; i < temp_topic_list.length; i++) {
                 var topic_obj = temp_topic_list[i];

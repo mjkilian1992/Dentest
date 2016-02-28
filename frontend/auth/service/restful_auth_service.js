@@ -151,13 +151,18 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
     self.update_profile = function (user_details) {
         //Update a user's info. Will require their email to be reconfirmed.
         var deferred = $q.defer();
-        $http.put(api_urls.update_profile, user_details, query_params)
+        var user_details_no_username = {
+            email:user_details.email,
+            first_name:user_details.first_name,
+            last_name:user_details.last_name,
+        };
+        $http.put(api_urls.update_profile, user_details_no_username, query_params)
             .then(function (response) { //success
-                self.api_user = user_details;
+                api_user = user_details;
                 deferred.resolve(response.data);
             },function(response) {
                 deferred.reject(response.data);
-                console.log(self.api_user);
+                console.log(api_user);
             });
         return deferred.promise;
     };

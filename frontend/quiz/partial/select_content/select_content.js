@@ -6,10 +6,8 @@ angular.module('quiz').controller('SelectContentCtrl',['TopicSelectionService','
     self.maxQuestions = 30;
 
     var init = function(){
-        console.log("INIT CALLED");
         TopicSelectionService.getCleanTopicList().then(function(result){
             self.topic_list = TopicSelectionService.topic_list;
-            console.log(self.topic_list);
         });
     };
     init();

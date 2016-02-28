@@ -59,6 +59,29 @@ describe('QuestionService', function () {
         };
     };
 
+    var fullSubtopicsResponse = {
+        "count": 3,
+        "next": null,
+        "previous": null,
+        "results": [
+            {
+                "topic": "Math",
+                "name": "Algebra",
+                "description": "That thing where letters represent numbers."
+            },
+            {
+                "topic": "Math",
+                "name": "Calculus",
+                "description": "For calculating gradients, etc."
+            },
+            {
+                "topic": "Physics",
+                "name": "Quantum",
+                "description": "If you think you understand quantum theory..."
+            }
+        ]
+    };
+
     var allQuestionsResponsePage1 = function (baseURL) {
         return {
             count: 4,
@@ -275,6 +298,18 @@ describe('QuestionService', function () {
         });
     });
 
+    describe('Structuring subtopics hierarchically', function () {
+        it('should convert the response of getSubtopics into a hierarchical structure', function () {
+            var topic_list = qService.structureSubtopicsHierarchically(fullSubtopicsResponse.results);
+            expect(topic_list.length).toEqual(2);
+            expect(topic_list[0].topic).toEqual('Math');
+            expect(topic_list[0].subtopics).toEqual(['Algebra','Calculus']);
+            expect(topic_list[1].topic).toEqual('Physics');
+            expect(topic_list[1].subtopics).toEqual(['Quantum']);
+        });
+
+    });
+
     describe("Fetching a single Subtopic", function () {
         it('should make a request to the correct API endpoint', function () {
             mockBackend.expectGET(baseURL + '/subtopic/Math/Algebra/?format=json').respond(200, singleSubtopicResponse);
@@ -441,13 +476,13 @@ describe('QuestionService', function () {
     describe("Searching for Questions", function () {
         it("should point to the correct API endpoint", function () {
             mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(200, {}); //response doesnt matter
-            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            qService.getQuestionsSearch(1, "Bla").then(result_handler, result_handler);
             mockBackend.flush();
         });
 
         it("should return a list of questions if the search matched something", function () {
             mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(200, allQuestionsResponsePage1(baseURL));
-            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            qService.getQuestionsSearch(1, "Bla").then(result_handler, result_handler);
             mockBackend.flush();
             expect(result).toEqual(allQuestionsResponsePage1(baseURL).results);
 
@@ -455,7 +490,7 @@ describe('QuestionService', function () {
 
         it("should build pagination info if request was successful", function () {
             mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(200, allQuestionsResponsePage1(baseURL));
-            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            qService.getQuestionsSearch(1, "Bla").then(result_handler, result_handler);
             mockBackend.flush();
             expect(qService.build_pagination_info).toHaveBeenCalledWith(1, allQuestionsResponsePage1(baseURL));
             var page_info = qService.get_pagination_info();
@@ -468,9 +503,18 @@ describe('QuestionService', function () {
 
         it("should return an error if no questions matched", function () {
             mockBackend.expectGET(baseURL + '/questions_search/Bla/?format=json&page=1&page_size=1').respond(404, {detail: 'Not found.'});
-            qService.getQuestionsSearch(1,"Bla").then(result_handler, result_handler);
+            qService.getQuestionsSearch(1, "Bla").then(result_handler, result_handler);
             mockBackend.flush();
             expect(result).toEqual({detail: 'Not found.'});
+        });
+    });
+
+    describe("Quiz Generation",function(){
+        it("should accept a list of (topic,subtopic) pairs",function(){
+           var topic_list = [{topic:"Math",subtopic:"Algebra"},{topic:"Physics",subtopic:"Quantum"}];
+            mockBackend.expectPOST(baseURL+'/quiz/?format=json',{topic_list:topic_list,max_questions:50}).respond({});
+            qService.getQuizByTopics(topic_list,50);
+            mockBackend.flush();
         });
     });
 

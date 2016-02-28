@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, url
 from restful_auth import views
 
 urlpatterns = patterns('',
