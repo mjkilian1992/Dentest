@@ -1,6 +1,6 @@
 import json
 from itertools import chain
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -14,13 +14,20 @@ class QuizView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self,request,format=None):
+        # Restrict access to paid users
+        if not (self.request.user.groups.filter(name="Premium") or self.request.user.is_staff):
+            raise PermissionDenied
+
         # Get raw questions
         topic_list = request.data['topic_list']
         max_questions = int(request.data['max_questions'])
 
         # Catch empty topic list
         if len(topic_list) < 1:
-            raise ValidationError("Topic list provided was empty");
+            raise ValidationError("Topic list provided was empty")
+        # Catch zero or negative max questions
+        if max_questions < 1:
+            raise ValidationError("Must have at least 1 question in a quiz")
 
         # Work out the max number of questions available in database per topic
         total_questions_available = 0

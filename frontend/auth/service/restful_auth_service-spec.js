@@ -209,6 +209,12 @@ describe('RestfulAuthService',function(){
             expect(errors).toEqual({'errors':[]});
         });
 
+        it("should change the service's api_user as required",function(){
+            mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(200,{});
+            authservice.update_profile({});
+            mockBackend.flush();
+        })
+
     });
 
     //=========================================USER COOKIE==============================================================

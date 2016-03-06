@@ -162,7 +162,6 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
                 deferred.resolve(response.data);
             },function(response) {
                 deferred.reject(response.data);
-                console.log(api_user);
             });
         return deferred.promise;
     };
