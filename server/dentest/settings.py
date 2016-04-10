@@ -8,6 +8,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+# Import Module Settings and Init Scripts
+from subscriptions import braintree_init
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -51,6 +54,7 @@ INSTALLED_APPS = (
     #My Apps
     'questions',
     'restful_auth',
+    'subscriptions',
 )
 
 
