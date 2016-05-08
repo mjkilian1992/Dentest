@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import permissions
 
 from serializers import *
+from subscriptions.customer_management import is_premium_user
+
 
 class QuizView(APIView):
     '''
@@ -15,7 +17,7 @@ class QuizView(APIView):
 
     def post(self,request,format=None):
         # Restrict access to paid users
-        if not (self.request.user.groups.filter(name="Premium") or self.request.user.is_staff):
+        if not (is_premium_user(request.user) or self.request.user.is_staff):
             raise PermissionDenied
 
         # Get raw questions

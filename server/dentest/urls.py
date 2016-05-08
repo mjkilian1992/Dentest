@@ -24,8 +24,8 @@ urlpatterns = patterns('',
     # Subscription
     url(r'^subscribe/$',s_views.SubscriptionCreationView.as_view()),
     url(r'^cancel_subscription/$',s_views.SubscriptionCancelView.as_view()),
-
-
+    url(r'^subscription_status/$',s_views.SubscriptionStatusView.as_view()),
+    url(r'^change_payment_method/$',s_views.SubscriptionChangePaymentMethodView.as_view()),
 
     # REST Framework Authentication (only need to be able to log in to REST view
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),

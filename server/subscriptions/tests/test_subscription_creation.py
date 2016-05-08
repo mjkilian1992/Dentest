@@ -1,11 +1,8 @@
-import braintree
-from braintree.exceptions import not_found_error
 from braintree.test.nonces import Nonces
 from django.test import TestCase
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from rest_framework import status
+
 from subscriptions.customer_management import *
 
 

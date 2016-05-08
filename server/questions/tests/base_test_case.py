@@ -3,22 +3,16 @@ from django.contrib.auth.models import User, Group
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from questions.models import *
+from subscriptions import customer_management
 
 
 class BaseQuestionAPITestCase(TestCase):
     def setUp(self):
-        # Create groups with name matching Privileged Groups
-        self.free = Group(name='Free')
-        self.free.save()
-        self.premium = Group(name='Premium')
-        self.premium.save()
-
         # Create one free, one premium and one staff user
         self.free_user = User.objects.create_user('test_token_free',
                                                     'free@fake.com',
                                                     'password1',
                                                     )
-        self.free_user.groups.add(self.free)
         self.free_user.save()
         self.free_token, _ = Token.objects.get_or_create(user=self.free_user)
 
@@ -26,8 +20,8 @@ class BaseQuestionAPITestCase(TestCase):
                                                     'premium@fake.com',
                                                     'password2',
                                                     )
-        self.premium_user.groups.add(self.premium)
         self.premium_user.save()
+
         self.premium_token, _ = Token.objects.get_or_create(user=self.premium_user)
 
         self.staff_user = User.objects.create_user('test_token_staff',
@@ -85,6 +79,13 @@ class BaseQuestionAPITestCase(TestCase):
                                      answer="Yeah, I've ran out...",
                                      subtopic=s3,
                                      restricted=True)
+
+        def test_premium_user(user):
+            return user == self.premium_user
+
+        # Mock out premium test
+        customer_management.is_premium_user = test_premium_user
+
 
     def tearDown(self):
         # Destroy all database entities
