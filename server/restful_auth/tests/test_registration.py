@@ -7,6 +7,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 
 from ..models import *
+from subscriptions.models import BraintreeUser
 
 
 class RestfulAuthRegistrationTestCase(TestCase):
@@ -45,11 +46,20 @@ class RestfulAuthRegistrationTestCase(TestCase):
         user = User.objects.get(username__iexact='test1')
         self.assertEqual(user.email,'test@fake.com')
         self.assertEqual(user.get_full_name(),'michael kilian')
+
+        # Check email saved and confirmation email sent
         email_address = EmailAddress.objects.get(user=user)
         self.assertEqual(email_address.email,'test@fake.com')
         self.assertEqual(email_address.verified,False)
         confirmation = EmailConfirmation.objects.get(email_address=email_address)
         self.assertEqual(len(mail.outbox),1)
+
+        # Check Braintree account was created
+        try:
+            customer = BraintreeUser.objects.get(user=user)
+        except Exception as e:
+            self.fail("Braintree ID not created")
+
 
     def test_reg_username_taken(self):
         """Test that a user cannot be created with a username which is already in use"""

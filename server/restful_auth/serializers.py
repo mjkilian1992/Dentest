@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from models import *
+from subscriptions.customer_management import create_new_customer
 from validators import *
 
 EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE')
@@ -42,7 +43,7 @@ class UserModelSerializer(serializers.ModelSerializer):
         return instance
 
     def create(self,validated_data):
-        """Register a new user"""
+        """Register a new user. Also create a Braintree account for them."""
         username = validated_data.get('username',None)
         email = validated_data.get('email',None)
         password = validated_data.get('password1',None)
@@ -62,9 +63,9 @@ class UserModelSerializer(serializers.ModelSerializer):
                 user.save()
                 emailaddress.save()
                 emailaddress.send_confirmation()
+                create_new_customer(user)
         except Exception as e:
             raise serializers.ValidationError(e.message)
-
         return user
 
 
