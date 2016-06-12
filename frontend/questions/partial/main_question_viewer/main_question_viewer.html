@@ -1,36 +1,52 @@
 <div class="question-list" ng-controller="MainQuestionViewerCtrl as qCtrl">
-    <div class="question-box"  ng-repeat="question in qCtrl.questions">
-        <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
-            <div class="panel-heading">
-                <div >
-                    <strong>
-                        <a ng-href="/topic/{{question.subtopic.topic}}">
-                            {{question.subtopic.topic}}
-                        </a> ->
-                        <a ng-href="/subtopic/{{question.subtopic.topic}}/{{question.subtopic.name}}">
-                            {{question.subtopic.name}}
-                        </a>
-                    </strong>
-                </div>
-                <div class="question-id-tag" ><strong>ID: <a ng-href="/question_no/{{question.id}}">{{question.id}}</a></strong></div>
-            </div>
-            <div class="panel-body">
-                <div class="question-text"><p>{{question.question}}</p></div>
 
-                <div ng-init="isCollapsed = true">
-                    <button type="button" class="btn btn-primary btn-xs" ng-click="isCollapsed = !isCollapsed">Show Answer</button>
-                    <hr>
-                    <div collapse="isCollapsed">
-                        <div class="well well-sm"><div class="answer-text"><p>{{question.answer}}</p></div></div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Questions</h3>
+        </div>
+        <div class="panel-body">
+            <div class="question-box" ng-repeat="question in qCtrl.questions">
+                <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
+                    <div class="panel-heading">
+                        <div>
+                            <strong>
+                                <a ng-href="/topic/{{question.subtopic.topic}}">
+                                    {{question.subtopic.topic}}
+                                </a> ->
+                                <a ng-href="/subtopic/{{question.subtopic.topic}}/{{question.subtopic.name}}">
+                                    {{question.subtopic.name}}
+                                </a>
+                            </strong>
+                        </div>
+                        <div class="question-id-tag"><strong>ID: <a
+                                ng-href="/question_no/{{question.id}}">{{question.id}}</a></strong></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="question-text"><p>{{question.question}}</p></div>
+
+                        <div ng-init="isCollapsed = true">
+                            <button type="button" class="btn btn-primary btn-xs" ng-click="isCollapsed = !isCollapsed">
+                                Show
+                                Answer
+                            </button>
+                            <hr>
+                            <div collapse="isCollapsed">
+                                <div class="well well-sm">
+                                    <div class="answer-text"><p>{{question.answer}}</p></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <pagination class="question-paginator" total-items="qCtrl.ui_total_items" ng-model="qCtrl.ui_page_number"
+                        max-size="{{10}}"
+                        items-per-page="qCtrl.ui_page_size"
+                        class="pagination-sm" boundary-links="true" rotate="false"
+                        ng-change="qCtrl.retrieve_questions()">
+
+            </pagination>
         </div>
     </div>
-
-    <pagination class="question-paginator" total-items="qCtrl.ui_total_items" ng-model="qCtrl.ui_page_number" max-size="{{10}}"
-                items-per-page="qCtrl.ui_page_size"
-                class="pagination-sm" boundary-links="true" rotate="false" ng-change="qCtrl.retrieve_questions()">
-
-    </pagination>
 </div>

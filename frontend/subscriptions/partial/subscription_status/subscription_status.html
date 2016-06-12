@@ -1,0 +1,49 @@
+<div class="col-md-12" class="ng-cloak" ng-controller="SubscriptionStatusCtrl as subStatusCtrl">
+    <div ng-hide="subStatusCtrl.user_subscribed == null">
+        <div ng-show="subStatusCtrl.user_subscribed">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Subscription Status</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr>
+                            <th>Status</th>
+                            <td>{{subStatusCtrl.subscription_data.status}}</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>{{subStatusCtrl.subscription_data.price | currency:'£' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Started on</th>
+                            <td>{{subStatusCtrl.subscription_data.start_date | date:'mediumDate'}}</td>
+                        </tr>
+                        <tr>
+                            <th>Renewal Date</th>
+                            <td>{{subStatusCtrl.subscription_data.renewal_date | date:'mediumDate'}}</td>
+                        </tr>
+                    </table>
+                    <a class="btn btn-warning" href="/change_payment_method">Change Payment Method</a>
+                    <span ng-include="'/subscriptions/partial/cancel/cancel.html'"></span>
+                </div>
+            </div>
+        </div>
+        <div ng-hide="subStatusCtrl.user_subscribed">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Subscription Status</h3>
+                </div>
+                <div class="panel-body">
+                    <p>You are not currently subscribed for premium access. Sign up for {{subStatusCtrl.plan_info.price
+                        |
+                        currency:'£'}}
+                        a year to get full access to all of our features. </p>
+
+                    <p><a href="/subscribe">Get a subscription now for full access to Dentest!</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

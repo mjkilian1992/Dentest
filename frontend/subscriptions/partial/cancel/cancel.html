@@ -1,0 +1,18 @@
+<span ng-controller="CancelCtrl as cancelCtrl">
+    <script type="text/ng-template" id="cancel_modal.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Are you sure you want to cancel your subscription?</h3>
+        </div>
+        <div class="modal-body">
+            <p>If you cancel you will not be charged at your next billing date and will still retain your
+            premium access until this year's subscription would expire.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger" type="button" ng-click="modalCtrl.cancel()">Yes</button>
+            <button class="btn btn-default" type="button" ng-click="modalCtrl.close()">Cancel</button>
+        </div>
+    </script>
+
+    <button type="button" class="btn btn-danger" ng-click="cancelCtrl.open()">Cancel Subscription</button>
+
+</span>

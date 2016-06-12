@@ -1,17 +1,18 @@
-<div class="col-md-12">
-
-    <div id="login_and_registration_tabs">
-        <tabset justified="true">
-            <tab heading="Sign Up">
-                <div ng-include="'auth/partial/registration_form/registration_form.html'" class="reg_and_login_tab"></div>
-            </tab>
-            <tab heading="Login">
-                <div ng-include="'auth/partial/login_form/login_form.html'" class="reg_and_login_tab"></div>
-            </tab>
-
-        </tabset>
-
-
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Signup & Login</div>
+        <div class="panel-body">
+            <div id="login_and_registration_tabs">
+                <tabset justified="true">
+                    <tab heading="Sign Up">
+                        <div ng-include="'auth/partial/registration_form/registration_form.html'"
+                             class="reg_and_login_tab"></div>
+                    </tab>
+                    <tab heading="Login">
+                        <div ng-include="'auth/partial/login_form/login_form.html'" class="reg_and_login_tab"></div>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
     </div>
-
 </div>

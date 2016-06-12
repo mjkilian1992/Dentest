@@ -31,6 +31,10 @@
       {
         "name": "questions",
         "file": "questions/questions.js"
+      },
+      {
+        "name": "subscriptions",
+        "file": "subscriptions/subscriptions.js"
       }
     ]
   }

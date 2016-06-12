@@ -1,26 +1,40 @@
+import braintree
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from subscriptions.customer_management import *
+
+class GenerateClientTokenView(APIView):
+
+    def get(self,request,format='json'):
+        try:
+            token = braintree.ClientToken.generate()
+            return Response({'token':token},status=status.HTTP_200_OK)
+        except:
+            return Response({'errors':['Braintree client token could not be generated']},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class SubscriptionCreationView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self,request,format='json'):
         try:
-            payment_method_nonce = request.data['payment_method_nonce']
-        except KeyError as e:
-            return Response({'errors':['No payment method provided.']},status=status.HTTP_402_PAYMENT_REQUIRED)
-        result = add_payment_method(request.user,payment_method_nonce)
-        if not result:
-            return Response({'errors':['Could not create payment method.']},status=status.HTTP_400_BAD_REQUEST)
-        try:
-            subscription_created = create_dentest_subscription(request.user,result)
-        except BraintreeError as e:
-            return Response({'errors':['User already has an open subscription.']},status=status.HTTP_400_BAD_REQUEST)
-        if not subscription_created:
-            return Response({'errors':['Subscription could not be created. Please check payment details']},status=status.HTTP_400_BAD_REQUEST)
-        return Response({},status=status.HTTP_201_CREATED)
+            try:
+                payment_method_nonce = request.data['payment_method_nonce']
+            except KeyError as e:
+                return Response({'errors':['No payment method provided.']},status=status.HTTP_402_PAYMENT_REQUIRED)
+            result = add_payment_method(request.user,payment_method_nonce)
+            if not result:
+                return Response({'errors':['Could not create payment method.']},status=status.HTTP_400_BAD_REQUEST)
+            try:
+                subscription_created = create_dentest_subscription(request.user,result)
+            except BraintreeError as e:
+                return Response({'errors':['User already has an open subscription.']},status=status.HTTP_400_BAD_REQUEST)
+            if not subscription_created:
+                return Response({'errors':['Subscription could not be created. Please check payment details']},status=status.HTTP_400_BAD_REQUEST)
+            return Response({},status=status.HTTP_201_CREATED)
+        except Exception as e:
+            pass
 
 class SubscriptionCancelView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -32,7 +46,7 @@ class SubscriptionCancelView(APIView):
         except braintree.exceptions.not_found_error.NotFoundError as e:
             return Response({'errors':['User does not have an active subscription']},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            print e
+            pass
 
 class SubscriptionStatusView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -71,3 +85,13 @@ class SubscriptionChangePaymentMethodView(APIView):
             return Response({},status=status.HTTP_202_ACCEPTED)
         except Exception as e:
             return Response({'errors':['Could not process payment change']},status=status.HTTP_400_BAD_REQUEST)
+
+class PlanInfoView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self,request,format='json'):
+        plan = get_subscription_plan()
+        if plan is None:
+            return Response({'errors':['No subscription plan found']},status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(plan,status=status.HTTP_200_OK)

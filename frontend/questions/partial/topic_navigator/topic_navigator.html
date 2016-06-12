@@ -3,54 +3,60 @@
 
     <!-- ========== SUCCESS ======================= -->
     <div id="topic_navigator_success" ng-hide="ctrl.error">
-        <h2>Please choose a topic:</h2>
-
-        <uib-accordion close-others="false">
-
-            <uib-accordion-group ng-init="open=false" class="topic_navigator_topic" ng-repeat="topic in ctrl.topic_list"
-                                 is-open="open">
-                <uib-accordion-heading>
-                    <div>
-                        <strong>{{topic.topic}}</strong>
-                        <i class="pull-right glyphicon"
-                           ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': open}"></i>
-                    </div>
-                </uib-accordion-heading>
-
-                <div>
-                    <a class="btn-s " ng-href="/topic/{{topic.topic}}"> View Info</a> <br/>
-                    <a class="btn-s " ng-href="/questions/{{topic.topic}}">Show all questions for
-                        {{topic.topic}}</a>
-                </div>
-
-                <div class="panel panel-default" style="margin-top:20px">
-                    <div class="panel-heading">Subtopics</div>
-                    <div class="panel-body">
-                        <table class="table table-striped table-hover" >
-                            <tr ng-repeat="subtopic in topic.subtopics">
-                                <td><a ng-href="/subtopic/{{topic.topic}}/{{subtopic}}">{{subtopic}}</a></td>
-                                <td>
-                                    <a ng-href="/questions/{{topic.topic}}/{{subtopic}}">
-                                        Show Questions
-                                    </a>
-                                </td>
-                            </tr>
-
-                        </table>
-                    </div>
-                </div>
-            </uib-accordion-group>
-        </uib-accordion>
-    </div>
-
-    <div id="topic_navigator_failure" ng-show="ctrl.error">
-        <div class="panel panel-danger">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                <h5>Something went wrong!</h5>
+                <h3>Please choose a topic:</h3>
             </div>
             <div class="panel-body">
-                <p>Dentest is having a problem fetching the list of topics.
-                    Please check your internet connection and try again.</p>
+                <uib-accordion close-others="false">
+
+                    <uib-accordion-group ng-init="open=false" class="topic_navigator_topic"
+                                         ng-repeat="topic in ctrl.topic_list"
+                                         is-open="open">
+                        <uib-accordion-heading>
+                            <div>
+                                <strong>{{topic.topic}}</strong>
+                                <i class="pull-right glyphicon"
+                                   ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': open}"></i>
+                            </div>
+                        </uib-accordion-heading>
+
+                        <div>
+                            <a class="btn-s " ng-href="/topic/{{topic.topic}}"> View Info</a> <br/>
+                            <a class="btn-s " ng-href="/questions/{{topic.topic}}">Show all questions for
+                                {{topic.topic}}</a>
+                        </div>
+
+                        <div class="panel panel-default" style="margin-top:20px">
+                            <div class="panel-heading">Subtopics</div>
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover">
+                                    <tr ng-repeat="subtopic in topic.subtopics">
+                                        <td><a ng-href="/subtopic/{{topic.topic}}/{{subtopic}}">{{subtopic}}</a></td>
+                                        <td>
+                                            <a ng-href="/questions/{{topic.topic}}/{{subtopic}}">
+                                                Show Questions
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </uib-accordion-group>
+                </uib-accordion>
+            </div>
+
+            <div id="topic_navigator_failure" ng-show="ctrl.error">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3>Something went wrong!</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Dentest is having a problem fetching the list of topics.
+                            Please check your internet connection and try again.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

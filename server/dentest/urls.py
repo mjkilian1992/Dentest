@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     url(r'^quiz/$',single_q_views.QuizView.as_view()),
 
     # Subscription
+    url(r'^generate_token/$',s_views.GenerateClientTokenView.as_view()),
+    url(r'^plan_info/$',s_views.PlanInfoView.as_view()),
     url(r'^subscribe/$',s_views.SubscriptionCreationView.as_view()),
     url(r'^cancel_subscription/$',s_views.SubscriptionCancelView.as_view()),
     url(r'^subscription_status/$',s_views.SubscriptionStatusView.as_view()),

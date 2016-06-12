@@ -1,8 +1,10 @@
 'use_strict';
 
 describe('RestfulAuthService',function(){
-    beforeEach(module('auth'));
     beforeEach(module('globalConstants'));
+    beforeEach(module('subscriptions'));
+    beforeEach(module('auth'));
+
 
     //Test Data
     var bronze_user = {
@@ -18,7 +20,7 @@ describe('RestfulAuthService',function(){
     var bronze_reg_details = jQuery.extend(true,{password1:'AsDf1234{}',password2:'AsDf1234{}'},bronze_user); //add passwords
 
 
-    var authservice,mockBackend,baseURL;
+    var authservice,mockBackend,baseURL,subscriptionService;
 
     //Defines an errors list and callback function as we would expect a controller to have
     var errors = null;
@@ -26,13 +28,15 @@ describe('RestfulAuthService',function(){
         errors = response;
     };
 
-    beforeEach(inject(function($httpBackend,RestfulAuthService,REST_BASE_URL){
+    beforeEach(inject(function($httpBackend,RestfulAuthService,REST_BASE_URL, SubscriptionService){
         baseURL = REST_BASE_URL;
         errors = null;
         mockBackend = $httpBackend;
         spyOn(RestfulAuthService,'login').and.callThrough();
         spyOn(RestfulAuthService,'logout').and.callThrough();
         authservice = RestfulAuthService;
+        spyOn(SubscriptionService,'init');
+        subscriptionService = SubscriptionService;
     }));
 
     afterEach(function(){
@@ -67,6 +71,16 @@ describe('RestfulAuthService',function(){
             mockBackend.flush();
             expect(authservice.is_logged_in()).toBe(false);
             expect(errors).toEqual(serializer_errors);
+        });
+
+        it("Should call initialise the subscription service by fetching the user's login status",function(){
+             mockBackend.expectPOST(baseURL + '/login/?format=json').respond(200,bronze_login_response);
+            authservice.login('testBronze','zZ123##<>');
+            mockBackend.flush();
+            expect(authservice.is_logged_in()).toBe(true);
+            expect(authservice.user_profile()).toEqual(bronze_user);
+
+            expect(subscriptionService.init).toHaveBeenCalled();
         });
     });
 

@@ -54,18 +54,23 @@ def add_payment_method(user,payment_method_nonce):
     # Look up customer id
     try:
         customer_id = lookup_braintree_id(user)
+
     except BraintreeUser.DoesNotExist as e:
         return False
     # Try and create payment method
     with transaction.atomic():
-        payment_token = braintree.PaymentMethod.create({
+        result = braintree.PaymentMethod.create({
             'customer_id':customer_id,
             'payment_method_nonce':payment_method_nonce
-        }).payment_method.token
+        })
+        if isinstance(result,braintree.ErrorResult):
+            return False
+        payment_token = result.payment_method.token
         customer = lookup_customer(user)
         customer.payment_method_token = payment_token
         customer.save()
         return payment_token
+
 
 def create_dentest_subscription(user,payment_method_token):
     """
@@ -120,6 +125,18 @@ def change_payment_method(user,payment_method_nonce):
             customer.save()
         except Exception as e:
             raise BraintreeError("Could not change payment method")
+
+def get_subscription_plan():
+    try:
+        plan = braintree.Plan.all()[0]
+        return {
+            'billing_frequency':plan.billing_frequency,
+            'price':plan.price,
+        }
+    except Exception as e:
+        print e
+        return None
+
 
 def is_premium_user(user):
     customer = lookup_customer(user)

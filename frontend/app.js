@@ -1,4 +1,4 @@
-var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngCookies', 'ngAnimate', 'ui-notification', 'auth', 'questions', 'globalConstants', 'quiz']);
+var app = angular.module('dentest', ['ui.bootstrap', 'ui.utils', 'ngRoute', 'ngCookies', 'ngAnimate', 'ui-notification', 'auth', 'questions', 'globalConstants', 'quiz', 'subscriptions']);
 
 angular.module('dentest').config(['$routeProvider','$locationProvider','NotificationProvider',
     function($routeProvider,$locationProvider,NotificationProvider) {
@@ -28,32 +28,28 @@ angular.module('dentest').config(['$routeProvider','$locationProvider','Notifica
 }]);
 
 //================================================RESTRICT ROUTING FOR ROUTE WHICH REQUIRE LOGIN======================/
-angular.module('dentest').run(['$rootScope','$location','RestfulAuthService',
-    function($rootScope,$location,RestfulAuthService){
+angular.module('dentest').run(['$rootScope','$location','RestfulAuthService','SubscriptionService',
+    function($rootScope,$location,RestfulAuthService,SubscriptionService){
+        //Call an init in case the user is logged in by cookie
+        SubscriptionService.init();
+
         //intercepts when a user tries to access restricted routes
         $rootScope.$on('$routeChangeStart', function (event, next) {
             var userAuthenticated = RestfulAuthService.is_logged_in(); /* Check if the user is logged in */
+            var userSubscribed = SubscriptionService.is_subscribed;
             if (!userAuthenticated && next.restricted) {
                 $location.path('/signup');
+            }else if((!userAuthenticated || !userSubscribed) && next.premium){
+                if(!userAuthenticated){
+                    $location.path('/signup');
+                }else{
+                    $location.path('/manage_subscription');
+                }
             }
         });
     }
 ]);
 
-angular.module('dentest').run(function($rootScope) {
-
-    $rootScope.safeApply = function(fn) {
-        var phase = $rootScope.$$phase;
-        if (phase === '$apply' || phase === '$digest') {
-            if (fn && (typeof(fn) === 'function')) {
-                fn();
-            }
-        } else {
-            this.$apply(fn);
-        }
-    };
-
-});
 
 
 // Configure http to use cors (for testing purposes)

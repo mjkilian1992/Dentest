@@ -1,18 +1,27 @@
-<div class="container">
-    <div class="row bg-info">
-        <h5>Please provide:</h5>
-        <ol>
-            <li>A username between 6 and 30 characters long.</li>
-            <li>A password at least 8 characters long with at least one uppercase letter, one digit and one
-                piece of punctuation.
-            </li>
-            <li>A valid email address (you will be asked to confirm this via email).</li>
-            <li>Your first and last name.</li>
-        </ol>
+<div >
+    <div >
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h5>Please provide:</h5>
+            </div>
+            <div class="panel-body">
+                <ol>
+                    <li>A username between 6 and 30 characters long.</li>
+                    <li>A password at least 8 characters long with at least one uppercase letter, one
+                        digit and
+                        one
+                        piece of punctuation.
+                    </li>
+                    <li>A valid email address (you will be asked to confirm this via email).</li>
+                    <li>Your first and last name.</li>
+                </ol>
+            </div>
+        </div>
     </div>
+    <div >
+        <form name="reg_form" ng-controller='RegistrationFormCtrl as regctrl'
+              ng-submit='regctrl.register()'>
 
-    <div class="row">
-        <form name="reg_form" ng-controller='RegistrationFormCtrl as regctrl' ng-submit='regctrl.register()'>
             <div class="form-group">
                 <label for="reg_form_username">Username</label>
                 <input type="text"
@@ -129,10 +138,12 @@
 
 
             <div class="form-group">
-                <input class="btn btn-primary" type="submit" value="Register" ng-disabled="reg_form.$invalid"/>
+                <input class="btn btn-primary" type="submit" value="Register"
+                       ng-disabled="reg_form.$invalid"/>
             </div>
         </form>
     </div>
-
 </div>
+
+
 

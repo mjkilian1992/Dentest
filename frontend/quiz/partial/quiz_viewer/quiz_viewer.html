@@ -1,28 +1,40 @@
 <div class="col-md-12" ng-controller="QuizViewerCtrl as qCtrl">
-    <h4>Quiz</h4>
-    <div class="question-box" ng-hide="qCtrl.error" ng-repeat="question in qCtrl.questions">
-        <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
-            <div class="panel-heading">
-                <div >
-                    <strong>
-                        <a ng-href="/topic/{{question.subtopic.topic}}">
-                            {{question.subtopic.topic}}
-                        </a> ->
-                        <a ng-href="/subtopic/{{question.subtopic.topic}}/{{question.subtopic.name}}">
-                            {{question.subtopic.name}}
-                        </a>
-                    </strong>
-                </div>
-                <div class="question-id-tag" ><strong>ID: <a ng-href="/question_no/{{question.id}}">{{question.id}}</a></strong></div>
-            </div>
-            <div class="panel-body">
-                <div class="question-text"><p>{{question.question}}</p></div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3>Quiz</h3>
+        </div>
+        <div class="panel-body">
+            <div class="question-box" ng-hide="qCtrl.error" ng-repeat="question in qCtrl.questions">
+                <div class="panel panel-default" style="position:relative; margin:auto 10px auto 10px;">
+                    <div class="panel-heading">
+                        <div>
+                            <strong>
+                                <a ng-href="/topic/{{question.subtopic.topic}}">
+                                    {{question.subtopic.topic}}
+                                </a> ->
+                                <a ng-href="/subtopic/{{question.subtopic.topic}}/{{question.subtopic.name}}">
+                                    {{question.subtopic.name}}
+                                </a>
+                            </strong>
+                        </div>
+                        <div class="question-id-tag"><strong>ID: <a
+                                ng-href="/question_no/{{question.id}}">{{question.id}}</a></strong></div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="question-text"><p>{{question.question}}</p></div>
 
-                <div ng-init="isCollapsed = true">
-                    <button type="button" class="btn btn-primary btn-xs" ng-click="isCollapsed = !isCollapsed">Show Answer</button>
-                    <hr>
-                    <div collapse="isCollapsed">
-                        <div class="well well-sm"><div class="answer-text"><p>{{question.answer}}</p></div></div>
+                        <div ng-init="isCollapsed = true">
+                            <button type="button" class="btn btn-primary btn-xs" ng-click="isCollapsed = !isCollapsed">
+                                Show
+                                Answer
+                            </button>
+                            <hr>
+                            <div collapse="isCollapsed">
+                                <div class="well well-sm">
+                                    <div class="answer-text"><p>{{question.answer}}</p></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,12 +43,11 @@
 
     <div class="panel panel-danger" ng-show="qCtrl.error">
         <div class="panel-heading">
-            <h5>An error occurred.</h5>
+            <h3>An error occurred.</h3>
         </div>
         <div class="panel-body">
-            <p>It may be that no topics were selected. Go to <a href="/quiz/choose_content">Quiz</a> and try again.</p>
+            <p>It may be that no topics were selected. Go to <a href="/quiz/choose_content">Quiz</a> and try
+                again.</p>
         </div>
     </div>
-
-
 </div>

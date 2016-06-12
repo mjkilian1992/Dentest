@@ -1,0 +1,7 @@
+<div class="col-md-12" ng-controller="SubscribeCtrl as subscribeCtrl">
+    <h4>Subscribe to Dentest</h4>
+    <p>You will be charged {{subscribeCtrl.plan_info.price | currency:'£'}} every {{subscribeCtrl.plan_info.billing_frequency}}
+     months until you cancel. You can cancel your subscription at any time via Dentest.</p>
+    <braintree-payment-form new-subscription="true"></braintree-payment-form>
+
+</div>

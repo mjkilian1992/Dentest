@@ -1,6 +1,6 @@
 'use_strict';
 
-angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', 'REST_BASE_URL', function ($cookies,$http, $q, base_url) {
+angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', 'REST_BASE_URL','SubscriptionService', function ($cookies,$http, $q, base_url,SubscriptionService) {
     var self = this;
 
     //define backend urls
@@ -64,6 +64,8 @@ angular.module('auth').service('RestfulAuthService', ['$cookies','$http','$q', '
                 //Set cookies
                 $cookies.putObject('dentest_user',api_user);
                 $cookies.putObject('dentest_token',api_user_token);
+
+                SubscriptionService.init();
 
                 deferred.resolve(response.data);
             },function(response){
