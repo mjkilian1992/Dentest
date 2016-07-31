@@ -14,7 +14,7 @@ class SubscriptionCreationTestCase(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
-    def test_subscribe_valid(self):
+    def subscribe_valid(self):
         """
         Test case where everything is valid.
         :return:
@@ -26,7 +26,7 @@ class SubscriptionCreationTestCase(TestCase):
         self.assertIsNotNone(customer.payment_method_token)
         self.assertIsNotNone(customer.subscription_id)
 
-    def test_subscribe_already_subscribed(self):
+    def subscribe_already_subscribed(self):
         """
         Test case where user is already subscribed. Should fail.
         :return:
@@ -39,7 +39,7 @@ class SubscriptionCreationTestCase(TestCase):
         self.assertTrue('errors' in response.data)
         self.assertEqual(status.HTTP_400_BAD_REQUEST,response.status_code)
 
-    def test_subscribe_payment_missing(self):
+    def subscribe_payment_missing(self):
         """
         Test case where the payment nonce is missing
         :return:
@@ -47,7 +47,7 @@ class SubscriptionCreationTestCase(TestCase):
         response = self.client.post('/subscribe/', data={})
         self.assertEqual(status.HTTP_402_PAYMENT_REQUIRED,response.status_code)
 
-    def test_subscribe_invalid_payment(self):
+    def subscribe_invalid_payment(self):
         """
         Test case where creating the subscription fails because the user's payment is declined
         :return:

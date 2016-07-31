@@ -11,21 +11,11 @@ angular.module('subscriptions').directive('braintreePaymentForm', ['$location','
             var callService = function(nonce){
                 if(scope.newSubscription=='true'){
                     SubscriptionService.subscribe(nonce);
-                    Notification.success({
-                        title:"Thank you for subscribing!",
-                        message:"You now have access to all of Dentest's features",
-                        delay:15000
-                    });
                     SubscriptionService.init();
-                    $location.path('/manage_subscription');
+                    $location.path('/subscribe_success');
                 }else{
                     SubscriptionService.change_payment_method(nonce);
-                    Notification.success({
-                        title:"Payment method changed successfully",
-                        message:"Your next payment will be taken using this new method.",
-                        delay:15000
-                    });
-                    $location.path('/manage_subscription');
+                    $location.path('/change_payment_method_success');
                 }
             };
 

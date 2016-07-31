@@ -1,15 +1,21 @@
 import braintree
-import settings as subscription_params
+import settings
+import pytz, datetime
+
 from django.db import transaction
 from django.contrib.auth.models import User
+from django.utils import timezone
 from braintree.customer import Customer
 from models import BraintreeUser
+
 
 class BraintreeError(Exception):
     pass
 
+
 class BraintreeIDAlreadyExistsError(Exception):
     pass
+
 
 def create_new_customer(user):
     """
@@ -23,19 +29,21 @@ def create_new_customer(user):
 
         result = Customer.create({
             'first_name': user.first_name,
-            'last_name':  user.last_name,
+            'last_name': user.last_name,
             'email': user.email,
         })
         if not result.is_success:
             raise BraintreeError
 
         id = result.customer.id
-        customerRef = BraintreeUser(user=user,customer_id=id)
+        customerRef = BraintreeUser(user=user, customer_id=id)
         customerRef.save()
         return customerRef
 
+
 def lookup_customer(user):
     return BraintreeUser.objects.get(user=user)
+
 
 def lookup_braintree_id(user):
     """
@@ -45,7 +53,7 @@ def lookup_braintree_id(user):
     return BraintreeUser.objects.get(user=user).customer_id
 
 
-def add_payment_method(user,payment_method_nonce):
+def add_payment_method(user, payment_method_nonce):
     """
     Create a new payment method for the given user using Braintree payment method nonce.
     :param user: The user to create the payment method for
@@ -60,78 +68,104 @@ def add_payment_method(user,payment_method_nonce):
     # Try and create payment method
     with transaction.atomic():
         result = braintree.PaymentMethod.create({
-            'customer_id':customer_id,
-            'payment_method_nonce':payment_method_nonce
+            'customer_id': customer_id,
+            'payment_method_nonce': payment_method_nonce
         })
-        if isinstance(result,braintree.ErrorResult):
+        if isinstance(result, braintree.ErrorResult):
             return False
         payment_token = result.payment_method.token
-        customer = lookup_customer(user)
-        customer.payment_method_token = payment_token
-        customer.save()
+        custmr = lookup_customer(user)
+        custmr.payment_method_token = payment_token
+        custmr.save()
         return payment_token
 
 
-def create_dentest_subscription(user,payment_method_token):
+def create_dentest_subscription(user, payment_method_token):
     """
     Create a new subscription for a user using their payment method token.
     :param user:
     :param payment_method_token:
     :return:
     """
-    customer = lookup_customer(user)
-    if customer.subscription_id is not None:
-        raise BraintreeError("User already subscribed")
+    custmr = lookup_customer(user)
+    valid_cancelled_subscription = False
+    if custmr.active and custmr.subscription_id != "":
+        raise BraintreeError("User already subscribed with active subscription")
+    elif (not custmr.active) and custmr.subscription_id != "" and custmr.expiry_date > timezone.now():
+        valid_cancelled_subscription = True
     with transaction.atomic():
-        result = braintree.Subscription.create({
-            'payment_method_token':payment_method_token,
-            'plan_id':subscription_params.SUBSCRIPTION_PLAN_ID
-        })
+        try:
+            if valid_cancelled_subscription:
+                result = braintree.Subscription.create({
+                    'payment_method_token': payment_method_token,
+                    'plan_id': settings.SUBSCRIPTION_PLAN_ID,
+                    'first_billing_date': custmr.expiry_date
+                })
+            else:
+                result = braintree.Subscription.create({
+                    'payment_method_token': payment_method_token,
+                    'plan_id': settings.SUBSCRIPTION_PLAN_ID,
+                })
+        except Exception as e:
+            print e
+            result = None
+
         if result is None:
             raise BraintreeError("Could not create subscription")
-        customer.subscription_id = result.subscription.id
-        customer.save()
+        custmr.subscription_id = result.subscription.id
+        custmr.active = True
+        custmr.save()
         return result.subscription.id
 
+
 def cancel_dentest_subscription(user):
-    customer = lookup_customer(user)
-    if customer.subscription_id is None:
+    custmr = lookup_customer(user)
+    if custmr.subscription_id == "":
         raise braintree.exceptions.not_found_error.NotFoundError()
     with transaction.atomic():
-        braintree.Subscription.cancel(customer.subscription_id)
-        customer.subscription_id = None
-        customer.save()
-        return True
+        cancel_result = braintree.Subscription.cancel(custmr.subscription_id).subscription
+        # If the customers subscription has expired, we can use a new ezpiry date (previous subscription is no longer valid)
+        if custmr.expiry_date is None or custmr.expiry_date < timezone.now():
+            custmr.expiry_date = cancel_result.billing_period_end_date
+            custmr.active = False
+            custmr.save()
+    return True
+
 
 def get_subscription(user):
-    customer = lookup_customer(user)
-    if customer.subscription_id is None:
+    custmr = lookup_customer(user)
+    if custmr.subscription_id == "":
         return None
     else:
-        return braintree.Subscription.find(customer.subscription_id)
+        return braintree.Subscription.find(custmr.subscription_id)
 
-def change_payment_method(user,payment_method_nonce):
+
+def change_payment_method(user, payment_method_nonce):
     with transaction.atomic():
-        customer = lookup_customer(user)
+        custmr = lookup_customer(user)
         payment_token = braintree.PaymentMethod.create({
-            'customer_id':customer.customer_id,
-            'payment_method_nonce':payment_method_nonce
+            'customer_id': custmr.customer_id,
+            'payment_method_nonce': payment_method_nonce,
+            "options": {
+                "make_default": True
+            }
         }).payment_method.token
         try:
-            braintree.Subscription.update(customer.subscription_id,{
-                'payment_method_token' : payment_token,
+            braintree.Subscription.update(custmr.subscription_id, {
+                'payment_method_token': payment_token,
             })
-            customer.payment_method_token = payment_token
-            customer.save()
+            custmr.payment_method_token = payment_token
+            custmr.save()
         except Exception as e:
             raise BraintreeError("Could not change payment method")
+
 
 def get_subscription_plan():
     try:
         plan = braintree.Plan.all()[0]
         return {
-            'billing_frequency':plan.billing_frequency,
-            'price':plan.price,
+            'billing_frequency': plan.billing_frequency,
+            'price': plan.price,
         }
     except Exception as e:
         print e
@@ -139,8 +173,8 @@ def get_subscription_plan():
 
 
 def is_premium_user(user):
-    customer = lookup_customer(user)
-    if customer.subscription_id is None:
+    custmr = lookup_customer(user)
+    if custmr.subscription_id == "":
         return False
-    response = braintree.Subscription.find(customer.subscription_id)
+    response = braintree.Subscription.find(custmr.subscription_id)
     return response.status == braintree.Subscription.Status.Active

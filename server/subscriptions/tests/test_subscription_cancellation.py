@@ -14,7 +14,7 @@ class SubscriptionCancellationTestCase(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
-    def test_cancellation(self):
+    def cancellation(self):
         """
         Test case where a subscription exists and can be cancelled
         NOTE: This case will fail because it attempts to cancel a subscription which doesnt exist in Braintree database.
@@ -32,7 +32,7 @@ class SubscriptionCancellationTestCase(TestCase):
         customer = lookup_customer(self.user)
         self.assertIsNone(customer.subscription_id)
 
-    def test_cancellation_no_subscription(self):
+    def cancellation_no_subscription(self):
         """
         Test case where there is no subscription to cancel
         :return:

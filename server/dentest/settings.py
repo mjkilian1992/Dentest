@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Import Module Settings and Init Scripts
 from subscriptions import braintree_init
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -56,13 +57,6 @@ INSTALLED_APPS = (
     'restful_auth',
     'subscriptions',
 )
-
-
-
-
-#GROUPS CONFIG
-BASIC_GROUP_NAME = u'Bronze'
-PRIVILEGED_GROUPS = (u'Silver', u'Gold')
 
 #CORS CONFIG - REMOVE ON DEPLOYMENT
 CORS_ORIGIN_ALLOW_ALL = True
@@ -129,6 +123,7 @@ REST_FRAMEWORK = {
 
 # Site info
 USE_TZ = True # Allow timezones
+
 DOMAIN = 'localhost:9001'
 SITE_NAME = 'Dentest'
 AUTHENTICATION_BACKENDS = (

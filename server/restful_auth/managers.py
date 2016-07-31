@@ -32,7 +32,7 @@ class PasswordResetManager(models.Manager):
     """Manager for PasswordResets"""
 
     def all_expired(self):
-        """REturns all expired PasswordReset requests"""
+        """Returns all expired PasswordReset requests"""
         return self.filter(self.expired_q())
 
     def all_valid(self):

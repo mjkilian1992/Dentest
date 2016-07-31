@@ -2,7 +2,7 @@
     <div ng-hide="subStatusCtrl.user_subscribed == null">
         <div ng-show="subStatusCtrl.user_subscribed">
 
-            <div class="panel panel-primary">
+            <div ng-class="subStatusCtrl.panel_scheme">
                 <div class="panel-heading">
                     <h3 class="panel-title">Subscription Status</h3>
                 </div>
@@ -26,7 +26,12 @@
                         </tr>
                     </table>
                     <a class="btn btn-warning" href="/change_payment_method">Change Payment Method</a>
-                    <span ng-include="'/subscriptions/partial/cancel/cancel.html'"></span>
+                    <span ng-show="subStatusCtrl.subscription_data.status=='Active'">
+                        <span ng-include="'/subscriptions/partial/cancel/cancel.html'"></span>
+                    </span>
+                    <span ng-show="subStatusCtrl.subscription_data.status=='Canceled'">
+                        <a class="btn btn-primary" href="/subscribe">Renew Subscription</a>
+                    </span>
                 </div>
             </div>
         </div>

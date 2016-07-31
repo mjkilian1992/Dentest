@@ -37,7 +37,7 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
         );
         $http.get(endpoints.status).then(
             function(response){
-                if ( response.data.status=="Active" || response.data.status=="Pending"){
+                if ( response.data.status=="Active"){
                     self.is_subscribed = true;
                 }
             },
@@ -57,6 +57,7 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
         $http.post(endpoints.subscribe,{payment_method_nonce:payment_method_nonce}).then(
             function(response){
                 deferred.resolve('Subscription Created!');
+                self.init();
             },
             function(response){
                 deferred.reject(response.data.errors);
@@ -82,6 +83,9 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
         var deferred = $q.defer();
         $http.get(endpoints.status).then(
             function(response){
+                if ( response.data.status=="Active"){
+                    self.is_subscribed = true;
+                }
                 deferred.resolve(response.data);
             },
             function(response){

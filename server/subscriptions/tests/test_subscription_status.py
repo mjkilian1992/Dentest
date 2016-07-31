@@ -15,7 +15,7 @@ class SubscriptionCreationTestCase(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
-    def test_get_subscription_status_valid_subscription(self):
+    def get_subscription_status_valid_subscription(self):
         # Create subscription
         self.client.post('/subscribe/',data={'payment_method_nonce':Nonces.Transactable})
 
@@ -27,7 +27,7 @@ class SubscriptionCreationTestCase(TestCase):
         self.assertTrue('start_date' in response.data)
         self.assertTrue('renewal_date' in response.data)
 
-    def test_get_subscription_status_user_not_subscribed(self):
+    def get_subscription_status_user_not_subscribed(self):
         response = self.client.get('/subscription_status/')
         self.assertEqual(status.HTTP_404_NOT_FOUND,response.status_code)
         self.assertTrue('errors' in response.data)

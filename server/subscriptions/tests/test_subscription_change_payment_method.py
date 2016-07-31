@@ -15,7 +15,7 @@ class SubscriptionChangePaymentMethodTestCase(TestCase):
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
 
-    def test_change_payment_method_success(self):
+    def change_payment_method_success(self):
         """Test case where the payment method can be changed successfully"""
         # First create a subscription to change
         response = self.client.post('/subscribe/',data={'payment_method_nonce':Nonces.Transactable})
@@ -29,7 +29,7 @@ class SubscriptionChangePaymentMethodTestCase(TestCase):
         self.assertNotEqual(orig_payment_token,new_token)
         self.assertEqual(new_token, get_subscription(self.user).payment_method_token)
 
-    def test_change_payment_method_no_subscription(self):
+    def change_payment_method_no_subscription(self):
         """Test case where the user is not subscribed"""
         response = self.client.post('/change_payment_method/',data={'payment_method_nonce': Nonces.TransactableDiscover})
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)

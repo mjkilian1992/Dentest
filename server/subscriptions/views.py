@@ -29,12 +29,12 @@ class SubscriptionCreationView(APIView):
             try:
                 subscription_created = create_dentest_subscription(request.user,result)
             except BraintreeError as e:
-                return Response({'errors':['User already has an open subscription.']},status=status.HTTP_400_BAD_REQUEST)
+                return Response({'errors':[e.message]},status=status.HTTP_400_BAD_REQUEST)
             if not subscription_created:
                 return Response({'errors':['Subscription could not be created. Please check payment details']},status=status.HTTP_400_BAD_REQUEST)
             return Response({},status=status.HTTP_201_CREATED)
         except Exception as e:
-            pass
+            print e
 
 class SubscriptionCancelView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
@@ -46,24 +46,36 @@ class SubscriptionCancelView(APIView):
         except braintree.exceptions.not_found_error.NotFoundError as e:
             return Response({'errors':['User does not have an active subscription']},status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            pass
+            print e
 
 class SubscriptionStatusView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self,request,format='json'):
         try:
+            # First check if the customer has a cancelled and expired subscription
+            customer = lookup_customer(request.user)
+            if customer.subscription_has_expired():
+                # Subscription has expired, can remove it here
+                customer.subscription_id = None
+                customer.expiry_date = None
+                customer.save()
+                return Response({'errors':["User's subscription has expired"]},status=status.HTTP_402_PAYMENT_REQUIRED)
+
             subscription = get_subscription(request.user)
             if subscription is None:
                 return Response({'errors':['User is not subscribed']},status=status.HTTP_404_NOT_FOUND)
+
             sub_data = {
                 'status' : subscription.status,
                 'price' : subscription.price,
                 'start_date' : subscription.created_at,
-                'renewal_date' : subscription.next_billing_date,
+                'renewal_date' : subscription.billing_period_end_date,
             }
             return Response(sub_data,status=status.HTTP_200_OK)
+
         except Exception as e:
+            print e
             return Response({'errors':['Could not find subscription for user']},status=status.HTTP_400_BAD_REQUEST)
 
 class SubscriptionChangePaymentMethodView(APIView):
