@@ -2,7 +2,7 @@ import braintree
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
-from subscriptions.customer_management import *
+from subscription_manager import SubscriptionManager, BraintreeError
 
 class GenerateClientTokenView(APIView):
 
@@ -14,95 +14,132 @@ class GenerateClientTokenView(APIView):
             return Response({'errors':['Braintree client token could not be generated']},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class SubscriptionCreationView(APIView):
+    """
+    View for creating a subscription for a user. Assumes they have a payment method already set up (and throws an
+    error if no payment method can be found
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self,request,format='json'):
         try:
-            try:
-                payment_method_nonce = request.data['payment_method_nonce']
-            except KeyError as e:
-                return Response({'errors':['No payment method provided.']},status=status.HTTP_402_PAYMENT_REQUIRED)
-            result = add_payment_method(request.user,payment_method_nonce)
-            if not result:
-                return Response({'errors':['Could not create payment method.']},status=status.HTTP_400_BAD_REQUEST)
-            try:
-                subscription_created = create_dentest_subscription(request.user,result)
-            except BraintreeError as e:
-                return Response({'errors':[e.message]},status=status.HTTP_400_BAD_REQUEST)
-            if not subscription_created:
-                return Response({'errors':['Subscription could not be created. Please check payment details']},status=status.HTTP_400_BAD_REQUEST)
-            return Response({},status=status.HTTP_201_CREATED)
-        except Exception as e:
-            print e
+            braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors':["User not initialized properly. Please contact support"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if braintree_user.payment_method_token is None or braintree_user.payment_method_token == "":
+            return Response({'errors':["User must set up a payment method first"]}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            SubscriptionManager.subscribe(braintree_user)
+            return Response({},status.HTTP_201_CREATED)
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors':["Could not create subscription. Please try again."]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class SubscriptionCancelView(APIView):
+    """
+    View for a user to request their subscription be cancelled
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self,request,format='json'):
         try:
-            cancel_dentest_subscription(request.user)
+            braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors':["User not initialized properly. Please contact support"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        try:
+            SubscriptionManager.request_cancel(braintree_user)
             return Response({},status=status.HTTP_202_ACCEPTED)
-        except braintree.exceptions.not_found_error.NotFoundError as e:
-            return Response({'errors':['User does not have an active subscription']},status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            print e
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors':[e.message]},status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class SubscriptionStatusView(APIView):
+    """
+    View for retireving information about the user's subscription
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self,request,format='json'):
+        # First fetch the users braintree account
         try:
-            # First check if the customer has a cancelled and expired subscription
-            customer = lookup_customer(request.user)
-            if customer.subscription_has_expired():
-                # Subscription has expired, can remove it here
-                customer.subscription_id = None
-                customer.expiry_date = None
-                customer.save()
-                return Response({'errors':["User's subscription has expired"]},status=status.HTTP_402_PAYMENT_REQUIRED)
+            braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors':["User's account is not set up correctly. Please contact support"]},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            subscription = get_subscription(request.user)
-            if subscription is None:
-                return Response({'errors':['User is not subscribed']},status=status.HTTP_404_NOT_FOUND)
+        subscription_info = {}
+        # First case to handle is when user does not have a subscription
+        if braintree_user.subscription_id == "" or braintree_user.subscription_id is None:
+            return Response({},status=status.HTTP_200_OK)
 
-            sub_data = {
-                'status' : subscription.status,
-                'price' : subscription.price,
-                'start_date' : subscription.created_at,
-                'renewal_date' : subscription.billing_period_end_date,
-            }
-            return Response(sub_data,status=status.HTTP_200_OK)
+        # Further cases will require info from braintree
+        try:
+            subscription_obj = SubscriptionManager.fetch_subscription_from_braintree(braintree_user)
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors': ["Something went wrong. Please try again later"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        except Exception as e:
-            print e
-            return Response({'errors':['Could not find subscription for user']},status=status.HTTP_400_BAD_REQUEST)
+        sub_status = SubscriptionManager.convert_subscription_status_to_string(subscription_obj.status)
+        first_billing_date = subscription_obj.billing_period_start_date
+        next_billing_or_cancel_date = subscription_obj.billing_period_end_date
+        created_at = subscription_obj.created_at
+        price = subscription_obj.price
+
+        if braintree_user.pending_cancel:
+            sub_status = "Pending Cancellation"
+
+        subscription_info["status"] = sub_status
+        subscription_info["first_billing_date"] = first_billing_date
+        subscription_info["renewal_or_cancel_date"] = next_billing_or_cancel_date
+        subscription_info["date_of_creation"] = created_at
+        subscription_info["price"] = price
+
+        return Response(subscription_info, status=status.HTTP_200_OK)
+
+
 
 class SubscriptionChangePaymentMethodView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
     def post(self,request,format='json'):
-        # Check the user actually has a subscription
-        subscription = get_subscription(request.user)
-        if subscription is None:
-            return Response({'errors':['User doesnt have a subscription. Cannot change payment method']},status.HTTP_404_NOT_FOUND)
-        # Now check for the payment nonce
         try:
-            payment_method_nonce = request.data['payment_method_nonce']
-        except KeyError as e:
-            return Response({'errors':['No payment method provided.']},status=status.HTTP_402_PAYMENT_REQUIRED)
-        # We can now try to change their payment method
+            braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors':["User's account is not set up correctly. Please contact support"]},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if 'payment_method_nonce' not in request.data:
+            return Response({'errors':["No payment details provided."]},status=status.HTTP_400_BAD_REQUEST)
+        payment_method_nonce = request.data['payment_method_nonce']
+
         try:
-            change_payment_method(request.user,payment_method_nonce)
+            SubscriptionManager.change_payment_method(braintree_user,payment_method_nonce)
             return Response({},status=status.HTTP_202_ACCEPTED)
-        except Exception as e:
-            return Response({'errors':['Could not process payment change']},status=status.HTTP_400_BAD_REQUEST)
+        except BraintreeError as e:
+            print e.message
+            return Response({'errors':["Could not change payment method! Please try again."]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 class PlanInfoView(APIView):
+    """
+    Retrieve information about the subscription plan for the app. All users will share the same plan.
+    """
     permission_classes = (permissions.IsAuthenticated,)
 
     def get(self,request,format='json'):
-        plan = get_subscription_plan()
+        plan = SubscriptionManager.get_subscription_plan()
         if plan is None:
             return Response({'errors':['No subscription plan found']},status=status.HTTP_404_NOT_FOUND)
         else:

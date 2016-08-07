@@ -7,6 +7,7 @@ from serializers import *
 from mixins import QuestionApiMixin
 from pagination import *
 
+from subscriptions.subscription_manager import SubscriptionManager
 
 class TopicView(ListCreateAPIView):
     """Allows listing and creating of Topics"""
@@ -49,7 +50,7 @@ class QuestionListCreateView(QuestionApiMixin, ListCreateAPIView):
         """
 
         # No filtering. Just display all questions user has permissions for
-        if self.privileged_user():
+        if SubscriptionManager.can_user_access_subscription_content(self.request.user):
             return Question.objects.all()
         else:
             return Question.objects.filter(restricted=False)
@@ -103,7 +104,7 @@ class QuestionRetrieveView(QuestionApiMixin, RetrieveAPIView):
         except:
             raise Http404
 
-        if question.restricted and not self.privileged_user():
+        if question.restricted and not SubscriptionManager.can_user_access_subscription_content(self.request.user):
             raise PermissionDenied
         return question
 
@@ -122,7 +123,7 @@ class QuestionsListByTopic(QuestionApiMixin, ListAPIView):
         if not questions_r.exists():
             raise Http404  # Topic is empty (contains no questions)
 
-        if self.privileged_user():
+        if SubscriptionManager.can_user_access_subscription_content(self.request.user):
             return questions_r  # Give privileged user all questions
 
         questions = Question.objects.filter(subtopic__in=subtopics, restricted=False)
@@ -148,7 +149,7 @@ class QuestionsListBySubtopic(QuestionApiMixin, ListAPIView):
             if not questions_r.exists():
                 # User picked an empty topic
                 raise Http404
-            if self.privileged_user():
+            if SubscriptionManager.can_user_access_subscription_content(self.request.user):
                 return questions_r
             questions = Question.objects.filter(subtopic=subtopic_pk, restricted=False)
 
@@ -167,7 +168,7 @@ class QuestionsBySearch(QuestionApiMixin, ListAPIView):
         if search_terms is None:
             raise ValidationError("Must provide a search term")
 
-        if self.privileged_user():
+        if SubscriptionManager.can_user_access_subscription_content(self.request.user):
             questions = Question.objects.all()
         else:
             questions = Question.objects.filter(restricted=False)

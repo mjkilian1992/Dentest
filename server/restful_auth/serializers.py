@@ -1,9 +1,11 @@
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+
+from subscriptions.subscription_manager import SubscriptionManager
+
 from models import *
-from subscriptions.customer_management import create_new_customer
 from validators import *
 
 EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE')
@@ -57,13 +59,11 @@ class UserModelSerializer(serializers.ModelSerializer):
                                                 password=password,
                                                 first_name=first_name,
                                                 last_name=last_name)
-                group = Group.objects.get(name="Free")
-                group.user_set.add(user)
                 emailaddress = EmailAddress(user=user,email=email)
                 user.save()
                 emailaddress.save()
                 emailaddress.send_confirmation()
-                create_new_customer(user)
+                SubscriptionManager.create_new_customer(user)
         except Exception as e:
             raise serializers.ValidationError(e.message)
         return user

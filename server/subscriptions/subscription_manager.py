@@ -6,6 +6,7 @@ from dentest import settings as server_settings
 
 from django.db import transaction
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from subscriptions.models import BraintreeUser
 from braintree.customer import Customer
 
@@ -16,6 +17,20 @@ class BraintreeError(Exception):
 class SubscriptionManager(object):
 
     @classmethod
+    def fetch_braintree_user(cls,user):
+        """
+        Look up the BraintreeUser instance connected to the provided user. Raises a BraintreeError if a BraintreeUser
+        cannot be found for this user.
+        """
+        try:
+            braintree_user = BraintreeUser.objects.get(user=user)
+        except ObjectDoesNotExist as e:
+            raise BraintreeError("No instance of BraintreeUser found associated with user " + str(user))
+        except MultipleObjectsReturned as e:
+            raise BraintreeError("Multiple BraintreeUser instances attached to this user " + str(user))
+        return braintree_user
+
+    @classmethod
     def create_new_customer(cls,user):
         """
         Create a new Braintree Customer for the user and store their Braintree ID linked to their Django user.
@@ -23,24 +38,25 @@ class SubscriptionManager(object):
         """
         # Check this user does not already have a Braintree ID
         if len(BraintreeUser.objects.filter(user=user)) > 0:
-            raise BraintreeError()
-        with transaction.atomic():
-            result = Customer.create({
-                'first_name': user.first_name,
-                'last_name': user.last_name,
-                'email': user.email,
-            })
-            if not result.is_success:
-                return None
+            raise BraintreeError("This user already has a BraintreeUser instance associated with them. User: " + str(user))
 
-            id = result.customer.id
-            customerRef = BraintreeUser(
-                user=user,
-                customer_id=id,
-                pending_cancel = False
-            )
-            customerRef.save()
-            return customerRef
+        result = Customer.create({
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+        })
+        if not result.is_success:
+            return None
+
+        id = result.customer.id
+        customerRef = BraintreeUser(
+            user=user,
+            customer_id=id,
+            active = False,
+            pending_cancel = False
+        )
+        customerRef.save()
+        return customerRef
 
     @classmethod
     def subscribe(cls,braintree_customer):
@@ -169,6 +185,36 @@ class SubscriptionManager(object):
             raise BraintreeError("Could not fetch state for user " + str(braintree_customer.user) + " with braintree details " +
                                  str(braintree_customer) + "!")
 
+    @classmethod
+    def get_account_info_for_user(cls,user):
+        try:
+            account = BraintreeUser.objects.get(user=user)
+            return account
+        except ObjectDoesNotExist, MultipleObjectsReturned:
+            return None
+
+    @classmethod
+    def can_user_access_subscription_content(cls,user):
+        account = SubscriptionManager.get_account_info_for_user(user)
+        if user.is_staff:
+            return True
+        elif account is None:
+            return False
+        else:
+            return account.active
+
+
+    @classmethod
+    def get_subscription_plan(cls):
+        try:
+            plan = braintree.Plan.all()[0]
+            return {
+                'billing_frequency': plan.billing_frequency,
+                'price': plan.price,
+            }
+        except Exception as e:
+            print e
+            return None
 
     @classmethod
     def convert_braintree_time_to_server_time(cls,braintree_timestamp):
@@ -194,3 +240,16 @@ class SubscriptionManager(object):
     def is_braintree_subscription_in_terminating_state(cls,subscription):
         status = subscription.status
         return status != braintree.Subscription.Status.PastDue and (status == braintree.Subscription.Status.Canceled or braintree.Subscription.Status.Expired)
+
+    @classmethod
+    def convert_subscription_status_to_string(cls,status):
+        if status == braintree.Subscription.Status.Active:
+            return "Active"
+        elif status == braintree.Subscription.Status.Pending:
+            return "Pending"
+        elif status == braintree.Subscription.Status.PastDue:
+            return "Problem collecting payment"
+        elif status == braintree.Subscription.Status.Canceled:
+            return "Cancelled"
+        else:
+            return "Expired"

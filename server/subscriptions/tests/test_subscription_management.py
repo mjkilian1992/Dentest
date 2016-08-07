@@ -332,6 +332,7 @@ class SubscriptionManagementTestCase(TestCase):
             'payment_method_token' : self.create_payment_success_response.payment_method.token
         })
 
+#====================================== RENEWAL ====================================================================
 
     def test_renew_user_not_subscribed(self):
         """
@@ -367,6 +368,7 @@ class SubscriptionManagementTestCase(TestCase):
         with self.assertRaises(BraintreeError):
             SubscriptionManager.renew(self.braintree_customer)
 
+#========================================= CANCELLATION ON BRAINTREE ================================================
 
     def test_cancel_on_braintree_success(self):
         """
