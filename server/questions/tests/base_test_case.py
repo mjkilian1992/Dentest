@@ -1,10 +1,10 @@
+from mockito import *
 from django.test import TestCase
 from django.contrib.auth.models import User, Group
 from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from questions.models import *
-from subscriptions import customer_management
-
+from subscriptions.subscription_manager import SubscriptionManager
 
 class BaseQuestionAPITestCase(TestCase):
     def setUp(self):
@@ -80,15 +80,13 @@ class BaseQuestionAPITestCase(TestCase):
                                      subtopic=s3,
                                      restricted=True)
 
-        def test_premium_user(user):
-            return user == self.premium_user
-
-        # Mock out premium test
-        customer_management.is_premium_user = test_premium_user
-
+        when(SubscriptionManager).can_user_access_subscription_content(self.premium_user).thenReturn(True)
+        when(SubscriptionManager).can_user_access_subscription_content(self.free_user).thenReturn(False)
+        when(SubscriptionManager).can_user_access_subscription_content(self.staff_user).thenReturn(True)
 
     def tearDown(self):
         # Destroy all database entities
+        unstub()
         User.objects.all().delete()
         Group.objects.all().delete()
         Question.objects.all().delete()

@@ -10,6 +10,7 @@ angular.module('subscriptions').directive('braintreePaymentForm', ['$location','
 
             var callService = function(nonce){
                 if(scope.newSubscription=='true'){
+                    SubscriptionService.change_payment_method(nonce);
                     SubscriptionService.subscribe(nonce);
                     SubscriptionService.init();
                     $location.path('/subscribe_success');

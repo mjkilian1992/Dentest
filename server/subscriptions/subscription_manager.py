@@ -1,15 +1,16 @@
 import braintree
 import settings
+import logging
 import pytz, datetime
 
 from dentest import settings as server_settings
 
-from django.db import transaction
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from subscriptions.models import BraintreeUser
 from braintree.customer import Customer
 
+LOGGER = logging.getLogger(__name__)
 
 class BraintreeError(Exception):
     pass
@@ -25,8 +26,10 @@ class SubscriptionManager(object):
         try:
             braintree_user = BraintreeUser.objects.get(user=user)
         except ObjectDoesNotExist as e:
+            LOGGER.exception("No braintree account associated with user %s. Must create one!",user)
             raise BraintreeError("No instance of BraintreeUser found associated with user " + str(user))
         except MultipleObjectsReturned as e:
+            LOGGER.exception("Multiple braintree accounts associated with user %s", user)
             raise BraintreeError("Multiple BraintreeUser instances attached to this user " + str(user))
         return braintree_user
 
@@ -38,6 +41,7 @@ class SubscriptionManager(object):
         """
         # Check this user does not already have a Braintree ID
         if len(BraintreeUser.objects.filter(user=user)) > 0:
+            LOGGER.error("Tried to create a duplicate braintree account for user %s", user)
             raise BraintreeError("This user already has a BraintreeUser instance associated with them. User: " + str(user))
 
         result = Customer.create({
@@ -76,12 +80,15 @@ class SubscriptionManager(object):
         })
 
         if not result.is_success:
+            LOGGER.exception("Could not subscribed user %s. Reason: %s", str(braintree_customer.user), str(result.errors.deep_errors))
             raise BraintreeError("Could not subscribe user: " + str(braintree_customer.user.username) + ". Reason: " + str(result.errors.deep_errors))
 
         subscription = result.subscription
         # Check that the subscription is active
 
-        braintree_customer.expiry_date = cls.convert_braintree_time_to_server_time(subscription.billing_period_end_date)
+        # billing period end date will be None if the subscription is in the future
+        if(subscription.billing_period_end_date is not None):
+            braintree_customer.expiry_date = cls.convert_braintree_time_to_server_time(subscription.billing_period_end_date)
         braintree_customer.subscription_id = subscription.id
         braintree_customer.active = cls.is_braintree_subscription_active(subscription)
         braintree_customer.save()
@@ -182,6 +189,7 @@ class SubscriptionManager(object):
             result = braintree.Subscription.find(braintree_customer.subscription_id)
             return result
         except Exception as e:
+            LOGGER.error("Could not fetch Braintree state for user: %s",str(braintree_customer.user))
             raise BraintreeError("Could not fetch state for user " + str(braintree_customer.user) + " with braintree details " +
                                  str(braintree_customer) + "!")
 
@@ -195,10 +203,10 @@ class SubscriptionManager(object):
 
     @classmethod
     def can_user_access_subscription_content(cls,user):
-        account = SubscriptionManager.get_account_info_for_user(user)
         if user.is_staff:
             return True
-        elif account is None:
+        account = SubscriptionManager.get_account_info_for_user(user)
+        if account is None:
             return False
         else:
             return account.active
@@ -213,7 +221,7 @@ class SubscriptionManager(object):
                 'price': plan.price,
             }
         except Exception as e:
-            print e
+            LOGGER.exception("Could not fetch the subscription plan from Braintree.")
             return None
 
     @classmethod

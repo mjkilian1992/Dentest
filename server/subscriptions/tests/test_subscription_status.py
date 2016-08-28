@@ -83,7 +83,7 @@ class SubscriptionStatusTestCase(TestCase):
 
         response = self.client.get('/subscription_status/')
         self.assertEqual(response.status_code,status.HTTP_200_OK)
-        self.assertEqual(response.data,{})
+        self.assertEqual(response.data,{'user_not_subscribed':True})
         
         
     def test_status_user_active(self):

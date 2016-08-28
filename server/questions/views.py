@@ -17,7 +17,7 @@ class QuizView(APIView):
 
     def post(self,request,format=None):
         # Restrict access to paid users
-        if not SubscriptionManager.can_user_access_subscription_contect(request.user):
+        if not SubscriptionManager.can_user_access_subscription_content(request.user):
             raise PermissionDenied
 
         # Get raw questions

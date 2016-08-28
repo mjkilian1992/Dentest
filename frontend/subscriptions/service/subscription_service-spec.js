@@ -33,11 +33,11 @@ describe('SubscriptionService', function () {
 
         it('Should take a payment method nonce and send it to the correct endpoint. It should then update the user status', function () {
             backend.expectPOST(baseURL + '/subscribe/').respond(200, {});
-            backend.expectGET(REST_BASE_URL + '/plan_info/').respond(200, {
+            backend.expectGET(baseURL + '/plan_info/').respond(200, {
                 billing_frequency: 365,
                 price: 30
             });
-            backend.expectGET(REST_BASE_URL + '/subscription_status/').respond(404, {});
+            backend.expectGET(baseURL + '/subscription_status/').respond(404, {});
             SubService.subscribe("123456");
             backend.flush();
         });

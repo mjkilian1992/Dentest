@@ -53,15 +53,15 @@ class SubscriptionManagementTestCase(TestCase):
 
         self.subscription_active = mock()
         self.subscription_active.status = braintree.Subscription.Status.Active
-        self.subscription_active.billing_period_end_date = timezone.make_aware(datetime.datetime(2016,07,24,0,2,0),pytz.utc)
+        self.subscription_active.billing_period_end_date = datetime.datetime(2016,07,24,0,2,0)
 
         self.subscription_pending = mock()
         self.subscription_pending.status = braintree.Subscription.Status.Pending
-        self.subscription_pending.billing_period_end_date = timezone.make_aware(datetime.datetime(2016,11,02,0,2,0),pytz.utc)
+        self.subscription_pending.billing_period_end_date = datetime.datetime(2016,11,02,0,2,0)
 
         self.subscription_past_due = mock()
         self.subscription_past_due.status = braintree.Subscription.Status.PastDue
-        self.subscription_past_due.billing_period_end_date = timezone.make_aware(datetime.datetime(2016,10,03,0,2,0),pytz.utc)
+        self.subscription_past_due.billing_period_end_date = datetime.datetime(2016,10,03,0,2,0)
 
         self.subscription_cancelled = mock()
         self.subscription_cancelled.status = braintree.Subscription.Status.Canceled

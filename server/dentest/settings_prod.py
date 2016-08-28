@@ -8,10 +8,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Import Module Settings and Init Scripts
-from subscriptions import braintree_init
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -26,9 +22,9 @@ SECRET_KEY = 'q&(ymk$u0)=g9e3wukv6@qkly$&c-$=07ds#&jnt=0wicm@o^i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mjkilian1992.pythonanywhere.com']
 
 SITE_ID = 1
 
@@ -82,11 +78,14 @@ WSGI_APPLICATION = 'dentest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mjkilian1992$default',
+        'USER': 'mjkilian1992',
+        'PASSWORD': 'dentest',
+        'HOST': 'mjkilian1992.mysql.pythonanywhere-services.com',
+        'TEST_NAME': 'mjkilian1992$test_default',
     }
 }
-
 
 
 # Internationalization
@@ -109,7 +108,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Email Config
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "dentest.reg@gmail.com"
+EMAIL_HOST_PASSWORD = 'password196258'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 REST_FRAMEWORK = {
@@ -204,4 +210,5 @@ LOGGING = {
         },
     }
 }
+
 

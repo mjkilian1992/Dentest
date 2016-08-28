@@ -1,54 +1,139 @@
 <div class="col-md-12" class="ng-cloak" ng-controller="SubscriptionStatusCtrl as subStatusCtrl">
     <div ng-hide="subStatusCtrl.user_subscribed == null">
-        <div ng-show="subStatusCtrl.user_subscribed">
-
-            <div ng-class="subStatusCtrl.panel_scheme">
+        <!-- ========= USER NOT SUBSCRIBED ===============-->
+        <div ng-hide="subStatusCtrl.user_subscribed">
+            <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Subscription Status</h3>
+                    <h3 class="panel-title">No Subscription</h3>
+                </div>
+                <div class="panel-body">
+                    <p>You are not currently subscribed as a premium user. You can set up a subscription
+                        <a href="/subscribe">here</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!--=========== ACTIVE SUBSCRIPTION ================-->
+        <div ng-show="subStatusCtrl.user_subscribed && subStatusCtrl.subscription_data.status == 'Active'">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{subStatusCtrl.subscription_data.status}}</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table">
-                        <tr>
-                            <th>Status</th>
-                            <td>{{subStatusCtrl.subscription_data.status}}</td>
-                        </tr>
-                        <tr>
-                            <th>Price</th>
-                            <td>{{subStatusCtrl.subscription_data.price | currency:'£' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Started on</th>
-                            <td>{{subStatusCtrl.subscription_data.start_date | date:'mediumDate'}}</td>
-                        </tr>
-                        <tr>
-                            <th>Renewal Date</th>
-                            <td>{{subStatusCtrl.subscription_data.renewal_date | date:'mediumDate'}}</td>
-                        </tr>
+                        <tr><th>Price</th><td>{{subStatusCtrl.subscription_data.price | currency : "£" : 2}}</td></tr>
+                        <tr><th>Subscribed</th><td>{{subStatusCtrl.subscription_data.date_of_creation | date : "longDate" }}</td></tr>
+                        <tr><th>Renewal Date</th><td>{{subStatusCtrl.subscription_data.renewal_or_cancel_date | date : "longDate"}}</td></tr>
+                        <tr><th>First Billing Date</th><td>{{subStatusCtrl.subscription_data.first_billing_date | date : "longDate"}}</td></tr>
                     </table>
-                    <a class="btn btn-warning" href="/change_payment_method">Change Payment Method</a>
-                    <span ng-show="subStatusCtrl.subscription_data.status=='Active'">
-                        <span ng-include="'/subscriptions/partial/cancel/cancel.html'"></span>
-                    </span>
-                    <span ng-show="subStatusCtrl.subscription_data.status=='Canceled'">
-                        <a class="btn btn-primary" href="/subscribe">Renew Subscription</a>
-                    </span>
+                    <p>
+                        Your subscription is active and will be renewed at the shown renewal date above. You can
+                        change the payment method used for your subscription or cancel your subscription using the
+                        buttons below.
+                    </p>
+                    <div>
+                        <a class="btn btn-primary" href="">Change Payment Method</a>
+                        <a class="btn btn-danger" href="">Cancel My Subscription</a>
+                    </div>
                 </div>
             </div>
         </div>
-        <div ng-hide="subStatusCtrl.user_subscribed">
-            <div class="panel panel-warning">
+
+        <!--============== PENDING SUBSCRIPTION ====================== -->
+        <div ng-show="subStatusCtrl.user_subscribed && subStatusCtrl.subscription_data.status == 'Pending'">
+            <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Subscription Status</h3>
+                    <h3 class="panel-title">{{subStatusCtrl.subscription_data.status}}</h3>
                 </div>
                 <div class="panel-body">
-                    <p>You are not currently subscribed for premium access. Sign up for {{subStatusCtrl.plan_info.price
-                        |
-                        currency:'£'}}
-                        a year to get full access to all of our features. </p>
-
-                    <p><a href="/subscribe">Get a subscription now for full access to Dentest!</a></p>
+                    <table class="table">
+                        <tr><th>Price</th><td>{{subStatusCtrl.subscription_data.price | currency : "£" : 2}}</td></tr>
+                        <tr><th>Subscribed</th><td>{{subStatusCtrl.subscription_data.date_of_creation | date : "longDate" }}</td></tr>
+                    </table>
+                    <p>
+                        Your subscription is being processed and will be manageable as soon as your payment goes through.
+                    </p>
                 </div>
             </div>
         </div>
+
+        <!-- ============= PAST DUE ================================== -->
+        <div ng-show="subStatusCtrl.user_subscribed && subStatusCtrl.subscription_data.status == 'Problem collecting payment'">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{subStatusCtrl.subscription_data.status}}</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr><th>Price</th><td>{{subStatusCtrl.subscription_data.price | currency : "£" : 2}}</td></tr>
+                        <tr><th>Subscribed</th><td>{{subStatusCtrl.subscription_data.date_of_creation | date : "longDate" }}</td></tr>
+                        <tr><th>Renewal Date</th><td>{{subStatusCtrl.subscription_data.renewal_or_cancel_date | date : "longDate"}}</td></tr>
+                        <tr><th>First Billing Date</th><td>{{subStatusCtrl.subscription_data.first_billing_date | date : "longDate"}}</td></tr>
+                    </table>
+                    <p>
+                       We are having difficulty collecting payment from the method you provided. As such your
+                        subscription has been suspended until payment is received. You can change your payment method
+                        or cancel you subscription below:
+                    </p>
+                    <div>
+                        <a class="btn btn-primary" href="">Change Payment Method</a>
+                        <a class="btn btn-danger" href="">Cancel My Subscription</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- =============== PENDING CANCELLATION ================= -->
+        <div ng-show="subStatusCtrl.user_subscribed && subStatusCtrl.subscription_data.status == 'Pending Cancellation'">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{subStatusCtrl.subscription_data.status}}</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr><th>Price</th><td>{{subStatusCtrl.subscription_data.price | currency : "£" : 2}}</td></tr>
+                        <tr><th>Subscribed</th><td>{{subStatusCtrl.subscription_data.date_of_creation | date : "longDate" }}</td></tr>
+                        <tr><th>Subscription End Date</th><td>{{subStatusCtrl.subscription_data.renewal_or_cancel_date | date : "longDate"}}</td></tr>
+                        <tr><th>First Billing Date</th><td>{{subStatusCtrl.subscription_data.first_billing_date | date : "longDate"}}</td></tr>
+                    </table>
+                    <p>
+                       You have cancelled your subscription, but will still have premium access until your
+                        subscription end date. You can undo this before your subscription ends by clicking renew below.
+                        You can also change your payment method before doing so.
+
+                        If you renew your subscription you wont be charged again until the end of your current subscription.
+                    </p>
+                    <div>
+                        <a class="btn btn-primary" href="">Change Payment Method</a>
+                        <a class="btn btn-success" href="">Renew My Subscription</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================ CANCELLED ================-->
+        <div ng-show="subStatusCtrl.user_subscribed && subStatusCtrl.subscription_data.status == 'Cancelled'">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{subStatusCtrl.subscription_data.status}}</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr><th>Price</th><td>{{subStatusCtrl.subscription_data.price | currency : "£" : 2}}</td></tr>
+                        <tr><th>Subscribed</th><td>{{subStatusCtrl.subscription_data.date_of_creation | date : "longDate" }}</td></tr>
+                        <tr><th>Subscription End Date</th><td>{{subStatusCtrl.subscription_data.renewal_or_cancel_date | date : "longDate"}}</td></tr>
+                        <tr><th>First Billing Date</th><td>{{subStatusCtrl.subscription_data.first_billing_date | date : "longDate"}}</td></tr>
+                    </table>
+                    <p>
+                       Your subscription has been cancelled. You can restart your subscription below:
+                    </p>
+                    <div>
+                        <a class="btn btn-success" href="">Renew My Subscription</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

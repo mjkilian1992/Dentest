@@ -1,3 +1,5 @@
+import logging
+import traceback
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
@@ -8,7 +10,8 @@ from subscriptions.subscription_manager import SubscriptionManager
 from models import *
 from validators import *
 
-EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE')
+EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE')#
+LOGGER = logging.getLogger(__name__)
 
 class UserModelSerializer(serializers.ModelSerializer):
     """Serializer for Users. Any new fields should be added here"""
@@ -65,6 +68,7 @@ class UserModelSerializer(serializers.ModelSerializer):
                 emailaddress.send_confirmation()
                 SubscriptionManager.create_new_customer(user)
         except Exception as e:
+            logging.exception("Could not register new user.")
             raise serializers.ValidationError(e.message)
         return user
 
@@ -151,6 +155,7 @@ class PasswordResetSerializer(serializers.Serializer):
                 reset.save()
                 reset.send()
         except Exception as e:
+            LOGGER.exception("Could not create a password reset for user %s", user)
             raise serializers.ValidationError(e.message)
         return reset
 

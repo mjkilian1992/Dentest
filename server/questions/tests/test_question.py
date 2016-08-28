@@ -176,6 +176,7 @@ class QuestionTestCase(BaseQuestionAPITestCase):
 
         # should only return one question
         response = self.client.get('/questions_search/Have I run out/',format='json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
         data = json.loads(response.content)['results']
         self.assertEqual(data[0]['question'],'Have I run out of questions?')
         self.assertEqual(len(data),1)

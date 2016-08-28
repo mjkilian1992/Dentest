@@ -12,7 +12,8 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
         subscribe: REST_BASE_URL + '/subscribe/',
         cancel: REST_BASE_URL + '/cancel_subscription/',
         status: REST_BASE_URL + '/subscription_status/',
-        change_payment: REST_BASE_URL + '/change_payment_method/'
+        change_payment: REST_BASE_URL + '/change_payment_method/',
+        renew: REST_BASE_URL + '/renew_susbcription/'
     };
 
 	self.init = function(){
@@ -23,7 +24,7 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
                     self.token = response.data.token;
                 },
                 function (response) {
-                    console.error("Could not generate braintree client token")
+                    console.error("Could not generate client token")
                 }
             );
         }
@@ -37,9 +38,7 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
         );
         $http.get(endpoints.status).then(
             function(response){
-                if ( response.data.status=="Active"){
-                    self.is_subscribed = true;
-                }
+                self.is_subscribed = is_user_subscribed(response.data.status);
             },
             function(response){}
         );
@@ -52,9 +51,9 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
         return self.token;
     };
 
-    self.subscribe = function(payment_method_nonce){
+    self.subscribe = function(){
       var deferred = $q.defer();
-        $http.post(endpoints.subscribe,{payment_method_nonce:payment_method_nonce}).then(
+        $http.post(endpoints.subscribe).then(
             function(response){
                 deferred.resolve('Subscription Created!');
                 self.init();
@@ -64,6 +63,19 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
             }
         );
         return deferred.promise;
+    };
+
+    self.renew = function(){
+        var deffered = $q.defer();
+        $http.post(endpoints.renew).then(
+            function(reponse){
+                deffered.resolve('Subscription Renewed');
+                self.init();
+            },
+            function(response){
+                deffered.reject(response.data.errors);
+            }
+        )
     };
 
     self.cancel = function(){
@@ -83,9 +95,7 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
         var deferred = $q.defer();
         $http.get(endpoints.status).then(
             function(response){
-                if ( response.data.status=="Active"){
-                    self.is_subscribed = true;
-                }
+                self.is_subscribed = is_user_subscribed(response.data.status);
                 deferred.resolve(response.data);
             },
             function(response){
@@ -109,4 +119,10 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
     };
 
 
+    var is_user_subscribed = function(status){
+        if(status == "Active" || status=="Pending Cancellation"){
+            return true;
+        }
+        return false;
+    }
 }]);

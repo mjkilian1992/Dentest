@@ -1,4 +1,6 @@
-from django.core.exceptions import PermissionDenied
+import logging
+import traceback
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.http import Http404
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
@@ -8,6 +10,8 @@ from mixins import QuestionApiMixin
 from pagination import *
 
 from subscriptions.subscription_manager import SubscriptionManager
+
+LOGGER = logging.getLogger(__name__)
 
 class TopicView(ListCreateAPIView):
     """Allows listing and creating of Topics"""
@@ -20,6 +24,7 @@ class TopicView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         if not self.request.user.is_staff:
+            LOGGER.warning("Non-staff user attempted to create a topic. Username : %s",self.request.user.username)
             raise PermissionDenied  # Need to raise forbidden if not staff member
         serializer.save()
 
@@ -35,6 +40,7 @@ class SubtopicView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         if not self.request.user.is_staff:
+            LOGGER.warning("Non-staff user attempted to create a subtopic. Username : %s",self.request.user.username)
             raise PermissionDenied  # Need to raise forbidden if not staff member
         serializer.save()
 
@@ -57,6 +63,7 @@ class QuestionListCreateView(QuestionApiMixin, ListCreateAPIView):
 
     def perform_create(self, serializer):
         if not self.request.user.is_staff:
+            LOGGER.warning("Non-staff user attempted to add a question. Username : %s",self.request.user.username)
             raise PermissionDenied  # Need to raise forbidden if not staff member
         serializer.save()
 
@@ -72,7 +79,7 @@ class TopicRetrieveView(RetrieveAPIView):
         """Fetch a specfic topic by name"""
         try:
             topic = Topic.objects.get(pk=self.kwargs[self.lookup_url_kwarg])
-        except:
+        except ObjectDoesNotExist:
             raise Http404
         return topic
 
@@ -88,7 +95,7 @@ class SubtopicRetrieveView(RetrieveAPIView):
         '''Fetch a specfic subtopic by name'''
         try:
             subtopic = Subtopic.objects.get(topic=topic, name=subtopic)
-        except:
+        except ObjectDoesNotExist:
             raise Http404
         return subtopic
 
@@ -101,7 +108,7 @@ class QuestionRetrieveView(QuestionApiMixin, RetrieveAPIView):
         """If the user doesnt have permission to access the provided question, they are given 403 response"""
         try:
             question = Question.objects.get(pk=self.kwargs[self.lookup_url_kwarg])
-        except:
+        except ObjectDoesNotExist:
             raise Http404
 
         if question.restricted and not SubscriptionManager.can_user_access_subscription_content(self.request.user):
@@ -155,7 +162,7 @@ class QuestionsListBySubtopic(QuestionApiMixin, ListAPIView):
 
             if not questions.exists():
                 # Catch case where subtopic exists,
-                # but all qu`estions in it are restricted
+                # but all questions in it are restricted
                 raise PermissionDenied
             return questions
 

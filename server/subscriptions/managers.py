@@ -1,4 +1,7 @@
+import logging
 from subscription_manager import *
+
+LOGGER = logging.getLogger(__name__)
 
 class SubscriptionStatusManager():
     """Manager for accessing subscription statuses"""
@@ -26,7 +29,7 @@ class SubscriptionStatusManager():
                     user.expiry_date = subscription.billing_period_end_date
                 user.save()
             except BraintreeError as e:
-                print e.message
+                LOGGER.exception("Could not match braintree state for user %s",user)
 
     @classmethod
     def cancel_all_pending_cancel(cls, days_left=1):
@@ -38,13 +41,13 @@ class SubscriptionStatusManager():
         threshold = timezone.make_aware(SubscriptionManager.construct_next_billing_datetime() +
                                         timezone.timedelta(days=days_left),pytz.utc)
 
-        print "THRESHOLD: " + str(threshold)
+        LOGGER.info("Threshold date for cancellation: %s",str(threshold))
         users_pending_cancel = BraintreeUser.objects.filter(pending_cancel=True).filter(expiry_date__lte=threshold)
         for user in users_pending_cancel:
             try:
                 SubscriptionManager.cancel_on_braintree(user)
             except BraintreeError as e:
-                print e
+                LOGGER.exception("Could not cancel subscription for %s on braintree. Needs to be done manually!",user)
 
 
 

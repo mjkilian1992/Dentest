@@ -3,6 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from subscription_manager import SubscriptionManager, BraintreeError
+import traceback
+import logging
+
+LOGGER = logging.getLogger(__name__)
 
 class GenerateClientTokenView(APIView):
 
@@ -26,18 +30,43 @@ class SubscriptionCreationView(APIView):
         try:
             braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
         except BraintreeError as e:
-            print e.message
-            return Response({'errors':["User not initialized properly. Please contact support"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'errors':["User  not initialized properly. Please contact support"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         if braintree_user.payment_method_token is None or braintree_user.payment_method_token == "":
             return Response({'errors':["User must set up a payment method first"]}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
             SubscriptionManager.subscribe(braintree_user)
+            LOGGER.info("New subscription created for user %s",str(self.request.user))
             return Response({},status.HTTP_201_CREATED)
         except BraintreeError as e:
-            print e.message
+            LOGGER.error("Failed to subscribed user %s", str(self.request.user))
             return Response({'errors':["Could not create subscription. Please try again."]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            LOGGER.exception("Unknown exception in subscription creation.")
+            return Response({'errors':[e.message]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class SubscriptionRenewalView(APIView):
+    """
+    View for renewing a subscription. Fails if:
+        - The user is already subscribed
+        - There isnt a valid payment method for the user
+    """
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, format='json'):
+        try:
+            braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
+        except BraintreeError:
+            return Response({'errors':["User not initialized properly. Please contact support"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        try:
+            SubscriptionManager.renew(braintree_user)
+            LOGGER.info("Renewed subscription for user %s",str(self.request.user))
+            return Response({}, status=status.HTTP_202_ACCEPTED)
+        except Exception as e:
+            LOGGER.exception("Unknown exception in subscription renewal.")
+            return Response({'errors':[e.message]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class SubscriptionCancelView(APIView):
@@ -49,15 +78,14 @@ class SubscriptionCancelView(APIView):
     def post(self,request,format='json'):
         try:
             braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
-        except BraintreeError as e:
-            print e.message
+        except BraintreeError:
             return Response({'errors':["User not initialized properly. Please contact support"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         try:
             SubscriptionManager.request_cancel(braintree_user)
             return Response({},status=status.HTTP_202_ACCEPTED)
         except BraintreeError as e:
-            print e.message
+            LOGGER.exception("Failed to move subscription for %s to pending cancel.",str(self.request.user))
             return Response({'errors':[e.message]},status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -72,21 +100,20 @@ class SubscriptionStatusView(APIView):
         # First fetch the users braintree account
         try:
             braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
-        except BraintreeError as e:
-            print e.message
+        except BraintreeError:
             return Response({'errors':["User's account is not set up correctly. Please contact support"]},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         subscription_info = {}
         # First case to handle is when user does not have a subscription
         if braintree_user.subscription_id == "" or braintree_user.subscription_id is None:
-            return Response({},status=status.HTTP_200_OK)
+            return Response({'user_not_subscribed':True},status=status.HTTP_200_OK)
 
         # Further cases will require info from braintree
         try:
             subscription_obj = SubscriptionManager.fetch_subscription_from_braintree(braintree_user)
-        except BraintreeError as e:
-            print e.message
+        except BraintreeError:
+            LOGGER.exception("Could not fetch user info from braintree!")
             return Response({'errors': ["Something went wrong. Please try again later"]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         sub_status = SubscriptionManager.convert_subscription_status_to_string(subscription_obj.status)
@@ -115,7 +142,6 @@ class SubscriptionChangePaymentMethodView(APIView):
         try:
             braintree_user = SubscriptionManager.fetch_braintree_user(request.user)
         except BraintreeError as e:
-            print e.message
             return Response({'errors':["User's account is not set up correctly. Please contact support"]},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -127,7 +153,7 @@ class SubscriptionChangePaymentMethodView(APIView):
             SubscriptionManager.change_payment_method(braintree_user,payment_method_nonce)
             return Response({},status=status.HTTP_202_ACCEPTED)
         except BraintreeError as e:
-            print e.message
+            LOGGER.exception("Failed to change user %s payment method",str(self.request.user))
             return Response({'errors':["Could not change payment method! Please try again."]},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
