@@ -1,6 +1,6 @@
 from django.db import models
 
-import watson
+import watson.search
 
 # Must be unicode! This is how they are stored in the database
 class Topic(models.Model):
@@ -52,4 +52,5 @@ class Question(models.Model):
 
 
 # Register Watson Models
-watson.register(Question)
+
+watson.search.register(Question)

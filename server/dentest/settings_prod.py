@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'corsheaders',
 
     #Third Party Apps#
+    'tinymce',
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
@@ -58,7 +59,7 @@ INSTALLED_APPS = (
 CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware', #REMOVE ON DEPLOYMENT
+    'sslify.middleware.SSLifyMiddleware'
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -121,7 +122,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
     ),
 }
 
@@ -158,7 +159,7 @@ PASSWORD_COMPLEXITY = { # You can omit any or all of these for no limit for that
     "LOWER": 1,        # Lowercase
     "LETTERS": 1,       # Either uppercase or lowercase letters
     "DIGITS": 1,       # Digits
-    "PUNCTUATION": 1,  # Punctuation (string.punctuation)
+    #"PUNCTUATION": 1,  # Punctuation (string.punctuation)
     #"SPECIAL": 1,      # Not alphanumeric, space or punctuation character
     #"WORDS": 1         # Words (alphanumeric sequences separated by a whitespace or punctuation character)
 }

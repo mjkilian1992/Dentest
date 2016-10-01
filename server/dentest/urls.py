@@ -2,7 +2,15 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from questions import generic_views as q_views
 from questions import views as single_q_views
+from questions.question_entry_views import question_entry
 from subscriptions import views as s_views
+from adminplus.sites import AdminSitePlus
+
+admin.site = AdminSitePlus()
+admin.autodiscover()
+
+# admin extensions
+admin.site.register_view('dataentry', view=question_entry)
 
 urlpatterns = patterns('',
 

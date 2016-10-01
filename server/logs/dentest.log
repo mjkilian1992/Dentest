@@ -1,214 +1,197 @@
-INFO 2016-08-28 13:37:01,198 managers 25912 140298854348608 Threshold date for cancellation: 2016-07-27 00:00:00+00:00
-ERROR 2016-08-28 13:37:01,218 managers 25912 140298854348608 Could not match braintree state for user BraintreeUser: {User : ActiveFarFromExpiry, CustomerID: active_far_from_expiry_customer, SubscriptionID: ActiveFarSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}
+ERROR 2016-10-01 10:57:14,873 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/corsheaders/middleware.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,117 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/staticfiles/templatetags/staticfiles.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,122 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/tinymce/templatetags/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,123 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/templatetags/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,123 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/locale/en/formats.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,123 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/templatetags/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,123 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/watson/templatetags/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,124 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/staticfiles/templatetags/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,124 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django_countries/templatetags/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,124 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/core/context_processors.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,125 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/templatetags/future.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,125 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/templatetags/static.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,125 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/template/loaders/filesystem.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,125 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/messages/context_processors.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,125 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/locale/en/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,126 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/staticfiles/storage.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,126 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/auth/context_processors.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,126 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/locale/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,130 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/admin/forms.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,134 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/template/debug.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,134 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/templatetags/i18n.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,134 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/template/loaders/app_directories.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:15,135 pyinotify 3477 139824978085632 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/templatetags/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
+WARNING 2016-10-01 10:57:15,432 base 3477 139824978085632 Not Found: /favicon.ico
+ERROR 2016-10-01 10:57:16,984 pyinotify 3477 139824978085632 add_watch: cannot watch /home/michael/DentestRevised/server/restful_auth/backends.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:17,162 pyinotify 3477 139824966285056 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/admin/templatetags/log.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:20,251 pyinotify 3477 139824957892352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/admin/templatetags/admin_list.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:20,422 pyinotify 3477 139824740693760 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/views/i18n.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:24,005 pyinotify 3477 139824732301056 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/admin/templatetags/admin_modify.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:24,007 pyinotify 3477 139824732301056 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/templatetags/l10n.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:38,985 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/templatetags/crispy_forms_tags.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:38,986 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/layout_slice.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:38,987 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/layout.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:38,991 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/bootstrap.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:38,991 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/base.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:38,992 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/helper.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:38,992 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/templatetags/crispy_forms_filters.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:39,001 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/templatetags/crispy_forms_field.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:39,003 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/utils.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:39,003 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/templatetags/crispy_forms_utils.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:39,004 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/compatibility.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2016-10-01 10:57:39,004 pyinotify 3477 139824723908352 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/crispy_forms/exceptions.py WD=-1, Errno=No space left on device (ENOSPC)
+INFO 2016-10-01 11:48:14,575 connectionpool 4623 139920486483776 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:48:15,292 subscription_manager 4623 139920486483776 Could not fetch Braintree state for user: michaeljkilian
+ERROR 2016-10-01 11:48:15,293 managers 4623 139920486483776 Could not match braintree state for user BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}
 Traceback (most recent call last):
   File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
     subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
   File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
     str(braintree_customer) + "!")
-BraintreeError: Could not fetch state for user ActiveFarFromExpiry with braintree details BraintreeUser: {User : ActiveFarFromExpiry, CustomerID: active_far_from_expiry_customer, SubscriptionID: ActiveFarSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}!
-ERROR 2016-08-28 13:37:01,219 managers 25912 140298854348608 Could not match braintree state for user BraintreeUser: {User : ActiveNotPendingCancel, CustomerID: active_customer, SubscriptionID: ActiveNotCancelPendingSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}
+BraintreeError: Could not fetch state for user michaeljkilian with braintree details BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}!
+INFO 2016-10-01 11:48:15,391 connectionpool 4623 139920486483776 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:48:16,117 subscription_manager 4623 139920486483776 Could not fetch Braintree state for user: testAfterSubscriptionUpdates
+ERROR 2016-10-01 11:48:16,117 managers 4623 139920486483776 Could not match braintree state for user BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}
 Traceback (most recent call last):
   File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
     subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
   File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
     str(braintree_customer) + "!")
-BraintreeError: Could not fetch state for user ActiveNotPendingCancel with braintree details BraintreeUser: {User : ActiveNotPendingCancel, CustomerID: active_customer, SubscriptionID: ActiveNotCancelPendingSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}!
-ERROR 2016-08-28 13:37:02,007 views 25912 140298854348608 Failed to move subscription for test123 to pending cancel.
-Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/views.py", line 85, in post
-    SubscriptionManager.request_cancel(braintree_user)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/mocking.py", line 107, in new_mocked_method
-    return call(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/mocking.py", line 45, in __call__
-    return invoc(*params, **named_params)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 92, in __call__
-    return matching_invocation.answer_first()
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 51, in answer_first
-    return self.answers[0].answer() if self.answers is not None else None
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 205, in answer
-    return a.answer()
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 213, in answer
-    raise self.exception
-BraintreeError
-ERROR 2016-08-28 13:37:06,694 views 25912 140298854348608 Failed to subscribed user test123
-INFO 2016-08-28 13:37:11,707 views 25912 140298854348608 New subscription created for user test123
-ERROR 2016-08-28 13:43:42,916 subscription_manager 26087 140007560656704 Could not fetch Braintree state for user: ActiveFarFromExpiry
-ERROR 2016-08-28 13:43:42,917 subscription_manager 26087 140007560656704 Could not fetch Braintree state for user: ActiveNotPendingCancel
-ERROR 2016-08-28 13:43:45,776 subscription_manager 26087 140007560656704 No braintree account associated with user NotInitialized. Must create one!
-Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 27, in fetch_braintree_user
-    braintree_user = BraintreeUser.objects.get(user=user)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py", line 92, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 357, in get
-    self.model._meta.object_name)
-DoesNotExist: BraintreeUser matching query does not exist.
-ERROR 2016-08-28 13:43:52,860 subscription_manager 26087 140007560656704 No braintree account associated with user NotInitialized. Must create one!
-Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 27, in fetch_braintree_user
-    braintree_user = BraintreeUser.objects.get(user=user)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py", line 92, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 357, in get
-    self.model._meta.object_name)
-DoesNotExist: BraintreeUser matching query does not exist.
-INFO 2016-08-28 13:44:01,444 managers 26127 140073088280384 Threshold date for cancellation: 2016-07-27 00:00:00+00:00
-ERROR 2016-08-28 13:44:01,464 managers 26127 140073088280384 Could not match braintree state for user BraintreeUser: {User : ActiveFarFromExpiry, CustomerID: active_far_from_expiry_customer, SubscriptionID: ActiveFarSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}
-Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
-    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
-  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
-    str(braintree_customer) + "!")
-BraintreeError: Could not fetch state for user ActiveFarFromExpiry with braintree details BraintreeUser: {User : ActiveFarFromExpiry, CustomerID: active_far_from_expiry_customer, SubscriptionID: ActiveFarSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}!
-ERROR 2016-08-28 13:44:01,465 managers 26127 140073088280384 Could not match braintree state for user BraintreeUser: {User : ActiveNotPendingCancel, CustomerID: active_customer, SubscriptionID: ActiveNotCancelPendingSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}
-Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
-    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
-  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
-    str(braintree_customer) + "!")
-BraintreeError: Could not fetch state for user ActiveNotPendingCancel with braintree details BraintreeUser: {User : ActiveNotPendingCancel, CustomerID: active_customer, SubscriptionID: ActiveNotCancelPendingSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}!
-INFO 2016-08-28 13:49:10,628 views 26308 140402186360640 Password reset requested for user AnonymousUser
-INFO 2016-08-28 13:49:10,962 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:11,884 views 26308 140402186360640 New user RegistrationSerializer(data={u'username': u'test1', u'password1': u'GBG18H42,]bb', u'first_name': u'michael', u'last_name': u'kilian', u'password2': u'GBG18H42,]bb', u'email': u'test@fake.com'}):
-    username = CharField(help_text='Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=30, validators=[<django.core.validators.RegexValidator object>, <UniqueValidator(queryset=User.objects.all())>])
-    email = EmailField(required=True)
-    first_name = CharField(max_length=30, required=True)
-    last_name = CharField(max_length=30, required=True)
-    password1 = CharField(validators=[<restful_auth.validators.LengthValidator object>, <restful_auth.validators.CommonSequenceValidator object>, <restful_auth.validators.ComplexityValidator object>, <restful_auth.validators.DictionaryValidator object>], write_only=True)
-    password2 = CharField(write_only=True) registered!
-INFO 2016-08-28 13:49:12,328 views 26308 140402186360640 User test updated their details.
-INFO 2016-08-28 13:49:12,384 views 26308 140402186360640 User test updated their details.
-INFO 2016-08-28 13:49:12,438 views 26308 140402186360640 User test updated their details.
-INFO 2016-08-28 13:49:12,637 views 26308 140402186360640 User AnonymousUser has confirmed their email.
-INFO 2016-08-28 13:49:12,868 views 26308 140402186360640 Password reset for test confirmed.
-INFO 2016-08-28 13:49:12,924 managers 26308 140402186360640 Threshold date for cancellation: 2016-07-27 00:00:00+00:00
-WARNING 2016-08-28 13:49:12,944 __init__ 26308 140402186360640 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1282: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2016-07-24 00:02:00) while time zone support is active.
+BraintreeError: Could not fetch state for user testAfterSubscriptionUpdates with braintree details BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}!
+INFO 2016-10-01 11:48:16,119 connectionpool 4623 139920486483776 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+WARNING 2016-10-01 11:48:17,218 __init__ 4623 139920486483776 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1222: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2017-08-21 00:00:00) while time zone support is active.
   RuntimeWarning)
 
-ERROR 2016-08-28 13:49:12,945 subscription_manager 26308 140402186360640 Could not fetch Braintree state for user: ActiveFarFromExpiry
-ERROR 2016-08-28 13:49:12,945 managers 26308 140402186360640 Could not match braintree state for user BraintreeUser: {User : ActiveFarFromExpiry, CustomerID: active_far_from_expiry_customer, SubscriptionID: ActiveFarSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}
+INFO 2016-10-01 11:48:54,226 connectionpool 4650 140485663381312 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:48:54,912 subscription_manager 4650 140485663381312 Could not fetch Braintree state for user: michaeljkilian
+ERROR 2016-10-01 11:48:54,913 managers 4650 140485663381312 Could not match braintree state for user BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}
 Traceback (most recent call last):
   File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
     subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
   File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
     str(braintree_customer) + "!")
-BraintreeError: Could not fetch state for user ActiveFarFromExpiry with braintree details BraintreeUser: {User : ActiveFarFromExpiry, CustomerID: active_far_from_expiry_customer, SubscriptionID: ActiveFarSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}!
-ERROR 2016-08-28 13:49:12,946 subscription_manager 26308 140402186360640 Could not fetch Braintree state for user: ActiveNotPendingCancel
-ERROR 2016-08-28 13:49:12,946 managers 26308 140402186360640 Could not match braintree state for user BraintreeUser: {User : ActiveNotPendingCancel, CustomerID: active_customer, SubscriptionID: ActiveNotCancelPendingSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}
+BraintreeError: Could not fetch state for user michaeljkilian with braintree details BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}!
+INFO 2016-10-01 11:48:54,918 connectionpool 4650 140485663381312 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:48:55,612 subscription_manager 4650 140485663381312 Could not fetch Braintree state for user: testAfterSubscriptionUpdates
+ERROR 2016-10-01 11:48:55,612 managers 4650 140485663381312 Could not match braintree state for user BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}
 Traceback (most recent call last):
   File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
     subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
   File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
     str(braintree_customer) + "!")
-BraintreeError: Could not fetch state for user ActiveNotPendingCancel with braintree details BraintreeUser: {User : ActiveNotPendingCancel, CustomerID: active_customer, SubscriptionID: ActiveNotCancelPendingSubID, PaymentMethodToken: None, Active: False, PendingCancel: True, ExpiryDate: None}!
-WARNING 2016-08-28 13:49:12,947 __init__ 26308 140402186360640 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1282: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2016-11-02 00:02:00) while time zone support is active.
+BraintreeError: Could not fetch state for user testAfterSubscriptionUpdates with braintree details BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}!
+INFO 2016-10-01 11:48:55,617 connectionpool 4650 140485663381312 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+WARNING 2016-10-01 11:48:56,974 __init__ 4650 140485663381312 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1222: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2017-08-21 00:00:00) while time zone support is active.
   RuntimeWarning)
 
-WARNING 2016-08-28 13:49:12,947 __init__ 26308 140402186360640 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1282: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2016-10-03 00:02:00) while time zone support is active.
+INFO 2016-10-01 11:49:01,943 connectionpool 4672 140175638705984 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:49:02,645 subscription_manager 4672 140175638705984 Could not fetch Braintree state for user: michaeljkilian
+ERROR 2016-10-01 11:49:02,650 managers 4672 140175638705984 Could not match braintree state for user BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}
+Traceback (most recent call last):
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user michaeljkilian with braintree details BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}!
+INFO 2016-10-01 11:49:02,654 connectionpool 4672 140175638705984 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:49:03,336 subscription_manager 4672 140175638705984 Could not fetch Braintree state for user: testAfterSubscriptionUpdates
+ERROR 2016-10-01 11:49:03,337 managers 4672 140175638705984 Could not match braintree state for user BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}
+Traceback (most recent call last):
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user testAfterSubscriptionUpdates with braintree details BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}!
+INFO 2016-10-01 11:49:03,341 connectionpool 4672 140175638705984 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+WARNING 2016-10-01 11:49:04,265 __init__ 4672 140175638705984 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1222: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2017-08-21 00:00:00) while time zone support is active.
   RuntimeWarning)
 
-INFO 2016-08-28 13:49:12,960 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-ERROR 2016-08-28 13:49:13,734 views 26308 140402186360640 Failed to move subscription for test123 to pending cancel.
+INFO 2016-10-01 11:49:17,544 connectionpool 4690 140121968318272 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:49:18,297 subscription_manager 4690 140121968318272 Could not fetch Braintree state for user: michaeljkilian
+ERROR 2016-10-01 11:49:18,297 managers 4690 140121968318272 Could not match braintree state for user BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}
 Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/views.py", line 85, in post
-    SubscriptionManager.request_cancel(braintree_user)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/mocking.py", line 107, in new_mocked_method
-    return call(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/mocking.py", line 45, in __call__
-    return invoc(*params, **named_params)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 92, in __call__
-    return matching_invocation.answer_first()
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 51, in answer_first
-    return self.answers[0].answer() if self.answers is not None else None
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 205, in answer
-    return a.answer()
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 213, in answer
-    raise self.exception
-BraintreeError
-INFO 2016-08-28 13:49:13,745 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:14,525 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-ERROR 2016-08-28 13:49:15,251 subscription_manager 26308 140402186360640 No braintree account associated with user NotInitialized. Must create one!
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user michaeljkilian with braintree details BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}!
+INFO 2016-10-01 11:49:18,300 connectionpool 4690 140121968318272 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:49:19,036 subscription_manager 4690 140121968318272 Could not fetch Braintree state for user: testAfterSubscriptionUpdates
+ERROR 2016-10-01 11:49:19,037 managers 4690 140121968318272 Could not match braintree state for user BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}
 Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 27, in fetch_braintree_user
-    braintree_user = BraintreeUser.objects.get(user=user)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py", line 92, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 357, in get
-    self.model._meta.object_name)
-DoesNotExist: BraintreeUser matching query does not exist.
-INFO 2016-08-28 13:49:15,264 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:15,997 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:16,719 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:17,449 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-ERROR 2016-08-28 13:49:18,311 views 26308 140402186360640 Failed to subscribed user test123
-INFO 2016-08-28 13:49:18,320 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:19,033 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:19,917 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:20,636 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-ERROR 2016-08-28 13:49:21,519 subscription_manager 26308 140402186360640 No braintree account associated with user NotInitialized. Must create one!
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user testAfterSubscriptionUpdates with braintree details BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}!
+INFO 2016-10-01 11:49:19,043 connectionpool 4690 140121968318272 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+WARNING 2016-10-01 11:49:19,913 __init__ 4690 140121968318272 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1222: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2017-08-21 00:00:00) while time zone support is active.
+  RuntimeWarning)
+
+INFO 2016-10-01 11:49:46,764 connectionpool 4708 140731842410304 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:49:47,443 subscription_manager 4708 140731842410304 Could not fetch Braintree state for user: michaeljkilian
+ERROR 2016-10-01 11:49:47,444 managers 4708 140731842410304 Could not match braintree state for user BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}
 Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 27, in fetch_braintree_user
-    braintree_user = BraintreeUser.objects.get(user=user)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py", line 92, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 357, in get
-    self.model._meta.object_name)
-DoesNotExist: BraintreeUser matching query does not exist.
-INFO 2016-08-28 13:49:21,522 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:22,246 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:23,135 views 26308 140402186360640 New subscription created for user test123
-INFO 2016-08-28 13:49:23,152 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:23,923 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:24,787 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:25,652 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:26,359 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:27,330 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:28,241 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:28,955 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:29,826 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:30,682 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:31,414 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:32,283 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:33,205 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:33,944 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:34,821 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:35,701 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:36,454 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:37,310 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:43,236 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:43,969 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:44,910 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:45,984 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-ERROR 2016-08-28 13:49:46,732 views 26308 140402186360640 Failed to change user test123 payment method
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user michaeljkilian with braintree details BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}!
+INFO 2016-10-01 11:49:47,448 connectionpool 4708 140731842410304 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:49:48,107 subscription_manager 4708 140731842410304 Could not fetch Braintree state for user: testAfterSubscriptionUpdates
+ERROR 2016-10-01 11:49:48,107 managers 4708 140731842410304 Could not match braintree state for user BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}
 Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/views.py", line 153, in post
-    SubscriptionManager.change_payment_method(braintree_user,payment_method_nonce)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/mocking.py", line 107, in new_mocked_method
-    return call(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/mocking.py", line 45, in __call__
-    return invoc(*params, **named_params)
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 92, in __call__
-    return matching_invocation.answer_first()
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 51, in answer_first
-    return self.answers[0].answer() if self.answers is not None else None
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 205, in answer
-    return a.answer()
-  File "/usr/local/lib/python2.7/dist-packages/mockito/invocation.py", line 213, in answer
-    raise self.exception
-BraintreeError
-INFO 2016-08-28 13:49:46,743 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:47,462 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-INFO 2016-08-28 13:49:48,221 connectionpool 26308 140402186360640 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
-ERROR 2016-08-28 13:49:49,131 subscription_manager 26308 140402186360640 No braintree account associated with user UserNotInitialized. Must create one!
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user testAfterSubscriptionUpdates with braintree details BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}!
+INFO 2016-10-01 11:49:48,111 connectionpool 4708 140731842410304 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+WARNING 2016-10-01 11:49:49,074 __init__ 4708 140731842410304 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1222: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2017-08-21 00:00:00) while time zone support is active.
+  RuntimeWarning)
+
+INFO 2016-10-01 11:57:31,472 connectionpool 5231 139793376790336 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:57:32,175 subscription_manager 5231 139793376790336 Could not fetch Braintree state for user: michaeljkilian
+ERROR 2016-10-01 11:57:32,175 managers 5231 139793376790336 Could not match braintree state for user BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}
 Traceback (most recent call last):
-  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 27, in fetch_braintree_user
-    braintree_user = BraintreeUser.objects.get(user=user)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py", line 92, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python2.7/dist-packages/django/db/models/query.py", line 357, in get
-    self.model._meta.object_name)
-DoesNotExist: BraintreeUser matching query does not exist.
-WARNING 2016-08-28 13:49:52,322 generic_views 26308 140402186360640 Non-staff user attempted to create a subtopic. Username : test_token_free
-WARNING 2016-08-28 13:49:52,325 generic_views 26308 140402186360640 Non-staff user attempted to create a topic. Username : test_token_premium
-WARNING 2016-08-28 13:49:53,882 generic_views 26308 140402186360640 Non-staff user attempted to create a topic. Username : test_token_free
-WARNING 2016-08-28 13:49:53,884 generic_views 26308 140402186360640 Non-staff user attempted to create a topic. Username : test_token_premium
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user michaeljkilian with braintree details BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}!
+INFO 2016-10-01 11:57:32,176 connectionpool 5231 139793376790336 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:57:32,851 subscription_manager 5231 139793376790336 Could not fetch Braintree state for user: testAfterSubscriptionUpdates
+ERROR 2016-10-01 11:57:32,852 managers 5231 139793376790336 Could not match braintree state for user BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}
+Traceback (most recent call last):
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user testAfterSubscriptionUpdates with braintree details BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}!
+INFO 2016-10-01 11:57:32,855 connectionpool 5231 139793376790336 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+WARNING 2016-10-01 11:57:33,762 __init__ 5231 139793376790336 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1222: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2017-08-21 00:00:00) while time zone support is active.
+  RuntimeWarning)
+
+INFO 2016-10-01 11:57:52,752 connectionpool 5262 140382893676352 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:57:53,484 subscription_manager 5262 140382893676352 Could not fetch Braintree state for user: michaeljkilian
+ERROR 2016-10-01 11:57:53,485 managers 5262 140382893676352 Could not match braintree state for user BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}
+Traceback (most recent call last):
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user michaeljkilian with braintree details BraintreeUser: {User : michaeljkilian, CustomerID: 11441855, SubscriptionID: dhmzsr, PaymentMethodToken: 3swgbg, Active: False, PendingCancel: False, ExpiryDate: None}!
+INFO 2016-10-01 11:57:53,489 connectionpool 5262 140382893676352 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+ERROR 2016-10-01 11:57:54,185 subscription_manager 5262 140382893676352 Could not fetch Braintree state for user: testAfterSubscriptionUpdates
+ERROR 2016-10-01 11:57:54,186 managers 5262 140382893676352 Could not match braintree state for user BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}
+Traceback (most recent call last):
+  File "/home/michael/DentestRevised/server/subscriptions/managers.py", line 18, in match_braintree_state
+    subscription = SubscriptionManager.fetch_subscription_from_braintree(user)
+  File "/home/michael/DentestRevised/server/subscriptions/subscription_manager.py", line 194, in fetch_subscription_from_braintree
+    str(braintree_customer) + "!")
+BraintreeError: Could not fetch state for user testAfterSubscriptionUpdates with braintree details BraintreeUser: {User : testAfterSubscriptionUpdates, CustomerID: 53659855, SubscriptionID: kjg5b2, PaymentMethodToken: jx323m, Active: True, PendingCancel: False, ExpiryDate: 2017-06-18 00:00:00+00:00}!
+INFO 2016-10-01 11:57:54,187 connectionpool 5262 140382893676352 Starting new HTTPS connection (1): api.sandbox.braintreegateway.com
+WARNING 2016-10-01 11:57:55,040 __init__ 5262 140382893676352 /usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py:1222: RuntimeWarning: DateTimeField BraintreeUser.expiry_date received a naive datetime (2017-08-21 00:00:00) while time zone support is active.
+  RuntimeWarning)
+
+INFO 2016-10-01 11:57:55,044 managers 5262 140382893676352 Threshold date for cancellation: 2016-10-03 00:00:00+00:00
