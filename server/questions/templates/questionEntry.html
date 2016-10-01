@@ -1,0 +1,34 @@
+{% extends 'admin/base_site.html' %}
+<!-- Tag Loading -->
+{% load crispy_forms_tags %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+{% endblock %}
+
+{% block extrahead %}
+<!-- Need form media for TinyMCE editor -->
+{{ question_form.media}}
+{% endblock %}
+
+
+{% block content %}
+<div id="content-main">
+    <div class="panel panel-default">
+        <div class="panel-heading">Question Entry</div>
+        <div class="panel-body">
+            {% if added %}
+            <div>
+                <p class="bg-info text-success"> Question "{{prev_question}}" added to {{prev_topic}}</p>
+            </div>
+            {% endif %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{question_form | crispy}}
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
