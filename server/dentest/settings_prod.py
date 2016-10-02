@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'q&(ymk$u0)=g9e3wukv6@qkly$&c-$=07ds#&jnt=0wicm@o^i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['mjkilian1992.pythonanywhere.com']
+ALLOWED_HOSTS = ['mjkilian1992.pythonanywhere.com','www.dentests.co.uk']
 
 SITE_ID = 1
 
@@ -37,9 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
-    #CORS - DELETE ON DEPLOYMENT
-    'corsheaders',
 
     #Third Party Apps#
     'sslify',
@@ -57,8 +54,10 @@ INSTALLED_APPS = (
     'subscriptions',
 )
 
-#CORS CONFIG - REMOVE ON DEPLOYMENT
-CORS_ORIGIN_ALLOW_ALL = True
+#Security
+SSLIFY_DISABLE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 MIDDLEWARE_CLASSES = (
     'sslify.middleware.SSLifyMiddleware',
@@ -66,7 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -110,6 +109,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT= '/var/www/static/'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 
 # Email Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -125,9 +128,18 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework.authentication.TokenAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
 }
+
+# TinyMCE config
+TINYMCE_DEFAULT_CONFIG = {
+    'plugins': "table,spellchecker,paste,searchreplace",
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 10,
+}
+TINYMCE_SPELLCHECKER = True
+
 
 #===================================RESTFUL AUTH CONFIG===============================================================#
 
@@ -151,8 +163,19 @@ PASSWORD_RESET_CONFIRM_URL = 'password_reset_confirm/{username}/{token}'
 DEFAULT_PROTOCOL = 'http'
 FROM_EMAIL = 'dentest.reg@gmail.com'
 
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                               "django.core.context_processors.debug",
+                               "django.core.context_processors.i18n",
+                               "django.core.context_processors.media",
+                               "django.core.context_processors.static",
+                               "django.core.context_processors.tz",
+                               "django.contrib.messages.context_processors.messages",
+)
+
 TEMPLATE_DIRS = (
     '/restful_auth/templates/',
+    os.join(BASE_DIR,'../../frontend/dist'),
 )
 
 # Password Requirements

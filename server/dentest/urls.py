@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib import admin
+from django.views.generic import TemplateView,RedirectView
 from questions import generic_views as q_views
 from questions import views as single_q_views
 from questions.question_entry_views import question_entry
@@ -42,4 +44,6 @@ urlpatterns = patterns('',
     url(r'^api-auth/',include('rest_framework.urls',namespace='rest_framework')),
     # REST AUTH ENDPOINTS
     url(r'',include('restful_auth.urls',namespace='restful_auth')),
+
+    url(r'^$', ensure_csrf_cookie(TemplateView.as_view(template_name='index.html'))),
 )

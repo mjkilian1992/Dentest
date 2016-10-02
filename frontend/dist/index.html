@@ -1,1 +1,29 @@
-<!DOCTYPE html><html ng-app=dentest><head><title>Dentest.com</title><meta name=viewport content="width=device-width, initial-scale=1.0"><meta charset=utf-8><base href="/"><link rel=stylesheet href=app.full.min.css></head><body><div id=everything_above_footer><div ng-include=&apos;partial/navbar/navbar.html&apos;></div><main class=container><div class=row><div ng-view=""></div></div></main></div><footer ng-include=&apos;partial/footer/footer.html&apos;></footer><script src=app.full.min.js></script></body></html>
+<!DOCTYPE html>
+{% load staticfile %}
+<html ng-app=dentest>
+    <head>
+        <title>Dentest.com</title>
+        <meta name=viewport content="width=device-width, initial-scale=1.0">
+        <meta charset=utf-8><base href="/">
+        <link rel=stylesheet href={% static "app.full.min.css" %}>
+    </head>
+
+    <body>
+        <div id=everything_above_footer>
+            <div ng-include={% static "partial/navbar/navbar.html" %};>
+
+            </div>
+            <main class=container>
+                <div class=row>
+                    <div ng-view="">
+
+                    </div>
+                </div>
+            </main>
+        </div>
+        <footer ng-include=&apos;partial/footer/footer.html&apos;>
+
+        </footer>
+        <script src={% static "app.full.min.js" %}></script>
+    </body>
+</html>
