@@ -61,8 +61,7 @@ INSTALLED_APPS = (
     'subscriptions',
 )
 
-#CORS CONFIG - REMOVE ON DEPLOYMENT
-CORS_ORIGIN_ALLOW_ALL = True
+
 
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware', #REMOVE ON DEPLOYMENT
@@ -154,7 +153,6 @@ FROM_EMAIL = 'dentest.reg@gmail.com'
 TEMPLATE_DIRS = (
     '/restful_auth/templates/',
 )
-
 # Password Requirements
 PASSWORD_MIN_LENGTH = 8
 PASSWORD_COMPLEXITY = { # You can omit any or all of these for no limit for that particular set

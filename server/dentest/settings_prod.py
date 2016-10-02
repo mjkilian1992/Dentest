@@ -38,6 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    #CORS
+    'corsheaders',
+
     #Third Party Apps#
     'sslify',
     'adminplus',
@@ -175,7 +178,6 @@ TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
 
 TEMPLATE_DIRS = (
     '/restful_auth/templates/',
-    os.join(BASE_DIR,'../../frontend/dist'),
 )
 
 # Password Requirements
