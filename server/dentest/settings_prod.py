@@ -30,7 +30,7 @@ SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = (
-    'django.contrib.admin',
+    'django.contrib.admin.apps.SimpleAdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -42,6 +42,8 @@ INSTALLED_APPS = (
     'corsheaders',
 
     #Third Party Apps#
+    'sslify',
+    'adminplus',
     'tinymce',
     'rest_framework',
     'rest_framework.authtoken',
@@ -59,7 +61,7 @@ INSTALLED_APPS = (
 CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE_CLASSES = (
-    'sslify.middleware.SSLifyMiddleware'
+    'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -107,6 +109,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT= '/var/www/static/'
 
 # Email Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
