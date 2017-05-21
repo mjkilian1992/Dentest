@@ -1,5 +1,3 @@
-{% load staticfiles %}
-
 <!DOCTYPE html>
 <html ng-app="dentest">
 <head>
@@ -16,63 +14,62 @@
   <script src="https://js.braintreegateway.com/js/braintree-2.24.1.min.js"></script>
 
   <!-- JS from Bower Components -->
-  <script src="{% static "bower_components/jquery/jquery.js" %}"></script>
-  <script src="{% static "bower_components/less.js/dist/less-1.6.2.js" %}" data-concat="false"></script>
-  <script src="{% static "bower_components/underscore/underscore.js" %}"></script>
-  <script src="{% static "bower_components/moment/moment.js" %}"></script>
-  <script src="{% static "bower_components/angular/angular.js" %}"></script>
-  <script src="{% static "bower_components/angular-route/angular-route.js" %}"></script>
-  <script src="{% static "bower_components/angular-animate/angular-animate.js" %}"></script>
-  <script src="{% static "bower_components/angular-resource/angular-resource.js" %}"></script>
-  <script src="{% static "bower_components/angular-cookies/angular-cookies.js" %}"></script>
-  <script src="{% static "bower_components/angular-bootstrap/ui-bootstrap-tpls.js" %}"></script>
-  <script src="{% static "bower_components/angular-ui-utils/ui-utils.js" %}"></script>
-  <script src="{% static "bower_components/angular-ui-notification/dist/angular-ui-notification.min.js" %}"></script>
+  <script src="bower_components/jquery/jquery.js"></script>
+  <script src="bower_components/less.js/dist/less-1.6.2.js" data-concat="false"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
+  <script src="bower_components/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
   <!-- Add New Bower Component JS Above -->
 
 
   <!-- Main App JS -->
-  <script src="{% static "app.js" %}"></script>
+  <script src="app.js"></script>
 
-  <script src="{% static "auth/auth.js" %}"></script>
-  <script src="{% static "auth/service/restful_auth_service.js" %}"></script>
-  <script src="{% static "questions/questions.js" %}"></script>
-  <script src="{% static "questions/service/question_service.js" %}"></script>
-  <script src="{% static "global_constants/global_constants.js" %}"></script>
-  <script src="{% static "auth/partial/login_form/login_form.js" %}"></script>
-  <script src="{% static "auth/partial/registration_form/registration_form.js" %}"></script>
-  <script src="{% static "auth/partial/password_reset_form/password_reset_form.js" %}"></script>
-  <script src="{% static "auth/partial/password_reset_confirm_form/password_reset_confirm_form.js" %}"></script>
-  <script src="{% static "auth/partial/email_confirmation_form/email_confirmation_form.js" %}"></script>
-  <script src="{% static "auth/partial/update_profile/update_profile.js" %}"></script>
-  <script src="{% static "questions/partial/main_question_viewer/main_question_viewer.js" %}"></script>
-  <script src="{% static "questions/partial/question_by_id_view/question_by_id_view.js" %}"></script>
-  <script src="{% static "partial/home-screen-partial/home-screen-partial.js" %}"></script>
-  <script src="{% static "partial/navbar/navbar.js" %}"></script>
+  <script src="auth/auth.js"></script>
+  <script src="auth/service/restful_auth_service.js"></script>
+  <script src="questions/questions.js"></script>
+  <script src="questions/service/question_service.js"></script>
+  <script src="global_constants/global_constants.js"></script>
+  <script src="auth/partial/login_form/login_form.js"></script>
+  <script src="auth/partial/registration_form/registration_form.js"></script>
+  <script src="auth/partial/password_reset_form/password_reset_form.js"></script>
+  <script src="auth/partial/password_reset_confirm_form/password_reset_confirm_form.js"></script>
+  <script src="auth/partial/email_confirmation_form/email_confirmation_form.js"></script>
+  <script src="auth/partial/update_profile/update_profile.js"></script>
+  <script src="questions/partial/main_question_viewer/main_question_viewer.js"></script>
+  <script src="questions/partial/question_by_id_view/question_by_id_view.js"></script>
+  <script src="partial/home-screen-partial/home-screen-partial.js"></script>
+  <script src="partial/navbar/navbar.js"></script>
 
-  <script src="{% static "questions/partial/question_by_id_view/question_by_id_view.js" %}"></script>
-  <script src="{% static "questions/partial/topic_view/topic_view.js" %}"></script>
-  <script src="{% static "questions/partial/subtopic_view/subtopic_view.js" %}"></script>
-  <script src="{% static "questions/partial/topic_navigator/topic_navigator.js" %}"></script>
-  <script src="{% static "questions/partial/question_search/question_search.js" %}"></script>
+  <script src="questions/partial/question_by_id_view/question_by_id_view.js"></script>
+  <script src="questions/partial/topic_view/topic_view.js"></script>
+  <script src="questions/partial/subtopic_view/subtopic_view.js"></script>
+  <script src="questions/partial/topic_navigator/topic_navigator.js"></script>
+  <script src="questions/partial/question_search/question_search.js"></script>
 
-  <script src="{% static "quiz/quiz.js" %}"></script>
-  <script src="{% static "quiz/partial/select_content/select_content.js" %}"></script>
-  <script src="{% static "questions/service/topic_selection_service.js" %}"></script>
-  <script src="{% static "quiz/partial/quiz_viewer/quiz_viewer.js" %}"></script>
+  <script src="quiz/quiz.js"></script>
+  <script src="quiz/partial/select_content/select_content.js"></script>
+  <script src="questions/service/topic_selection_service.js"></script>
+  <script src="quiz/partial/quiz_viewer/quiz_viewer.js"></script>
 
-  <script src="{% static "subscriptions/subscriptions.js" %}"></script>
-  <script src="{% static "subscriptions/service/subscription_service.js" %}"></script>
-  <script src="{% static "subscriptions/partial/subscription_status/subscription_status.js" %}"></script>
-  <script src="{% static "subscriptions/partial/subscribe/subscribe.js"></script>
-  <script src="{% static "subscriptions/directive/braintree_payment_form/braintree_payment_form.js" %}"></script>
-  <script src="{% static "subscriptions/partial/cancel/cancel.js" %}"></script>
-  <script src="{% static "subscriptions/partial/change_payment_method/change_payment_method.js" %}"></script>
-  <script src="{% static "subscriptions/partial/subscription_sucess/subscription_sucess.js" %}"></script>
-  <script src="{% static "subscriptions/partial/change_payment_method_success/change_payment_method_success.js" %}"></script>
+  <script src="subscriptions/subscriptions.js"></script>
+  <script src="subscriptions/service/subscription_service.js"></script>
+  <script src="subscriptions/partial/subscription_status/subscription_status.js"></script>
+  <script src="subscriptions/partial/subscribe/subscribe.js"></script>
+  <script src="subscriptions/directive/braintree_payment_form/braintree_payment_form.js"></script>
+  <script src="subscriptions/partial/cancel/cancel.js"></script>
+  <script src="subscriptions/partial/change_payment_method/change_payment_method.js"></script>
+  <script src="subscriptions/partial/subscription_sucess/subscription_sucess.js"></script>
+  <script src="subscriptions/partial/change_payment_method_success/change_payment_method_success.js"></script>
   <!-- Add New Component JS Above -->
 
-{% verbatim %}
 <div id="everything_above_footer">
     <!------------------------------------ NAVBAR ------------------------------------>
     <div ng-include="'partial/navbar/navbar.html'"></div>
@@ -92,6 +89,6 @@
 
     </footer>
 
-{% endverbatim %}
+
 </body>
 </html>
