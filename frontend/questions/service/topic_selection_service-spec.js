@@ -116,12 +116,12 @@ describe('TopicSelectionService', function() {
 
             //Now select a topic
 
-            for(var i =0; i < selectionService.topic_list.length; i++){
-                if(selectionService.topic_list[i].topic==="Physics"){
-                    selectionService.topic_list[i].include = true; //mimic select of Topic
+            for(var l  =0; l < selectionService.topic_list.length; l++){
+                if(selectionService.topic_list[l].topic==="Physics"){
+                    selectionService.topic_list[l].include = true; //mimic select of Topic
                     selectionService.selectSubtopicsOfTopic("Physics");
-                    for(var j =0; j < selectionService.topic_list[i].subtopics.length; j++){
-                        expect(selectionService.topic_list[i].subtopics[j].include).toBeTruthy();
+                    for(var m =0; m < selectionService.topic_list[l].subtopics.length; m++){
+                        expect(selectionService.topic_list[l].subtopics[m].include).toBeTruthy();
                     }
                 }
             }

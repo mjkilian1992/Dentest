@@ -16,6 +16,6 @@ angular.module('subscriptions').controller('SubscriptionStatusCtrl',['Subscripti
             self.user_subscribed = false;
             self.subscription_data = null;
         }
-    )
+    );
 
 }]);

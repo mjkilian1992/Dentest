@@ -1,97 +1,15 @@
-ERROR 2016-10-02 15:13:25,910 base 21162 140088427005696 Internal Server Error: /
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 137, in get_response
-    response = response.render()
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 103, in render
-    self.content = self.rendered_content
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 78, in rendered_content
-    template = self.resolve_template(self.template_name)
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 54, in resolve_template
-    return loader.select_template(template)
-  File "/usr/local/lib/python2.7/dist-packages/django/template/loader.py", line 194, in select_template
-    raise TemplateDoesNotExist(', '.join(not_found))
-TemplateDoesNotExist: index.html
-ERROR 2016-10-02 15:13:26,012 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/mixins.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,012 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/relations.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,013 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/reverse.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,013 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/authtoken/admin.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,013 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/auth/admin.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,013 pyinotify 21162 140088427005696 add_watch: cannot watch /home/michael/DentestRevised/server/dentest/wsgi.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,013 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/representation.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,014 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/urls/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,014 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/serializer_helpers.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,014 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/exceptions.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,014 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/response.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,014 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/encoders.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,014 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/views/generic/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,015 pyinotify 21162 140088427005696 add_watch: cannot watch /home/michael/DentestRevised/server/restful_auth/urls.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,015 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/request.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,015 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/sessions/middleware.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,015 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/breadcrumbs.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:13:26,015 pyinotify 21162 140088427005696 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/locale/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,131 base 21238 139715702572800 Internal Server Error: /
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 137, in get_response
-    response = response.render()
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 103, in render
-    self.content = self.rendered_content
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 78, in rendered_content
-    template = self.resolve_template(self.template_name)
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 54, in resolve_template
-    return loader.select_template(template)
-  File "/usr/local/lib/python2.7/dist-packages/django/template/loader.py", line 194, in select_template
-    raise TemplateDoesNotExist(', '.join(not_found))
-TemplateDoesNotExist: index.html
-ERROR 2016-10-02 15:14:21,179 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/subscriptions/migrations/0005_auto_20160619_1507.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,179 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/sessions/middleware.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,180 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/restful_auth/migrations/0004_passwordreset_used.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,180 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/dentest/urls.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,180 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/dentest/wsgi.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,181 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/contenttypes/views.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,181 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/breadcrumbs.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/urls/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/core/mail/backends/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/sites/admin.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/db/models/sql/compiler.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/views/generic/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/subscriptions/admin.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/lib/python2.7/encodings/idna.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/lib/python2.7/stringprep.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,182 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/subscriptions/migrations/0003_auto_20160501_1306.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,183 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/locale/en/formats.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,183 pyinotify 21238 139715702572800 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/parsers.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,183 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/restful_auth/views.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:14:21,183 pyinotify 21238 139715702572800 add_watch: cannot watch /home/michael/DentestRevised/server/questions/migrations/0004_auto_20150328_1113.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,529 base 21276 140468650243840 Internal Server Error: /
-Traceback (most recent call last):
-  File "/usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py", line 137, in get_response
-    response = response.render()
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 103, in render
-    self.content = self.rendered_content
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 78, in rendered_content
-    template = self.resolve_template(self.template_name)
-  File "/usr/local/lib/python2.7/dist-packages/django/template/response.py", line 54, in resolve_template
-    return loader.select_template(template)
-  File "/usr/local/lib/python2.7/dist-packages/django/template/loader.py", line 194, in select_template
-    raise TemplateDoesNotExist(', '.join(not_found))
-TemplateDoesNotExist: index.html
-ERROR 2016-10-02 15:15:15,585 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/core/mail/backends/console.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,585 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/core/mail/backends/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/views/generic/edit.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/encoders.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /home/michael/DentestRevised/server/dentest/wsgi.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/auth/backends.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/request.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/breadcrumbs.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/lib/python2.7/stringprep.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/middleware/clickjacking.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/locale/__init__.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,586 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/formatting.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/contenttypes/admin.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/lib/python2.7/encodings/idna.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/humanize_datetime.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/parsers.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/conf/locale/en/formats.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/sessions/serializers.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/field_mapping.py WD=-1, Errno=No space left on device (ENOSPC)
-ERROR 2016-10-02 15:15:15,587 pyinotify 21276 140468650243840 add_watch: cannot watch /home/michael/DentestRevised/server/subscriptions/admin.py WD=-1, Errno=No space left on device (ENOSPC)
+WARNING 2017-05-21 15:02:54,701 base 23732 139853376517888 Not Found: /
+ERROR 2017-05-21 15:02:54,729 pyinotify 23732 139853376517888 add_watch: cannot watch /home/michael/DentestRevised/server/restful_auth/urls.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,730 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/pagination.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,730 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/fields.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,731 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/lib/python2.7/encodings/latin_1.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,731 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/formatting.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,732 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/contenttypes/views.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,732 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/serializer_helpers.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,732 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/rest_framework/utils/model_meta.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,732 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/sessions/serializers.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,733 pyinotify 23732 139853376517888 add_watch: cannot watch /home/michael/DentestRevised/server/dentest/urls.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,733 pyinotify 23732 139853376517888 add_watch: cannot watch /home/michael/DentestRevised/server/restful_auth/views.py WD=-1, Errno=No space left on device (ENOSPC)
+ERROR 2017-05-21 15:02:54,733 pyinotify 23732 139853376517888 add_watch: cannot watch /usr/local/lib/python2.7/dist-packages/django/contrib/auth/tokens.py WD=-1, Errno=No space left on device (ENOSPC)
+WARNING 2017-05-21 15:03:05,033 base 23732 139853376517888 Not Found: /indexhtml
+WARNING 2017-05-21 15:03:08,722 base 23732 139853376517888 Not Found: /index.html

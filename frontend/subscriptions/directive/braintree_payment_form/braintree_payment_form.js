@@ -9,7 +9,7 @@ angular.module('subscriptions').directive('braintreePaymentForm', ['$location','
             var clientToken = SubscriptionService.get_token();
 
             var callService = function(nonce){
-                if(scope.newSubscription=='true'){
+                if(scope.newSubscription==='true'){
                     SubscriptionService.change_payment_method(nonce);
                     SubscriptionService.subscribe(nonce);
                     SubscriptionService.init();
@@ -21,7 +21,7 @@ angular.module('subscriptions').directive('braintreePaymentForm', ['$location','
             };
 
             var unpackBraintreeObject = function(payment_object){
-                nonce = payment_object.nonce;
+                var nonce = payment_object.nonce;
                 callService(nonce);
 
             };
@@ -31,5 +31,5 @@ angular.module('subscriptions').directive('braintreePaymentForm', ['$location','
                 onPaymentMethodReceived: unpackBraintreeObject
             });
         }
-    }
+    };
 }]);

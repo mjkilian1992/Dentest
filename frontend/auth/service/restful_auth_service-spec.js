@@ -227,7 +227,7 @@ describe('RestfulAuthService',function(){
             mockBackend.expectPUT(baseURL + '/update_profile/?format=json').respond(200,{});
             authservice.update_profile({});
             mockBackend.flush();
-        })
+        });
 
     });
 

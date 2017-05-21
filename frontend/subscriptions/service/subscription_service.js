@@ -24,7 +24,7 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
                     self.token = response.data.token;
                 },
                 function (response) {
-                    console.error("Could not generate client token")
+                    console.error("Could not generate client token");
                 }
             );
         }
@@ -75,7 +75,7 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
             function(response){
                 deffered.reject(response.data.errors);
             }
-        )
+        );
     };
 
     self.cancel = function(){
@@ -120,9 +120,9 @@ angular.module('subscriptions').service('SubscriptionService',['$http','$q','RES
 
 
     var is_user_subscribed = function(status){
-        if(status == "Active" || status=="Pending Cancellation"){
+        if(status === "Active" || status==="Pending Cancellation"){
             return true;
         }
         return false;
-    }
+    };
 }]);

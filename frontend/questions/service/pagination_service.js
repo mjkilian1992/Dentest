@@ -3,7 +3,8 @@
  * be handled by the relelvant service/controller as appropriate.
  *
  */
-angular.module('questions').service('PaginationService',['',function(){
+angular.module('questions').service('PaginationService',['$q', '$http',function($q, $http){
+    var self = this;
 
     //====================PAGINATION CONFIG AND STATE=============================
     var page_size = 50; //Can replace this with clever method later

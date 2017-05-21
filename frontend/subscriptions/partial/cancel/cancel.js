@@ -34,11 +34,11 @@ angular.module('subscriptions').controller('CancelModalInstanceCtrl',['$location
                     message: "Something went wrong cancelling your subscription. Please see our help page."
                 });
             }
-        )
+        );
     };
 
     self.close = function(){
         $uibModalInstance.close('');
-    }
+    };
 
 }]);

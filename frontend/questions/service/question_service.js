@@ -157,7 +157,7 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
                 deferred.reject(response.data);
             });
         return deferred.promise;
-    }
+    };
 
     //====================GET SINGLE SUBTOPIC============================
     self.getSubtopic = function(topicName,subtopicName){
@@ -189,10 +189,10 @@ angular.module('questions').service('QuestionService', ['$http', '$q', 'REST_BAS
         }
 
         //now build into a list of objects
-        for(topic in temp_topic_list){
+        for(var topic_iteration in temp_topic_list){
             var top_obj = {};
-            top_obj.topic = topic;
-            top_obj.subtopics = temp_topic_list[topic];
+            top_obj.topic = topic_iteration;
+            top_obj.subtopics = temp_topic_list[topic_iteration];
             topic_list.push(top_obj);
         }
         return topic_list;
