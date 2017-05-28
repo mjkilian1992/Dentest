@@ -2,6 +2,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.template import loader
 
+from dentest.settings_utility import get_setting
 
 def send_email(to_email, from_email, context, subject_template_name,
                plain_body_template_name, html_body_template_name=None):
@@ -22,8 +23,8 @@ def get_email_context(self, user):
     uid = user.pk
     return {
         'user': user,
-        'domain': getattr(settings,'DOMAIN'),
-        'site_name': getattr(settings,'SITE_NAME'),
+        'domain': get_setting('DOMAIN'),
+        'site_name': get_setting('SITE_NAME'),
         'uid': uid,
         'token': token,
         'protocol': 'https' if self.request.is_secure() else 'http',

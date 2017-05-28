@@ -5,6 +5,8 @@ from django.http import Http404
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework import permissions
+from watson.search import filter as watson_filter
+
 from serializers import *
 from mixins import QuestionApiMixin
 from pagination import *
@@ -179,7 +181,7 @@ class QuestionsBySearch(QuestionApiMixin, ListAPIView):
             questions = Question.objects.all()
         else:
             questions = Question.objects.filter(restricted=False)
-        relevant_questions = watson.filter(questions, search_terms)
+        relevant_questions = watson_filter(questions, search_terms)
         if relevant_questions.exists():
             return relevant_questions
         else:

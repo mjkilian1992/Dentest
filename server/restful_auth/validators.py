@@ -9,6 +9,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import smart_unicode as smart_text
 from rest_framework.serializers import ValidationError
 
+from dentest.settings_utility import get_setting_with_default
+
 """
 Taken from Django Passwords and adapted to raise REST Framework Validation Errors rather than form errors.
 """
@@ -29,18 +31,12 @@ COMMON_SEQUENCES = [
 ]
 
 # Settings
-PASSWORD_MIN_LENGTH = getattr(
-    settings, "PASSWORD_MIN_LENGTH", 6)
-PASSWORD_MAX_LENGTH = getattr(
-    settings, "PASSWORD_MAX_LENGTH", None)
-PASSWORD_DICTIONARY = getattr(
-    settings, "PASSWORD_DICTIONARY", None)
-PASSWORD_MATCH_THRESHOLD = getattr(
-    settings, "PASSWORD_MATCH_THRESHOLD", 0.9)
-PASSWORD_COMMON_SEQUENCES = getattr(
-    settings, "PASSWORD_COMMON_SEQUENCES", COMMON_SEQUENCES)
-PASSWORD_COMPLEXITY = getattr(
-    settings, "PASSWORD_COMPLEXITY", None)
+PASSWORD_MIN_LENGTH = get_setting_with_default("PASSWORD_MIN_LENGTH", 6)
+PASSWORD_MAX_LENGTH = get_setting_with_default("PASSWORD_MAX_LENGTH", None)
+PASSWORD_DICTIONARY = get_setting_with_default("PASSWORD_DICTIONARY", None)
+PASSWORD_MATCH_THRESHOLD = get_setting_with_default("PASSWORD_MATCH_THRESHOLD", 0.9)
+PASSWORD_COMMON_SEQUENCES = get_setting_with_default("PASSWORD_COMMON_SEQUENCES", COMMON_SEQUENCES)
+PASSWORD_COMPLEXITY = get_setting_with_default("PASSWORD_COMPLEXITY", None)
 
 
 class LengthValidator(object):
