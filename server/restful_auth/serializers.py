@@ -10,7 +10,7 @@ from subscriptions.subscription_manager import SubscriptionManager
 from models import *
 from validators import *
 
-EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE')#
+EMAIL_UNIQUE = get_setting_with_default('EMAIL_UNIQUE', True)
 LOGGER = logging.getLogger(__name__)
 
 class UserModelSerializer(serializers.ModelSerializer):

@@ -1,8 +1,9 @@
 from datetime import timedelta
-from django.conf import settings
 from django.utils import timezone
 from django.db import models
 from django.db.models import Q
+
+from dentest import settings_utility
 
 
 class EmailConfirmationManager(models.Manager):
@@ -18,7 +19,7 @@ class EmailConfirmationManager(models.Manager):
 
     def expired_q(self):
         """Returns queryset of expired Confirmations"""
-        days_valid = getattr(settings,'EMAIL_CONFIRMATION_DAYS_VALID')
+        days_valid = settings_utility.get_setting('EMAIL_CONFIRMATION_DAYS_VALID')
         sent_threshold = timezone.now() \
             - timedelta(days=days_valid)
         return Q(time_sent__lt=sent_threshold)
@@ -41,7 +42,7 @@ class PasswordResetManager(models.Manager):
 
     def expired_q(self):
         """Returns a queryset of all expired Resets"""
-        days_valid = getattr(settings,'PASSWORD_RESET_DAYS_VALID')
+        days_valid = settings_utility.get_setting('PASSWORD_RESET_DAYS_VALID')
         sent_threshold = timezone.now() \
             - timedelta(days=days_valid)
         return Q(time_sent__lt=sent_threshold)

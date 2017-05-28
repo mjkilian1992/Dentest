@@ -4,15 +4,15 @@ from django.db import models, transaction
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.conf import settings
 from django_countries.fields import CountryField
 
+from dentest.settings_utility import *
 from managers import EmailConfirmationManager, PasswordResetManager
 from signal_receivers import * # Makes sure signal receivers are registered on startup
 
-EMAIL_UNIQUE = getattr(settings,'EMAIL_UNIQUE',True)
-EMAIL_EXPIRATION_DAYS = getattr(settings,'EMAIL_CONFIRMATION_DAYS_VALID')
-PASSWORD_RESET_EXPIRATION_DAYS = getattr(settings,'PASSWORD_RESET_DAYS_VALID')
+EMAIL_UNIQUE = get_setting_with_default('EMAIL_UNIQUE',True)
+EMAIL_EXPIRATION_DAYS = get_setting('EMAIL_CONFIRMATION_DAYS_VALID')
+PASSWORD_RESET_EXPIRATION_DAYS = get_setting('PASSWORD_RESET_DAYS_VALID')
 
 # Overrides basic User with whatever custom model is in use.
 class Profile(models.Model):
@@ -91,14 +91,14 @@ class EmailConfirmation(models.Model):
     def send(self):
         context =  {
             'user':self.email_address.user,
-            'domain': getattr(settings,'DOMAIN'),
-            'site_name': getattr(settings,'SITE_NAME'),
+            'domain': get_setting('DOMAIN'),
+            'site_name': get_setting('SITE_NAME'),
             'username': self.email_address.user.username,
             'token': self.key,
-            'protocol': getattr(settings,'DEFAULT_PROTOCOL')
+            'protocol': get_setting('DEFAULT_PROTOCOL')
         }
-        context['url'] = getattr(settings,'ACTIVATION_URL').format(**context)
-        from_email = getattr(settings,'FROM_EMAIL')
+        context['url'] = get_setting('ACTIVATION_URL').format(**context)
+        from_email = get_setting('FROM_EMAIL')
         utils.send_email(self.email_address.email,from_email,context,'activation_email_subject.txt'
                          ,'activation_email_body.txt')
         self.time_sent = timezone.now()
@@ -151,14 +151,14 @@ class PasswordReset(models.Model):
         """ Send password reset email to the user who requested it"""
         context =  {
             'user':self.user,
-            'domain': getattr(settings,'DOMAIN'),
-            'site_name': getattr(settings,'SITE_NAME'),
+            'domain': get_setting('DOMAIN'),
+            'site_name': get_setting('SITE_NAME'),
             'username': self.user.username,
             'token': self.key,
-            'protocol': getattr(settings,'DEFAULT_PROTOCOL')
+            'protocol': get_setting('DEFAULT_PROTOCOL')
         }
-        context['url'] = getattr(settings,'PASSWORD_RESET_CONFIRM_URL').format(**context)
-        from_email = getattr(settings,'FROM_EMAIL')
+        context['url'] = get_setting('PASSWORD_RESET_CONFIRM_URL').format(**context)
+        from_email = get_setting('FROM_EMAIL')
         utils.send_email(self.user.email,from_email,context,'password_reset_email_subject.txt'
                          ,'password_reset_email_body.txt')
         self.time_sent = timezone.now()

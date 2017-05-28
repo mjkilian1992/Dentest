@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from ..models import *
 
-
+from dentest.settings_utility import get_setting
 
 class RestfulAuthEmailActivationTestCase(TestCase):
 
@@ -61,7 +61,7 @@ class RestfulAuthEmailActivationTestCase(TestCase):
 
     def test_confirmation_key_expired(self):
         """Check that trying to confirm and email with an expired key will fail"""
-        time_valid = getattr(settings,'EMAIL_CONFIRMATION_DAYS_VALID')
+        time_valid = get_setting('EMAIL_CONFIRMATION_DAYS_VALID')
         self.confirmation.time_sent = self.confirmation.time_sent - datetime.timedelta(days=time_valid,seconds=1)
         self.confirmation.save()
         response = self.client.post('/confirm_email/',self.correct_details,format='json')
