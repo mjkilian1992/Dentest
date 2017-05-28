@@ -1,4 +1,4 @@
-<div id='hompage-carousel' ]class="col-md-12" ng-controller="HomeScreenPartialCtrl as hsCtrl">
+<div id='hompage-carousel' class="col-md-12" ng-controller="HomeScreenPartialCtrl as hsCtrl">
     <carousel interval="hsCtrl.interval">
       <slide ng-repeat="slide in hsCtrl.slides" active="slide.active">
         <img ng-src="{{slide.image}}" style="margin:auto;">
@@ -8,5 +8,4 @@
         </div>
       </slide>
     </carousel>
-
 </div>
