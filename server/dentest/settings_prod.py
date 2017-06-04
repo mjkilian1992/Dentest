@@ -22,9 +22,9 @@ SECRET_KEY = 'q&(ymk$u0)=g9e3wukv6@qkly$&c-$=07ds#&jnt=0wicm@o^i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['mjkilian1992.pythonanywhere.com','www.dentests.co.uk']
+ALLOWED_HOSTS = ['mjkilian1992.pythonanywhere.com','dentests.co.uk']
 
 SITE_ID = 1
 
@@ -58,30 +58,28 @@ INSTALLED_APPS = (
 )
 
 #Security
-SSLIFY_DISABLE = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SSLIFY_DISABLE = True           # Should be turned on
+SESSION_COOKIE_SECURE = False   # Must be disabled if HTTPS is disabled
+CSRF_COOKIE_SECURE = False
 
 MIDDLEWARE_CLASSES = (
     'sslify.middleware.SSLifyMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-CORS_ORIGIN_WHITELIST =[
-    'dentests.co.uk'
-]
+CORS_ORIGIN_ALLOW_ALL=True
 
 ROOT_URLCONF = 'dentest.urls'
 
 WSGI_APPLICATION = 'dentest.wsgi.application'
 
+SESSION_ENGINE='django.contrib.sessions.backends.db'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -127,7 +125,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "dentest.reg@gmail.com"
-EMAIL_HOST_PASSWORD = 'password196258'
+EMAIL_HOST_PASSWORD = 'McQueenKilian196258'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -160,7 +158,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'restful_auth.backends.UsernameOrEmailBackend',
 )
-EMAIL_UNIQUE =True # Asserts that an email can only be used once for reg
+EMAIL_UNIQUE = True # Asserts that an email can only be used once for reg
 
 
 # email confirmations & password resets
@@ -211,8 +209,8 @@ LOGGING = {
     },
     'handlers': {
         'file':{
-            'filename' : "./logs/dentest.log",
-            'level': 'INFO',
+            'filename' : BASE_DIR + "/logs/dentest.log",
+            'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'when': 'd',
             'interval': 1,
@@ -229,17 +227,17 @@ LOGGING = {
     'root':{
         'handlers': ['file'],
         'propagate': True,
-        'level': 'INFO',
+        'level': 'DEBUG',
     },
     'loggers': {
         'django': {
             'handlers': ['file'],
             'propagate': True,
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
         'django.request': {
             'handlers': ['mail_admins','file'],
-            'level': 'INFO',
+            'level': 'DEBUG',
             'propagate': False,
         },
     }
