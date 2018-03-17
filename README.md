@@ -2,12 +2,18 @@
 
 ## Overview
 Dentest was a web application designed to provide learning resources, mainly a database of questions and answers, to
-student dentists. I began on Dentest as a side project with a friend who is a dentist. Ultimately, we decided not to
+student dentists. Random quizes can be generated from the question bank, with options to limit the questions presented
+to a subset of the topics and alter the size of the quiz.
+
+Users would subscribe yearly for access using [Braintree](https://www.braintreepayments.com/en-gb?locale=en-gb) to manage payments.
+Free users would have access to a limited subset of the questions available to try the app out, while paid users could access all
+questions and generate their own quizzes. 
+
+I began on Dentest as a side project with a friend who is a dentist. Ultimately, we decided not to
 progress with it. The code in this repository is presented as it was at the time we abandoned the project, at which time
 I was in the process of trying to produce a deployable version to test as a prototype on a live server. Needless to say,
 the code is far from perfect and would require significant work to productionize. I have included rough instructions for
-setting up the required dependencies and running the server and front-end. Locally, I can run all unit tests and connect
-the server and frontend, but I can't guarantee this for anyone using the code.
+setting up the required dependencies and running the server and front-end. 
 
 ## Tools and Requirements
 Dentest was built using Django 1.7.8 and AngularJS 1.3.14. The project was created with the [CG-Angular](https://github.com/cgross/generator-cg-angular)
