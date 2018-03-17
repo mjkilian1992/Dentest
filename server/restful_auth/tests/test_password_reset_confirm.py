@@ -68,7 +68,7 @@ class RestfulAuthPasswordResetConfirmTestCase(TestCase):
 
     def test_reset_key_expired(self):
         """Check that trying to reset the password with an expired key will fail"""
-        time_valid = getattr(settings,'PASSWORD_RESET_DAYS_VALID')
+        time_valid = get_setting('PASSWORD_RESET_DAYS_VALID')
         self.password_reset.time_sent = self.password_reset.time_sent - datetime.timedelta(days=time_valid,seconds=1)
         self.password_reset.save()
         response = self.client.post('/password_reset_confirm/',self.correct_details,format='json')
