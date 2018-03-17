@@ -1,5 +1,4 @@
 import logging
-import traceback
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.http import Http404
 from rest_framework.exceptions import ValidationError
@@ -8,6 +7,8 @@ from rest_framework import permissions
 from serializers import *
 from mixins import QuestionApiMixin
 from pagination import *
+
+from watson.search import filter as watsonfilter
 
 from subscriptions.subscription_manager import SubscriptionManager
 
@@ -179,7 +180,7 @@ class QuestionsBySearch(QuestionApiMixin, ListAPIView):
             questions = Question.objects.all()
         else:
             questions = Question.objects.filter(restricted=False)
-        relevant_questions = watson.filter(questions, search_terms)
+        relevant_questions = watsonfilter(questions, search_terms)
         if relevant_questions.exists():
             return relevant_questions
         else:

@@ -24,7 +24,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['mjkilian1992.pythonanywhere.com','dentests.co.uk']
+ALLOWED_HOSTS = ['']
 
 SITE_ID = 1
 
@@ -87,11 +87,11 @@ SESSION_ENGINE='django.contrib.sessions.backends.db'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mjkilian1992$default',
-        'USER': 'mjkilian1992',
-        'PASSWORD': 'dentest',
-        'HOST': 'mjkilian1992.mysql.pythonanywhere-services.com',
-        'TEST_NAME': 'mjkilian1992$test_default',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'TEST_NAME': '',
     }
 }
 
@@ -123,10 +123,10 @@ STATICFILES_FINDERS = (
 # Email Config
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "dentest.reg@gmail.com"
-EMAIL_HOST_PASSWORD = 'McQueenKilian196258'
-EMAIL_PORT = 587
+EMAIL_HOST = ""
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 0
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
@@ -152,7 +152,7 @@ TINYMCE_SPELLCHECKER = True
 # Site info
 USE_TZ = True # Allow timezones
 
-DOMAIN = 'localhost:9001'
+DOMAIN = ''
 SITE_NAME = 'Dentest'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -167,7 +167,7 @@ ACTIVATION_URL = 'email_activation/{username}/{token}'
 PASSWORD_RESET_DAYS_VALID = 3
 PASSWORD_RESET_CONFIRM_URL = 'password_reset_confirm/{username}/{token}'
 DEFAULT_PROTOCOL = 'http'
-FROM_EMAIL = 'dentest.reg@gmail.com'
+FROM_EMAIL = ''
 
 
 TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",

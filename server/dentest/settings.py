@@ -132,6 +132,7 @@ REST_FRAMEWORK = {
 # Site info
 USE_TZ = True # Allow timezones
 
+DOMAIN = 'localhost:9001'
 SITE_NAME = 'Dentest'
 AUTHENTICATION_BACKENDS = (
     # 'django.contrib.auth.backends.ModelBackend',
