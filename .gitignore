@@ -1,3 +1,5 @@
 logs/
 npm-debug.log
+*.pyc
+**/*.pyc
 

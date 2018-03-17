@@ -25,6 +25,7 @@
     "underscore": "~1.5"
   },
   "resolutions": {
-    "angular": "1.4"
+    "angular": "1.4",
+    "jquery": "^3.3.1"
   }
 }
