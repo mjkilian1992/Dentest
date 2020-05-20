@@ -13,7 +13,7 @@ djangorestframework==3.2.3
 djoser==0.3.1
 dnspython==1.11.1
 html5lib==0.999
-httplib2==0.8
+httplib2==0.18.0
 Mako==0.9.1
 MarkupSafe==0.18
 mockito==0.7.0
