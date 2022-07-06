@@ -12,7 +12,7 @@ django-watson==1.2.3
 djangorestframework==3.2.3
 djoser==0.3.1
 dnspython==1.11.1
-html5lib==0.999
+html5lib==0.999999999
 httplib2==0.8
 Mako==0.9.1
 MarkupSafe==0.18
